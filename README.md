@@ -53,6 +53,9 @@ Info szakkör
 # 2019. október 7.
   * táblázat, a játék elrendetése
     * https://hehainfoszakkor2019.github.io/elso/tabla.html
+    
+# 2019. október 14.
+  * https://www.w3schools.com/code/tryit.asp?filename=G8XC4VWBQXOG
 # És ami még hátravan
 
   * Ékezetek és egyéb furcsa karakterek
