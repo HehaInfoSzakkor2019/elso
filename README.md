@@ -55,7 +55,71 @@ Info szakkör
     * https://hehainfoszakkor2019.github.io/elso/tabla.html
     
 # 2019. október 14.
-  * https://www.w3schools.com/code/tryit.asp?filename=G8XC4VWBQXOG
+  * Kedvcsinálónak: https://www.w3schools.com/code/tryit.asp?filename=G8XC4VWBQXOG
+  * tábla szerkesztés, újra-alapozás.. "házi feladat":
+    * https://www.w3schools.com/code/tryit.asp?filename=G8YEZI0KX84X
+    * Erről az oldalról kiindulva csináljátok meg a játék keretét, azaz
+      * a tábla teljes képernyőt elfoglalja
+        * ne legyen görgető az oldal szélén (margin:0) 
+      * a két szélső oszlop szélessége 20% legyen, a középső rész 60%
+      * a sarokban levő cellák magassága 25% legyen
+      * a cellák keretét változtasd meg valamire, mindegy mire csak próbálgasd a lehetőségeket: vastagság, vonal, szín
+      * a bal felső mezőben legyen a játék neve kiemelve (h2), alatta pár mondatan a játék leírása
+      * a jobb felső sarokban legyen a nevetek, _**vastag és dőlt**_ betűvel 
+      * a bal alsó sarokban legyen 2 kép, két BMW logo `https://www.carlogos.org/logo/BMW-logo-2000-640x550.jpg`
+        * a képek legyenek úgy méretezve, hogy a 3 mindig elférjen, vagyis egy kép szélessége a cella szélességének 45%-a legyen
+      * a jobb alsó sarokban ugyanaz, mint a bal alsó sarokban
+  * HTML elemek
+    * tábla: `<table> <tr> <td>`
+    * kép: `<img src="https://www.carlogos.org/logo/BMW-logo-2000-640x550.jpg">`
+  * CSS elemek - a **style** megadásával a kinézet szerkesztése
+    * CSS stílus beállítás többféleképpen is lehet, mi kettőt használunk: a fejlécben
+      * az első az össes **td** elemre vonatkozik
+      * a második csak arra az egy **td** elemre
+```html
+<style>
+td {
+  border: 1px solid red;
+}
+</style>
+
+<td style="border: 1px solid green">
+```
+  * CSS stílus elemek, ezeket elég használni. 
+```html
+border: 1px solid black;
+height:100%;
+width:30%;
+max-height:90%;
+max-width:30%;
+padding:0;
+margin:0;
+border-collapse: collapse;
+```
+
+    * Használd a HTML puskát is!
+    * tipp: Ha a cella mérete nem akkora, mint amekkorának szerinted lennie kellene, akkor két dolgot nézz meg:
+      * elírtál-e valamit: pl width és widht
+      * lehet hogy az tartalmazó elem méretét is meg kell adni. A **html** -ben van a **body**,
+      * amin belül van a **table**
+      * azaz nem elég a table szélességét beállítani, hanem a **html** és a **body** méretét is kell.
+  * Ha elkészült, mentsd el az oldalad és küld el a címét a lovas12-szakkor@yahoo.com emailre.
+  * Javascipt alapok
+    * alap függvények: alert, prompt, ...
+    * matek: 
+      * Math.random()
+      * Mark.floor()
+    * saját függvény
+```javascript
+function f1() {
+  alert("hello");
+}
+```
+   * függvény hívása a HTML oldalról:
+```html
+<button onclick="f1();">Hello</button>
+```
+  
 # És ami még hátravan
 
   * Ékezetek és egyéb furcsa karakterek
