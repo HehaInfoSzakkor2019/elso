@@ -58,6 +58,7 @@ Info szakkör
   * Kedvcsinálónak: https://www.w3schools.com/code/tryit.asp?filename=G8XC4VWBQXOG
   * tábla szerkesztés, újra-alapozás.. "házi feladat":
     * https://www.w3schools.com/code/tryit.asp?filename=G8YEZI0KX84X
+      * Használd a [HTML puskát](https://hehainfoszakkor2019.github.io/elso/html-puska-okt14.pdf) is!
     * Erről az oldalról kiindulva csináljátok meg a játék keretét, azaz
       * a tábla teljes képernyőt elfoglalja
         * ne legyen görgető az oldal szélén (margin:0) 
@@ -86,7 +87,8 @@ td {
 <td style="border: 1px solid green">
 ```
   * CSS stílus elemek, ezeket elég használni. 
-```html
+
+```css
 border: 1px solid black;
 height:100%;
 width:30%;
@@ -96,14 +98,17 @@ padding:0;
 margin:0;
 border-collapse: collapse;
 ```
-
-    * Használd a HTML puskát is!
-    * tipp: Ha a cella mérete nem akkora, mint amekkorának szerinted lennie kellene, akkor két dolgot nézz meg:
-      * elírtál-e valamit: pl width és widht
-      * lehet hogy az tartalmazó elem méretét is meg kell adni. A **html** -ben van a **body**,
-      * amin belül van a **table**
-      * azaz nem elég a table szélességét beállítani, hanem a **html** és a **body** méretét is kell.
+  * Használd a [HTML puskát](https://hehainfoszakkor2019.github.io/elso/html-puska-okt14.pdf) is!
+  * tipp: Ha a cella mérete nem akkora, mint amekkorának szerinted lennie kellene, akkor két dolgot nézz meg:
+     * elírtál-e valamit: pl width és widht
+     * lehet hogy az tartalmazó elem méretét is meg kell adni. A **html** -ben van a **body**,
+     * amin belül van a **table**
+     * azaz nem elég a table szélességét beállítani, hanem a **html** és a **body** méretét is kell.
   * Ha elkészült, mentsd el az oldalad és küld el a címét a lovas12-szakkor@yahoo.com emailre.
+     ![save](https://hehainfoszakkor2019.github.io/elso/w3schools-editor-save.jpg)
+    * valahogy így kellene kinéznie
+    * Ha bármivel elakadsz, nem világoss kérdezz bátran!
+      * mentsd el ameddig eljutottál, küld el és megbeszéljük mi lehet a gond.
   * Javascipt alapok
     * alap függvények: alert, prompt, ...
     * matek: 
