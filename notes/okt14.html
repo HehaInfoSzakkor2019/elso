@@ -1,0 +1,96 @@
+<h1 id="2019-okt-ber-14-">2019. október 14.</h1>
+<ul>
+<li>Kedvcsinálónak: <a href="https://www.w3schools.com/code/tryit.asp?filename=G8XC4VWBQXOG">https://www.w3schools.com/code/tryit.asp?filename=G8XC4VWBQXOG</a></li>
+<li>tábla szerkesztés, újra-alapozás.. &quot;házi feladat&quot;:<ul>
+<li><a href="https://www.w3schools.com/code/tryit.asp?filename=G8YEZI0KX84X">https://www.w3schools.com/code/tryit.asp?filename=G8YEZI0KX84X</a><ul>
+<li>Használd a <a href="https://hehainfoszakkor2019.github.io/elso/html-puska-okt14.pdf">HTML puskát</a> is!</li>
+</ul>
+</li>
+<li>Erről az oldalról kiindulva csináljátok meg a játék keretét, azaz<ul>
+<li>a tábla teljes képernyőt elfoglalja<ul>
+<li>ne legyen görgető az oldal szélén (margin:0) </li>
+</ul>
+</li>
+<li>a két szélső oszlop szélessége 20% legyen, a középső rész 60%</li>
+<li>a sarokban levő cellák magassága 25% legyen</li>
+<li>a cellák keretét változtasd meg valamire, mindegy mire csak próbálgasd a lehetőségeket: vastagság, vonal, szín</li>
+<li>a bal felső mezőben legyen a játék neve kiemelve (h2), alatta pár mondatan a játék leírása</li>
+<li>a jobb felső sarokban legyen a nevetek, <em><strong>vastag és dőlt</strong></em> betűvel </li>
+<li>a bal alsó sarokban legyen 2 kép, két BMW logo <code>https://www.carlogos.org/logo/BMW-logo-2000-640x550.jpg</code><ul>
+<li>a képek legyenek úgy méretezve, hogy a 3 mindig elférjen, vagyis egy kép szélessége a cella szélességének 45%-a legyen</li>
+</ul>
+</li>
+<li>a jobb alsó sarokban ugyanaz, mint a bal alsó sarokban</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>HTML elemek<ul>
+<li>tábla: <code>&lt;table&gt; &lt;tr&gt; &lt;td&gt;</code></li>
+<li>kép: <code>&lt;img src=&quot;https://www.carlogos.org/logo/BMW-logo-2000-640x550.jpg&quot;&gt;</code></li>
+</ul>
+</li>
+<li>CSS elemek - a <strong>style</strong> megadásával a kinézet szerkesztése<ul>
+<li>CSS stílus beállítás többféleképpen is lehet, mi kettőt használunk: a fejlécben<ul>
+<li>az első az össes <strong>td</strong> elemre vonatkozik</li>
+<li>a második csak arra az egy <strong>td</strong> elemre
+```html<style>
+td {
+border: 1px solid red;
+}
+</style>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><td style="border: 1px solid green"></p>
+<pre><code>  * CSS stílus elemek, ezeket elég használni. 
+
+```css
+<span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid black;
+<span class="hljs-attribute">height</span>:<span class="hljs-number">100%</span>;
+<span class="hljs-attribute">width</span>:<span class="hljs-number">30%</span>;
+<span class="hljs-attribute">max-height</span>:<span class="hljs-number">90%</span>;
+<span class="hljs-attribute">max-width</span>:<span class="hljs-number">30%</span>;
+<span class="hljs-attribute">padding</span>:<span class="hljs-number">0</span>;
+<span class="hljs-attribute">margin</span>:<span class="hljs-number">0</span>;
+<span class="hljs-attribute">border-collapse</span>: collapse;
+</code></pre><ul>
+<li>Használd a <a href="https://hehainfoszakkor2019.github.io/elso/html-puska-okt14.pdf">HTML puskát</a> is!</li>
+<li>tipp: Ha a cella mérete nem akkora, mint amekkorának szerinted lennie kellene, akkor két dolgot nézz meg:<ul>
+<li>elírtál-e valamit: pl width és widht</li>
+<li>lehet hogy az tartalmazó elem méretét is meg kell adni. A <strong>html</strong> -ben van a <strong>body</strong>,</li>
+<li>amin belül van a <strong>table</strong></li>
+<li>azaz nem elég a table szélességét beállítani, hanem a <strong>html</strong> és a <strong>body</strong> méretét is kell.</li>
+</ul>
+</li>
+<li>Ha elkészült, mentsd el az oldalad és küld el a címét a lovas12-szakkor@yahoo.com emailre.
+ <img src="https://hehainfoszakkor2019.github.io/elso/w3schools-editor-save.jpg" alt="save"><ul>
+<li>valahogy így kellene kinéznie</li>
+<li>Ha bármivel elakadsz, nem világoss kérdezz bátran!<ul>
+<li>mentsd el ameddig eljutottál, küld el és megbeszéljük mi lehet a gond.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Javascipt alapok<ul>
+<li>alap függvények: alert, prompt, ...</li>
+<li>matek: <ul>
+<li>Math.random()</li>
+<li>Mark.floor()</li>
+</ul>
+</li>
+<li>saját függvény<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f1</span><span class="hljs-params">()</span> </span>{
+alert(<span class="hljs-string">"hello"</span>);
+}
+</code></pre>
+</li>
+<li>függvény hívása a HTML oldalról:<pre><code class="lang-html">&lt;<span class="hljs-keyword">button</span> <span class="hljs-keyword">onclick</span>=<span class="hljs-string">"f1();"</span>&gt;Hello&lt;/<span class="hljs-keyword">button</span>&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
