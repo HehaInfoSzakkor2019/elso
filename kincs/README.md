@@ -60,6 +60,10 @@
 54. Frisco banda leverése
 55. Forrestal Anyahajó
 
+# térképek
+  ![a](../imgs/map4a.jpg)
+  ![a](../imgs/map4b.jpg)
+  ![a](../imgs/map4c.jpg)
 # oldalak
   * https://port.hu/adatlap/film/tv/kincs-ami-nincs--chi-trova-un-amico-trova-un-tesoro/movie-7671
   * https://hu.wikipedia.org/wiki/Kincs,_ami_nincs
