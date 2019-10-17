@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<script>
+var start_date=0;
+var results=[];
+function start() {
+  document.getElementById('myImage').src='https://www.w3schools.com/js/pic_bulboff.gif';
+  let t=Math.floor(Math.random()*5000)
+  document.getElementById('debug').innerHTML=t;
+  setTimeout(startTimer, t);
+}
+function startTimer() {
+  document.getElementById('myImage').src='https://www.w3schools.com/js/pic_bulbon.gif';
+  document.getElementById('button-bulb').disabled=false;
+  start_date = new Date();
+}
+
+function stopTimer() {
+  var now = new Date();
+  document.getElementById('button-bulb').disabled=true;
+  results.push((now - start_date)+"ms")
+  document.getElementById('result').innerHTML=results;
+}
+
+function resetResults() {
+  results=[];
+  document.getElementById('result').innerHTML=results;
+}
+</script>
+<body>
+  <h2>Mit lehet Javascriptel csinálni??</h2>
+  <p>JavaScriptel megváltoztathatunk szinte bármit egy HTML dokumentumban.</p>
+  <p>Ez itt egy reflex játék, ha felkapcsol a lámpa nyomj rá, amint tudsz. A kód majd figyeli a reakció idődet</p>
+  <button onclick="start()">Start</button>
+  <button id="button-bulb" onclick="stopTimer()" disabled='true' style="background-color:white;">
+    <img id="myImage" src="https://www.w3schools.com/js/pic_bulboff.gif" style="width:100px">
+  </button>
+<hr>
+  <p>Eredmények: <cite id='result'></cite></p>
+  <p>Legjobb eredmények: <cite id='result'></cite></p>
+  <button id="button-reset" onclick="resetResults()">Reset</button>
+<hr>
+  <p id="debug"></p>
+</body>
+</html>
