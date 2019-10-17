@@ -32,6 +32,7 @@ function startTimer() {
  setTimeout(startTimer, t); 
 '''
       * megj: itt a startTimer mögött nincs (), mert nem hívjuk meg, a függvény is egy objektum
+      * https://www.w3schools.com/js/tryit.asp?filename=tryjs_setinterval2
     * lista
 '''javascript
   let r2 = results.slice();
