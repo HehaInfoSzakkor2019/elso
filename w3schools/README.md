@@ -18,12 +18,26 @@ function myFunction() {
       * https://www.w3schools.com/js/js_htmldom_document.asp
     * változó
 '''javascript
-'''
-    * lista
-'''javascript
+var start_date=new Date();
+var now = new Date();
+document.getElementById('result').innerHTML=now - start_date;
 '''
     * JS Events
       * https://www.w3schools.com/js/js_events.asp
+    * időzítések
+'''javascript
+function startTimer() {
+  start_date = new Date();
+}
+ setTimeout(startTimer, t); 
+'''
+      * megj: itt a startTimer mögött nincs (), mert nem hívjuk meg, a függvény is egy objektum
+    * lista
+'''javascript
+  let r2 = results.slice();
+  r2.sort();
+  r2.sort(function(a, b){return a-b});
+'''
   * Reflex játék
     * https://www.w3schools.com/code/tryit.asp?filename=G92UH4XVV6HQ
     * https://hehainfoszakkor2019.github.io/elso/w3schools/js1.html
