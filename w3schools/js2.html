@@ -18,7 +18,7 @@ function startTimer() {
 function stopTimer() {
   var now = new Date();
   document.getElementById('button-bulb').disabled=true;
-  results.push((now - start_date)+"ms")
+  results.push((now - start_date))
   document.getElementById('result').innerHTML=results;
 
   let r2 = results.slice();
@@ -40,8 +40,8 @@ function resetResults() {
     <img id="myImage" src="https://www.w3schools.com/js/pic_bulboff.gif" style="width:100px">
   </button>
 <hr>
-  <p>Eredmények: <cite id='result'></cite></p>
-  <p>Legjobb eredmények: <cite id='best'></cite></p>
+  <p>Eredmények (ms): <cite id='result'></cite></p>
+  <p>Legjobb eredmény (ms): <cite id='best'></cite></p>
   <button id="button-reset" onclick="resetResults()">Reset</button>
 <hr>
   <p id="debug"></p>
