@@ -44,5 +44,7 @@ function startTimer() {
     * https://hehainfoszakkor2019.github.io/elso/w3schools/js1.html
    * Simons Reflex
      * 4 gomb, reflex
+     * https://www.w3schools.com/code/tryit.asp?filename=G959A861TVEC
+     * https://hehainfoszakkor2019.github.io/elso/w3schools/js3.html
    * Simon Says
      * 4 gomb, memória
