@@ -5,9 +5,9 @@ var start_date=0;
 var results=[];
 function start() {
   document.getElementById('myImage').src='https://www.w3schools.com/js/pic_bulboff.gif';
-  let t=Math.floor(Math.random()*5000)
-  document.getElementById('debug').innerHTML=t;
-  setTimeout(startTimer, t);
+  let wait_ms = Math.floor(Math.random()*1000) + 1000;
+  document.getElementById('debug').innerHTML = wait_ms;
+  setTimeout(startTimer, wait_ms);
 }
 function startTimer() {
   document.getElementById('myImage').src='https://www.w3schools.com/js/pic_bulbon.gif';
