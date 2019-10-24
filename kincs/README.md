@@ -112,21 +112,41 @@
   * Melyik az a kurbli? Parancsnok, ez lesz az?
   * Hát persze hogy ez az, nem látod, hogys kurbli formája van?
 37. Kamasuka erődje
+  * Vajon miért nem lő ránk?
+  * Azért mert az hiszi, hogy japánok vagyunk. Vagy mégsem?
 38. ásás
+  * Nem bántani! Kamaszukát nem bántani! Kamasuka szép katona. 
+  * De most legyőzték, mert csellel támadtak rá.
 39. ugrás 42
+  * Szamurájok nem léteznek többé, áttértek al elektronikára. Nézd csak mek, Seiko.
+  * Seko, de hogyan? Seiko kapitány manapság ilyen órákat gyárt?
 40. ásás vissza 37
+  * Kamasuka, én egy rejtett kincset keresek, valahol itt kell lennie.
+  * Azt hiszem tudom miről beszélsz... 
 41. ásás
 42. kincs
+  * Sok évvel ezelptt ez az ajtó mindig zárva volt és egy őr állt előtte.
+  * De most hogy már nem áll előtte senki, bemegyünk
 43. Frisco megérkezik
+  * Frisco: na végre, itt van Pongo Pongo szigete
+  * Akkor tehát megérkeztünk
 44. verekedés
 45. verekedés, vissza 43
 46. verekedés
 47. ünnep
 48. Charlie szökés
 49. Alua, vissza 48
+  * Alua, kerüljük a szóvirágokat, mondd meg mit akarsz?
+  * Te adni előtte egy csokit.
 50. Ulla, vissza 48
+  * Ulla nagyon szomoró, hogy látni Charlie elmenni szigetről
+  * Előtte Charli adni Ullának egy csókát.
 51. Ayola, vissza 48
-52. hidopán
+  * Előtte elmennu, Ayola kérni nagy csocsót Charlie
+  * Rendben, megcsocsollak.
+52. hidropán
+  * Itt a forrestal repülőhép anyahajó. Adja meg a pozíciójét és fényjelét!
+  * Sem a pozíciómat, sem a jelemet em ismerem. Meg tudjátok mondani hol vagyok?
 53. Frisco bandája kiszabadul
 54. Frisco banda leverése
 55. Forrestal Anyahajó
