@@ -64,6 +64,15 @@
   ![a](../imgs/map4a.jpg)
   ![a](../imgs/map4b.jpg)
   ![a](../imgs/map4c.jpg)
+  
+# Zenék
+  * Movin' Cruisin' ukulele cover - https://www.youtube.com/watch?v=b7JTcxiFGOE
+  * https://www.youtube.com/watch?v=fdjODUtR9HQ
+  * https://www.youtube.com/watch?v=ArF2SnodKhk
+  * https://www.youtube.com/watch?v=PWQGTIF-cow
+## más zenék
+  * Buggy - https://www.youtube.com/watch?v=CR0hl9yIiyQ
+  
 # oldalak
   * https://port.hu/adatlap/film/tv/kincs-ami-nincs--chi-trova-un-amico-trova-un-tesoro/movie-7671
   * https://hu.wikipedia.org/wiki/Kincs,_ami_nincs
