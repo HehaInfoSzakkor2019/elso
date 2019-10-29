@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<style>
+html, body {
+  height:100%;
+  padding:0;
+  margin:0;
+}
+p { margin:0; padding:0 }
+body {
+  background-image:url("csempe2.jpg");
+  xxbackground-repeat: no-repeat;
+}
+table, tr, td {
+  xxborder: 1px solid black;
+  border: none;
+  border-collapse: collapse;
+  padding:0;
+  margin:0;
+  text-align: center;    
+}
+#tablaaaa {
+  xxbackground-image:url("elso/kincs/kincsaminincs-terkep.jpg");
+  background-image:url("kincsaminincs-terkep400.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+img.mozgo {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+button {
+    background-color: Transparent;
+    xxbackground-repeat:no-repeat;
+    xxborder: none;
+    xxcursor:pointer;
+    xxoverflow: hidden;
+    xxoutline:none;
+}
+</style>
+<script>
+var tickCnt = 0;
+var tickPerFrame = 4;
+var tickMs = 500;
+  console.log("tick" + tickCnt);
+var gameDesc = { name:"Kincs, ami nincs", dice:4
+          , steps:[ 
+			 {x:100, y:100, id:"Brady háza", text:"(Frisco embere) <i>Hello Éhenkórász! Nos mesélj, hogy tüntetted el a pénzünket?</i><br>(Alan) <i>Hogy mit?</i>"}
+            , {x:50, y:50, id:"Brady háza", text:"(Frisco embere) <i>Hé, nem vagy te süket, a 15000 dollárt.</i><br>Alan: <i>De hiszen már megmondtam!</i>"
+			  , move:-1 }
+            , {x:50, y:50, id:"Brady háza", text:"(Frisco embere) <i>Hát mit is mondtál már meg nekünk?</i><br>Alan: <i>Befektettük. Méghozzá nektek fektettem be, bomba üzlet!</i>"
+			  , move:-2 }
+			, {x:50, y:50, id:"Brady háza", text:"(Alan) <i>Tiétek a bácsikám térképe, a kincsről... csak követni kell az utasításokat.</i><br>Alan: <i>			Éppen azért vagyunk itt, hogy eleget tegyünk bizonyos utasításoknak, de azokat Frisco adta.</i>"
+			  , move:-3 }
+			, {x:20, y:80, id:"Brady háza", text:"Brady: <i>Halgass ide kisfiam, jobb lesz ha most eltűnsz innen. Fogd, ez a Tiéd.</i><br>(Alan) <i>Kösz, de már reggeliztem.</i>"}
+            , {x:100, y:0, id:"Brady háza", text:"Alan: <i>Hű, rengeteg víz van körülötte. Hajót kell szereznem</i>"
+			  , move:4 }
+            , {x:40, y:75, id:"Kikötő", text:"(Riporter) <i>Biztos benne Mr O'Brien, hogy ki fogja állni a próbált?</i><br>(Charlie) <i>Csak a puffin ad neked erőt és mindent lebíró akaratot.</i>"}
+			, {x:100, y:120, id:"Kikötő", text:"(Riporter) <i>Talán Pakito is rajong a Puffin lekvárért?</i><br>(Pakito) <i>Én csak a papagáj csajokat szeretem!</i>"}
+			, {x:100, y:120, id:"Tenger", text:"(Pakito) <i>Csak a puffin adhat erőt, mi?</i><br>(Charlie) <i>Dögvész pustít majd a cápák között.</i>"}
+			, {x:100, y:120, id:"Tenger", text:"(rádió) <i>Itt a Parti állomás, Charlie van valami újság?</i><br>(Charlie) <i>semmi különös, csak ... a hegyekben szomjas vagyok a tengeren meg éhes.</i>"}
+			, {x:100, y:120, id:"Tenger", text:"(Charlie) <i>Hová lett? Hová lett a babom??</i><br>(Pakito) <i>Ki tudja? Pakito ártatlan.</i>"}
+			, {x:100, y:120, id:"Tenger", text:"(Charlie) <i>Igyekezz a hajóra, ha nem akarsz egy cápa legszebb emléke lenni.</i><br>(Alan) <i> Micsoda szörnyeteg, mint Ön parancsnok.</i>"
+			  , move:4 }
+			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>Kit látnak szememim, a láthatatlan ember.</i><br>(Alan) <i>Neeem, valójában Alannak hívnak, örvendek a...</i>"
+			  , move:-3 }
+			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>A rádió nem müködik és itt van egy sziget, aminek nem kellene itt lennie.</i><br>(Alan) <i>Lehet, hogy nemrég rakták ide</i>"}
+			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>Add ide a távcsövet. Na add már.</i><br>(Alan) <i>Itt van dobom, kapja el. Jelentem a távcső a tengerben.</i>"
+			  , move:-1 }
+			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>Vagy az iránytű kergült meg, vagy én hibbantam meg.</i><br>(Alan) <i>Hát persze, ha takarékperselynek használja.</i>"
+			  , move:-7 }
+			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>aa</i><br>(Alan) <i>Ússzunk ki...</i>"}
+			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>aa</i><br>(Alan) <i>Ússzunk ki...</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Alan) <i>Charlie! Parancsnok! Én egy vallomással tartozom önnek...<br>Ha hisz, ha nem, ez a sziget teljesen lakatlan és egyetlen térképen sincs jelezve.</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Charlie) <i>Egyelőre nem öllek meg, de én jobbra megyek, te meg balra! Megértetted?</i><br>(Alan) <i>Meg, Parancsnok!</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Charlie) <i>Ha egyedül vagyunk, ki akarna golyót röpíteni belém, talán a nénikéd?</i><br>(Alan) <i>Nem valószínű, az én nénikém egy ilyet, mint te, még csak le se lőne.</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Alan) <i>Ejha, sok ellenséged lehet ezen a szigeten.</i><br>(Charlie) <i>Nekem csak egy van: te.</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Alan) <i>Tudod a térkép szerint a kincs egy katonai erődben van elrejtve.</i><br>(Charlie) <i>Nem, ez egy raktár, mégpedig az ameriaki hadseregé.</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Alan) <i>Hét, ez ehetőnek tűnik. Az van ráírva: csak puffin ad nekem erőt...</i><br>(Charlie) <i>Dobod el! Látni sem akarom</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Alan) <i>Jobb lesz ha vele megyünk.</i><br>(Anulu) <i>Jössz Anulu fogoly. Mamanak fogoly kettő!</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Mama) <i>Szívesen látunk titeket, szép fehéreket,<br>én is és a leánykáim.</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Alan) <i>Nem hallott egy titkos kincsről, ami ezen a szigeten van?</i><br>(Mama) <i>Négy nagy kincsünk van, a napfény a tenger, az öröm és a szerelem</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Mama) <i>Meg kell küzdenetek a törzs vezetőjével.</i><br>(Anulu) <i>Abdaba, harcolni, bululubú, harcolni ambadabá lulubidegy!</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Alan) <i>Az a kövér ember azt mondja, hogy a húgaid nem valami szépek</i><br>- <i>Azt mondja, hogy ketté akar hasíani téged</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Varázsló) <i>Kalózok jönni!</i><br>(Mama) <i>Rossz emberek, ha barátaink akartok lenni, mentsetek meg minket.</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Kalóz) <i>A lányok gyönyörűek.<br>- A fiúk kemény kötésűek, de gyávák, mint a nyulak.</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Kalóz) <i>Hogy lehet hogy ma egy lelket sem látok itt?<br>- Biztosan elrejtőztek a kunyhóikban</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Kalóz) <i>Ezek itt ketten biztosan a komkurencia, de majd elveszem a kedvük.</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Anulu) <i>Anulu mondani nektek nem ásni nagyon közel szamuráj.</i><br>(Alan) <i>A bácsikám térképe szerint a kincsnek épp a japám erőd alatt kell lenni.</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Mama) <i>Ti megmentettetek minket a kalózoktól, cserébe mi odaadjuk nektek a páncélautót</i><br>(Anulu) <i>Páncélauto nem, páncélautó nem.</i>"
+			  , move:"1" }
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Mama) <i>Páncélautó igen.  //nagy pofon//</i><br>(Anulu) <i>Páncélauto igen, páncélautó igen.</i>"}
+			, {x:100, y:100, id:"Páncélautó", text:"(Alan) <i>Hé, ellopták belőle a kormánykereket!</i><br>(Charlie) <i>Még annyit sem tudsz, hogy a tankokban botkormány van?</i>"}
+			, {x:100, y:100, id:"Páncélautó", text:"(Alan) <i>Melyik az a kurbli? Parancsnok, ez lesz az?</i><br>(Charlie) <i>Hát persze hogy ez az, nem látod, hogys kurbli formája van?</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Alan) <i>aa</i><br>(Charlie) <i>bb</i>"}
+			, {x:100, y:100, id:"Japán erőd", text:"(Kamasuka) <i>Sok évvel ezelptt ez az ajtó mindig zárva volt és egy őr állt előtte.<br>De most hogy már nem áll előtte senki, bemegyünk</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Anulu) <i>Repülő jönni, brrr rrr ááá züüü rrr rrr</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(a) <i>aa</i><br>(b) <i>bb</i>"}
+			, {x:100, y:100, id:"Frisco", text:"(Frisco) <i>Frisco: na végre, itt van Pongo Pongo szigete<br>Akkor tehát megérkeztünk</i>"}
+			, {x:100, y:100, id:"Frisco", text:"(verekedés)"}
+			, {x:100, y:100, id:"Szökés", text:"(Charlie) <i>Alua, kerüljük a szóvirágokat, mondd meg mit akarsz?</i><br>(Alua) <i>Te adni előtte egy csokit.</i>"
+			  , move:-1 }
+			, {x:100, y:100, id:"Szökés", text:"(Ulla) <i>Ulla nagyon szomorú, hogy látni Charlie elmenni szigetről.<br>Előtte Charli adni Ullának egy csókát.</i>"
+			  , move:-2 }
+			, {x:100, y:100, id:"Szökés", text:"(Ayola) <i>Előtte elmenni, Ayola kérni nagy csocsót Charlie</i><br>(Charlie) <i>Rendben, megcsocsollak.</i>"
+			  , move:-3 }
+			, {x:100, y:100, id:"Vége", text:"<i>Mert aki barátot talál, az kincset talál.<br>Vagy mégsem?</i>"}
+/*
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Mama) <i>aa</i><br>(Anulu) <i>bb</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Mama) <i>aa</i><br>(Anulu) <i>bb</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Mama) <i>aa</i><br>(Anulu) <i>bb</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Charlie) <i>aa</i><br>(Alan) <i>bb</i>"}
+			, {x:100, y:100, id:"Pongo Pongo", text:"(Charlie) <i>aa</i><br>(Alan) <i>bb</i>"}
+			, {x:100, y:100, id:"aa", text:"(a) <i>aa</i><br>(b) <i>bb</i>"}
+			, {x:100, y:100, id:"aa", text:"(a) <i>aa</i><br>(b) <i>bb</i>"}
+            , {x:50, y:60, text:"kilenc kedzd"}
+*/
+            ] };
+var gameData = { turn:0, n:0, players:[] };
+var players = [ {name:"Charlie", step:0, kincs:false, imgsrc:"fig1b.png"}
+              , {name:"Alan", step:0, kincs:false, imgsrc:"fig2b.png" }
+              , {name:"Frisco", step: 0, kincs:false, imgsrc:"fig4.png" }
+              , {name:"Kalóz", step: 0, kincs:false, imgsrc:"fig5.png" }
+			  ];
+var gameUI = { mainAreaPercent:60, figureSizePercent:10 };
+function start() {
+  setTimeout(myResize,10);
+  this.interval = setInterval(tick, tickMs);
+  for (var i=0;i < players.length; i++ ) {
+    players[i].step = i; // TODO
+    document.getElementById('p'+i).src=players[i].imgsrc;
+    //document.getElementById('p'+i).style.display="none";
+    document.getElementById('p'+i).style.display="inline";
+    document.getElementById('b'+i).disabled = false;
+    document.getElementById('b'+i).style.filter = 'invert(25%)';
+  }
+  document.getElementById('cp').style.display="inline";
+}
+function movePlayerImg(player, xpc, ypc) {
+  var elem = document.getElementById('p'+player);
+  var tt = document.getElementById('tabla');
+  //data.mysize = tt.offsetWidth;
+  var x = Math.floor( (tt.offsetWidth - elem.offsetWidth) * gameDesc.steps[players[player].step].x / 100); 
+  var y = Math.floor( (tt.offsetHeight - elem.offsetHeight) * gameDesc.steps[players[player].step].y / 100);// + ()
+  elem.style.left = x + 'px';
+  elem.style.top = y + 'px';
+  //console.log(`p${player} ow:${elem.offsetWidth} oh:${elem.offsetHeight} stepx:${gameDesc.steps[players[player].step].x} x:${x} y:${y}`)
+  //elem.style.left = gameDesc.steps[players[player].step].x + '%';
+  //elem.style.top = gameDesc.steps[players[player].step].y + '%';
+  console.log(`p${player} ${players[player].step} ${JSON.stringify(gameDesc.steps[players[player].step])}`)
+}
+
+function stepPlayer(player,cnt=1) {
+//console.log("pp " + JSON.stringify(players) + "  ll"+player);
+console.log( " step p"+player);
+    if (players[player].step < gameDesc.steps.length-1 ) {
+       players[player].step++;
+	} else {
+	   players[player].step = 0;
+	}
+    movePlayerImg(player, gameDesc.steps[players[player].step].x, gameDesc.steps[players[player].step].y);
+}
+function tick() {
+  //console.log('tick' + tickCnt);
+  var frame = tickCnt / tickPerFrame;
+  var beat = tickCnt %  tickPerFrame;
+  var LEN = gameDesc.steps.length;
+
+  
+  if (beat==0) {
+    if (gameData.players.length > 0) {
+      gameData.n = (gameData.n + 1) % gameData.players.length;    
+	  var dobas = roll();
+
+      var p = players[gameData.players[gameData.n]];
+      document.getElementById('cp').src=p.imgsrc;
+      document.getElementById('cur_player').innerHTML = p.name;
+      document.getElementById('cur_roll').innerHTML=dobas;
+      document.getElementById('cur_story').innerHTML=p.step + " : " ;
+      document.getElementById('mytext').innerHTML=gameDesc.steps[p.step].text;
+
+	  for (var i = 0; i < dobas; i++){
+        stepPlayer(gameData.players[gameData.n]);
+	  }
+	  if (gameDesc.steps[p.step].move) {
+        stepPlayer(gameData.players[gameData.n], gameDesc.steps[p.step].move);
+	  }
+    }
+  }
+  tickCnt++;
+}
+function roll() {
+   return Math.floor(Math.random() * 4) + 1;
+}
+function mybutton(player) {
+  document.getElementById('b'+player).disabled = true;
+  document.getElementById('b'+player).style.filter = 'invert(0%)';
+  players[player].step = 1;
+  gameData.players.push(player);
+  console.log('players ' + JSON.stringify(gameData.players) );
+}
+// &aacute; &ouml; 
+//&#337; &#336; | ő Ő
+//&#369; &#368; | ű Ű
+function myResize() {
+  var cw = document.documentElement.clientWidth;
+  var tw = Math.floor(cw * gameUI.mainAreaPercent / 100);
+  //var fw = Math.floor( document.documentElement.clientWidth / 15 );
+  var fw = Math.floor( tw / 8 );
+  document.getElementById('div_tabla').style.width = tw + 'px';
+  document.getElementById('div_tabla').style.height = tw + 'px';
+  for (var i=0;i < players.length; i++ ) {
+    document.getElementById('p'+i).width=fw;
+    document.getElementById('p'+i).height=fw;
+  }
+  document.getElementById('cp').width=fw;
+  document.getElementById('cp').height=fw;
+}
+</script>
+</head>
+<body onload="start();" onresize=myResize();"">
+<audio id="myaudio" src="audio/movin-crusin-cover2.mp3" autoplay loop> </audio>
+<table style="width:100%;height:100%;">
+  <tr style="height:25%;">
+    <td style="width:20%;"><h2>Kincs ami nincs</h2><u>Le&iacute;r&aacute;s:</u> Juss el a szigetre, szerezd meg a kincset &eacute;s sz&ouml;kj el a szigetr&#337;l.</td>
+    <td id="td_tabla" rowspan="3" style="width:60%;padding:0;text-align:left;">
+
+     <div id="div_tabla" style="position:relative;object-fit: contain;">
+      <img id="tabla" src="kincsaminincs-terkep800.jpg" style="object-fit:contain;xheight:100%;width:100%;">
+      <img id="p0" class="mozgo" src="data:," style="display:none;">
+      <img id="p1" class="mozgo" src="data:," style="display:none;">
+      <img id="p2" class="mozgo" src="data:," style="display:none;">
+      <img id="p3" class="mozgo" src="data:," style="display:none;">
+      <p id="mytext" style="margin:0;paddig:0"></p>
+     </div>
+</td>
+    <td style="width:20%;text-align:center;"><i>coding: szalabala<br>grafika: imperat<br>music: ukulele.hu<br>thanks: kispalv</i><br><br>Heha Info Szakkor<br>2019</td>
+  </tr>
+  <tr style="height:50%;">
+    <td>
+	  <button onclick="roll();" style="max-width:90%;max-height:90%;">
+      <img src="https://hehainfoszakkor2019.github.io/elso/imgs/dice2.jpg" style="max-height:90%;max-width:90%;">
+	  Csak a Puffin ad neked er&#337;t &eacute;s mindent leb&iacute;r&oacute; akaratot!
+	  </button>
+    </td>
+    <td><p id="cur_player"></p><br><img id="cp" src="data:," style="display:none;"><p id="cur_roll">5</p><p id="cur_story">lépés története</p></td>
+  </tr>
+  <tr style="height:25%;">
+    <td>
+	  <button id="b0" onclick="mybutton(0);" style="max-height:90%;max-width:45%;"><img src="fig1b.png"></button>
+      <button id="b1" onclick="mybutton(1);" style="max-height:90%;max-width:45%;"><img src="fig2b.png"></button>
+    </td>
+    <td>
+      <button id="b2" onclick="mybutton(2);" style="max-height:90%;max-width:45%;"><img src="fig4.png" style="max-height:95%;max-width:95%;"></button>
+      <button id="b3" onclick="mybutton(3);" style="max-height:90%;max-width:45%;"><img src="fig5.png" style="max-height:95%;max-width:95%;"></button>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
