@@ -74,7 +74,7 @@
   * Hét, ez ehetőnek tűnik. Az van ráírva: csak puffin ad nekem erőt és mindent lebíró akaratot.
   * Dobod el! Látni sem akarom
 26. Anulu
-  * Job lesz ha vele megyünk.
+  * Jobb lesz ha vele megyünk.
   * Jössz Anulu fogoly. Mamanak fogoly kettő!
 27. falu, Mama
   * Nem hallott egy titkos kincsről, ami ezen a szigeten van?
@@ -86,7 +86,7 @@
   * Az a kövér ember azt mondja, hogy a húgaid nem valami szépek
   * Azt mondja, hogy ketté akar hasíani téged
 30. Jönnek a kalózok
-  * Kalótok jönni!
+  * Kalózok jönni!
   * Rossz emberek, ha barátaink akartok lenni, mentsetek meg minket.
 31. verekedés, vissza 30
   * A lányok gyönyörűek.
@@ -142,7 +142,7 @@
   * Ulla nagyon szomoró, hogy látni Charlie elmenni szigetről
   * Előtte Charli adni Ullának egy csókát.
 51. Ayola, vissza 48
-  * Előtte elmennu, Ayola kérni nagy csocsót Charlie
+  * Előtte elmenni, Ayola kérni nagy csocsót Charlie
   * Rendben, megcsocsollak.
 52. hidropán
   * Itt a forrestal repülőhép anyahajó. Adja meg a pozíciójét és fényjelét!

@@ -46,37 +46,38 @@ button {
 <script>
 var tickCnt = 0;
 var tickPerFrame = 4;
-var tickMs = 500;
+var frameMs = 500;
+var tickMs = frameMs / tickPerFrame;
   console.log("tick" + tickCnt);
 var gameDesc = { name:"Kincs, ami nincs", dice:4
-          , steps:[ 
-			 {x:100, y:100, id:"Brady háza", text:"(Frisco embere) <i>Hello Éhenkórász! Nos mesélj, hogy tüntetted el a pénzünket?</i><br>(Alan) <i>Hogy mit?</i>"}
-            , {x:50, y:50, id:"Brady háza", text:"(Frisco embere) <i>Hé, nem vagy te süket, a 15000 dollárt.</i><br>Alan: <i>De hiszen már megmondtam!</i>"
+          , steps:[ {x:-20, y:20, id:"kezd", text:"-"}
+			, {x:0, y:80, id:"Brady háza", text:"(Frisco embere) <i>Hello Éhenkórász! Nos mesélj, hogy tüntetted el a pénzünket?</i><br>(Alan) <i>Hogy mit?</i>"}
+            , {x:0, y:60, id:"Brady háza", text:"(Frisco embere) <i>Hé, nem vagy te süket, a 15000 dollárt.</i><br>Alan: <i>De hiszen már megmondtam!</i>"
 			  , move:-1 }
-            , {x:50, y:50, id:"Brady háza", text:"(Frisco embere) <i>Hát mit is mondtál már meg nekünk?</i><br>Alan: <i>Befektettük. Méghozzá nektek fektettem be, bomba üzlet!</i>"
+            , {x:0, y:40, id:"Brady háza", text:"(Frisco embere) <i>Hát mit is mondtál már meg nekünk?</i><br>Alan: <i>Befektettük. Méghozzá nektek fektettem be, bomba üzlet!</i>"
 			  , move:-2 }
-			, {x:50, y:50, id:"Brady háza", text:"(Alan) <i>Tiétek a bácsikám térképe, a kincsről... csak követni kell az utasításokat.</i><br>Alan: <i>			Éppen azért vagyunk itt, hogy eleget tegyünk bizonyos utasításoknak, de azokat Frisco adta.</i>"
+			, {x:0, y:20, id:"Brady háza", text:"(Alan) <i>Tiétek a bácsikám térképe, a kincsről... csak követni kell az utasításokat.</i><br>Alan: <i>			Éppen azért vagyunk itt, hogy eleget tegyünk bizonyos utasításoknak, de azokat Frisco adta.</i>"
 			  , move:-3 }
-			, {x:20, y:80, id:"Brady háza", text:"Brady: <i>Halgass ide kisfiam, jobb lesz ha most eltűnsz innen. Fogd, ez a Tiéd.</i><br>(Alan) <i>Kösz, de már reggeliztem.</i>"}
-            , {x:100, y:0, id:"Brady háza", text:"Alan: <i>Hű, rengeteg víz van körülötte. Hajót kell szereznem</i>"
+			, {x:0, y:0, id:"Brady háza", text:"Brady: <i>Halgass ide kisfiam, jobb lesz ha most eltűnsz innen. Fogd, ez a Tiéd.</i><br>(Alan) <i>Kösz, de már reggeliztem.</i>"}
+            , {x:20, y:0, id:"Brady háza", text:"Alan: <i>Hű, rengeteg víz van körülötte. Hajót kell szereznem</i>"
 			  , move:4 }
-            , {x:40, y:75, id:"Kikötő", text:"(Riporter) <i>Biztos benne Mr O'Brien, hogy ki fogja állni a próbált?</i><br>(Charlie) <i>Csak a puffin ad neked erőt és mindent lebíró akaratot.</i>"}
-			, {x:100, y:120, id:"Kikötő", text:"(Riporter) <i>Talán Pakito is rajong a Puffin lekvárért?</i><br>(Pakito) <i>Én csak a papagáj csajokat szeretem!</i>"}
-			, {x:100, y:120, id:"Tenger", text:"(Pakito) <i>Csak a puffin adhat erőt, mi?</i><br>(Charlie) <i>Dögvész pustít majd a cápák között.</i>"}
-			, {x:100, y:120, id:"Tenger", text:"(rádió) <i>Itt a Parti állomás, Charlie van valami újság?</i><br>(Charlie) <i>semmi különös, csak ... a hegyekben szomjas vagyok a tengeren meg éhes.</i>"}
-			, {x:100, y:120, id:"Tenger", text:"(Charlie) <i>Hová lett? Hová lett a babom??</i><br>(Pakito) <i>Ki tudja? Pakito ártatlan.</i>"}
-			, {x:100, y:120, id:"Tenger", text:"(Charlie) <i>Igyekezz a hajóra, ha nem akarsz egy cápa legszebb emléke lenni.</i><br>(Alan) <i> Micsoda szörnyeteg, mint Ön parancsnok.</i>"
+            , {x:40, y:0, id:"Kikötő", text:"(Riporter) <i>Biztos benne Mr O'Brien, hogy ki fogja állni a próbált?</i><br>(Charlie) <i>Csak a puffin ad neked erőt és mindent lebíró akaratot.</i>"}
+			, {x:60, y:0, id:"Kikötő", text:"(Riporter) <i>Talán Pakito is rajong a Puffin lekvárért?</i><br>(Pakito) <i>Én csak a papagáj csajokat szeretem!</i>"}
+			, {x:80, y:0, id:"Tenger", text:"(Pakito) <i>Csak a puffin adhat erőt, mi?</i><br>(Charlie) <i>Dögvész pustít majd a cápák között.</i>"}
+			, {x:100, y:0, id:"Tenger", text:"(rádió) <i>Itt a Parti állomás, Charlie van valami újság?</i><br>(Charlie) <i>semmi különös, csak ... a hegyekben szomjas vagyok a tengeren meg éhes.</i>"}
+			, {x:100, y:20, id:"Tenger", text:"(Charlie) <i>Hová lett? Hová lett a babom??</i><br>(Pakito) <i>Ki tudja? Pakito ártatlan.</i>"}
+			, {x:100, y:40, id:"Tenger", text:"(Charlie) <i>Igyekezz a hajóra, ha nem akarsz egy cápa legszebb emléke lenni.</i><br>(Alan) <i> Micsoda szörnyeteg, mint Ön parancsnok.</i>"
 			  , move:4 }
-			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>Kit látnak szememim, a láthatatlan ember.</i><br>(Alan) <i>Neeem, valójában Alannak hívnak, örvendek a...</i>"
+			, {x:100, y:60, id:"Tenger", text:"(Charlie) <i>Kit látnak szememim, a láthatatlan ember.</i><br>(Alan) <i>Neeem, valójában Alannak hívnak, örvendek a...</i>"
 			  , move:-3 }
-			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>A rádió nem müködik és itt van egy sziget, aminek nem kellene itt lennie.</i><br>(Alan) <i>Lehet, hogy nemrég rakták ide</i>"}
+			, {x:100, y:80, id:"Tenger", text:"(Charlie) <i>A rádió nem müködik és itt van egy sziget, aminek nem kellene itt lennie.</i><br>(Alan) <i>Lehet, hogy nemrég rakták ide</i>"}
 			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>Add ide a távcsövet. Na add már.</i><br>(Alan) <i>Itt van dobom, kapja el. Jelentem a távcső a tengerben.</i>"
 			  , move:-1 }
-			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>Vagy az iránytű kergült meg, vagy én hibbantam meg.</i><br>(Alan) <i>Hát persze, ha takarékperselynek használja.</i>"
+			, {x:80, y:100, id:"Tenger", text:"(Charlie) <i>Vagy az iránytű kergült meg, vagy én hibbantam meg.</i><br>(Alan) <i>Hát persze, ha takarékperselynek használja.</i>"
 			  , move:-7 }
-			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>aa</i><br>(Alan) <i>Ússzunk ki...</i>"}
-			, {x:100, y:100, id:"Tenger", text:"(Charlie) <i>aa</i><br>(Alan) <i>Ússzunk ki...</i>"}
-			, {x:100, y:100, id:"Pongo Pongo", text:"(Alan) <i>Charlie! Parancsnok! Én egy vallomással tartozom önnek...<br>Ha hisz, ha nem, ez a sziget teljesen lakatlan és egyetlen térképen sincs jelezve.</i>"}
+			, {x:60, y:100, id:"Tenger", text:"(Charlie) <i>aa</i><br>(Alan) <i>Ússzunk ki...</i>"}
+			, {x:40, y:100, id:"Tenger", text:"(Charlie) <i>aa</i><br>(Alan) <i>Ússzunk ki...</i>"}
+			, {x:40, y:80, id:"Pongo Pongo", text:"(Alan) <i>Charlie! Parancsnok! Én egy vallomással tartozom önnek...<br>Ha hisz, ha nem, ez a sziget teljesen lakatlan és egyetlen térképen sincs jelezve.</i>"}
 			, {x:100, y:100, id:"Pongo Pongo", text:"(Charlie) <i>Egyelőre nem öllek meg, de én jobbra megyek, te meg balra! Megértetted?</i><br>(Alan) <i>Meg, Parancsnok!</i>"}
 			, {x:100, y:100, id:"Pongo Pongo", text:"(Charlie) <i>Ha egyedül vagyunk, ki akarna golyót röpíteni belém, talán a nénikéd?</i><br>(Alan) <i>Nem valószínű, az én nénikém egy ilyet, mint te, még csak le se lőne.</i>"}
 			, {x:100, y:100, id:"Pongo Pongo", text:"(Alan) <i>Ejha, sok ellenséged lehet ezen a szigeten.</i><br>(Charlie) <i>Nekem csak egy van: te.</i>"}
@@ -121,7 +122,7 @@ var gameDesc = { name:"Kincs, ami nincs", dice:4
             , {x:50, y:60, text:"kilenc kedzd"}
 */
             ] };
-var gameData = { turn:0, n:0, players:[] };
+var gameData = { turn:0, aktiv:0, players:[] };
 var players = [ {name:"Charlie", step:0, kincs:false, imgsrc:"fig1b.png"}
               , {name:"Alan", step:0, kincs:false, imgsrc:"fig2b.png" }
               , {name:"Frisco", step: 0, kincs:false, imgsrc:"fig4.png" }
@@ -132,38 +133,82 @@ function start() {
   setTimeout(myResize,10);
   this.interval = setInterval(tick, tickMs);
   for (var i=0;i < players.length; i++ ) {
-    players[i].step = i; // TODO
+    players[i].step = 0; // TODO
     document.getElementById('p'+i).src=players[i].imgsrc;
     //document.getElementById('p'+i).style.display="none";
-    document.getElementById('p'+i).style.display="inline";
+    //document.getElementById('p'+i).style.display="inline";
     document.getElementById('b'+i).disabled = false;
     document.getElementById('b'+i).style.filter = 'invert(25%)';
   }
-  document.getElementById('cp').style.display="inline";
+  //document.getElementById('cp').style.display="inline";
+  //setTimeout(debugStartup, tickMs*2);
 }
-function movePlayerImg(player, xpc, ypc) {
+function debugStartup() {
+  do_join(0);
+  kerem_a_kovetkezot();
+}
+function movePlayerImg(player, pos) {
+  var xpc = gameDesc.steps[pos].x;
+  var ypc = gameDesc.steps[pos].y;
   var elem = document.getElementById('p'+player);
   var tt = document.getElementById('tabla');
-  //data.mysize = tt.offsetWidth;
-  var x = Math.floor( (tt.offsetWidth - elem.offsetWidth) * gameDesc.steps[players[player].step].x / 100); 
-  var y = Math.floor( (tt.offsetHeight - elem.offsetHeight) * gameDesc.steps[players[player].step].y / 100);// + ()
-  elem.style.left = x + 'px';
-  elem.style.top = y + 'px';
-  //console.log(`p${player} ow:${elem.offsetWidth} oh:${elem.offsetHeight} stepx:${gameDesc.steps[players[player].step].x} x:${x} y:${y}`)
-  //elem.style.left = gameDesc.steps[players[player].step].x + '%';
-  //elem.style.top = gameDesc.steps[players[player].step].y + '%';
-  console.log(`p${player} ${players[player].step} ${JSON.stringify(gameDesc.steps[players[player].step])}`)
+  var x0 = parseInt(elem.style.left);
+  var y0 = parseInt(elem.style.top);
+  var x = Math.floor( (tt.offsetWidth - elem.offsetWidth) * gameDesc.steps[pos].x / 100); 
+  var y = Math.floor( (tt.offsetHeight - elem.offsetHeight) * gameDesc.steps[pos].y / 100);
+  //elem.style.left = x + 'px';
+  //elem.style.top = y + 'px';
+  console.log(`move${pos}: p${player} p${player}_status x0:${x0} ${players[player].step} ${JSON.stringify(gameDesc.steps[players[player].step])}`)
+
+  document.getElementById(`p${player}_status`).innerHTML = `${players[player].name}: ${players[player].step}`;
+
+  var N = tickPerFrame;
+  var ms = Math.floor(frameMs / tickPerFrame);
+  for (var i=1; i <= N; i++) {
+  console.log(`i${i}/${N} x0:${x0} x:${x}  x${Math.floor((i*x + (N-i)*x0)/N)} y${Math.floor((i*y + (N-i)*y0)/N)}`);
+    setTimeout(xx, i*ms, elem, Math.floor((i*x + (N-i)*x0)/N), Math.floor((i*y + (N-i)*y0)/N) );
+  }
+}
+function xx(elem, x, y) {
+      elem.style.left = x + 'px';
+      elem.style.top = y + 'px';
 }
 
 function stepPlayer(player,cnt=1) {
 //console.log("pp " + JSON.stringify(players) + "  ll"+player);
 console.log( " step p"+player);
-    if (players[player].step < gameDesc.steps.length-1 ) {
-       players[player].step++;
-	} else {
-	   players[player].step = 0;
+
+    if (cnt > gameDesc.steps.length - players[player].step ) {
+	   cnt = gameDesc.steps.length - players[player].step;
 	}
-    movePlayerImg(player, gameDesc.steps[players[player].step].x, gameDesc.steps[players[player].step].y);
+
+    var p = players[player];
+    // disableUI	
+	for (var i = 1; i <= cnt; i++ ) {
+//	  console.log(`step${player} cnt:${cnt} sub:${i} x:${gameDesc.steps[players[player].step+i].x}`);
+	  setTimeout(movePlayerImg, frameMs*i, player, players[player].step + i);
+	}
+	players[player].step += cnt;
+
+    document.getElementById('mytext').innerHTML=gameDesc.steps[players[player].step].text;
+    setTimeout(kerem_a_kovetkezot, frameMs*(cnt+1), );
+}
+function kerem_a_kovetkezot() {
+  if (gameData.players.length > 0) {
+    document.getElementById('b'+gameData.players[gameData.aktiv]).style.border="none";
+  
+    gameData.aktiv = (gameData.aktiv + 1) % gameData.players.length;    
+
+    var p = players[gameData.players[gameData.aktiv]];
+    //document.getElementById('cp').src=p.imgsrc;
+	console.log(`kov:${gameData.players[gameData.aktiv]}`);
+    document.getElementById('cur_player').innerHTML = p.name;
+    document.getElementById('b'+gameData.players[gameData.aktiv]).style.border="3px solid red";
+    document.getElementById('b'+gameData.players[gameData.aktiv]).style.borderRadius="20%";
+    document.getElementById('cur_story').innerHTML=p.step + " : " ;
+    document.getElementById('kocka').disabled=false;
+    document.getElementById('kocka').style.filter = 'invert(0)';
+  }
 }
 function tick() {
   //console.log('tick' + tickCnt);
@@ -171,38 +216,40 @@ function tick() {
   var beat = tickCnt %  tickPerFrame;
   var LEN = gameDesc.steps.length;
 
-  
   if (beat==0) {
-    if (gameData.players.length > 0) {
-      gameData.n = (gameData.n + 1) % gameData.players.length;    
-	  var dobas = roll();
-
-      var p = players[gameData.players[gameData.n]];
-      document.getElementById('cp').src=p.imgsrc;
-      document.getElementById('cur_player').innerHTML = p.name;
-      document.getElementById('cur_roll').innerHTML=dobas;
-      document.getElementById('cur_story').innerHTML=p.step + " : " ;
-      document.getElementById('mytext').innerHTML=gameDesc.steps[p.step].text;
-
-	  for (var i = 0; i < dobas; i++){
-        stepPlayer(gameData.players[gameData.n]);
-	  }
-	  if (gameDesc.steps[p.step].move) {
-        stepPlayer(gameData.players[gameData.n], gameDesc.steps[p.step].move);
-	  }
-    }
+    //kockadobas();
+    //if (gameData.players.length > 0) {
+    //  gameData.aktiv = (gameData.aktiv + 1) % gameData.players.length;    
+    //}
   }
   tickCnt++;
 }
-function roll() {
-   return Math.floor(Math.random() * 4) + 1;
+
+function kockadobas() {
+   document.getElementById('kocka').disabled=true;
+   document.getElementById('kocka').style.filter = 'invert(25%)';
+
+   var dobas = Math.floor(Math.random() * 4) + 1;
+   dobas = 1;
+
+   document.getElementById('dobas').innerHTML=dobas;
+
+   stepPlayer(gameData.players[gameData.aktiv], dobas);
 }
-function mybutton(player) {
+function do_join(player) {
+  gameData.players.push(player);
   document.getElementById('b'+player).disabled = true;
   document.getElementById('b'+player).style.filter = 'invert(0%)';
-  players[player].step = 1;
-  gameData.players.push(player);
+  document.getElementById('p'+player).style.display="inline";
+  document.getElementById('p'+player).style.left="0px";
+  document.getElementById('p'+player).style.top="100px";
   console.log('players ' + JSON.stringify(gameData.players) );
+  //stepPlayer(player,1);
+  movePlayerImg(player,0);
+  
+  if (gameData.players.length == 1) {
+    kerem_a_kovetkezot();
+  }
 }
 // &aacute; &ouml; 
 //&#337; &#336; | ő Ő
@@ -243,21 +290,28 @@ function myResize() {
   </tr>
   <tr style="height:50%;">
     <td>
-	  <button onclick="roll();" style="max-width:90%;max-height:90%;">
+	  <button id="kocka" onclick="kockadobas();" style="max-width:90%;max-height:90%;">
       <img src="https://hehainfoszakkor2019.github.io/elso/imgs/dice2.jpg" style="max-height:90%;max-width:90%;">
 	  Csak a Puffin ad neked er&#337;t &eacute;s mindent leb&iacute;r&oacute; akaratot!
 	  </button>
     </td>
-    <td><p id="cur_player"></p><br><img id="cp" src="data:," style="display:none;"><p id="cur_roll">5</p><p id="cur_story">lépés története</p></td>
+    <td><p id="cur_player" style="font-size:3em;"></p><br><img id="cp" src="data:," style="display:none;">
+	<p id="dobas" style="font-size:6em;"></p>
+	<br>
+	<p id="p0_status">-</p>
+	<p id="p1_status">-</p>
+	<p id="p2_status">-</p>
+	<p id="p3_status">-</p>
+	<p id="cur_story">lépés története</p></td>
   </tr>
   <tr style="height:25%;">
     <td>
-	  <button id="b0" onclick="mybutton(0);" style="max-height:90%;max-width:45%;"><img src="fig1b.png"></button>
-      <button id="b1" onclick="mybutton(1);" style="max-height:90%;max-width:45%;"><img src="fig2b.png"></button>
+	  <button id="b0" onclick="do_join(0);" style="max-height:90%;max-width:45%;"><img src="fig1b.png"></button>
+      <button id="b1" onclick="do_join(1);" style="max-height:90%;max-width:45%;"><img src="fig2b.png"></button>
     </td>
     <td>
-      <button id="b2" onclick="mybutton(2);" style="max-height:90%;max-width:45%;"><img src="fig4.png" style="max-height:95%;max-width:95%;"></button>
-      <button id="b3" onclick="mybutton(3);" style="max-height:90%;max-width:45%;"><img src="fig5.png" style="max-height:95%;max-width:95%;"></button>
+      <button id="b2" onclick="do_join(2);" style="max-height:90%;max-width:45%;"><img src="fig4.png" style="max-height:95%;max-width:95%;"></button>
+      <button id="b3" onclick="do_join(3);" style="max-height:90%;max-width:45%;"><img src="fig5.png" style="max-height:95%;max-width:95%;"></button>
     </td>
   </tr>
 </table>
