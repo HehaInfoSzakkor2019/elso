@@ -45,14 +45,14 @@ button {
 </style>
 <script>
 var tickCnt = 0;
-var tickPerFrame = 4;
+var tickPerFrame = 10;
 var frameMs = 500;
 var tickMs = frameMs / tickPerFrame;
-  console.log("tick" + tickCnt);
-var gameDesc = { name:"Kincs, ami nincs", dice:4
+//  console.log("tick" + tickCnt);
+var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"color:blue;text-decoration:blink;\">Kattints a figurára akivel játszani akasz!<br>&lt;&lt;&lt;- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -&gt;&gt;&gt;</span>" 
           , steps:[ {x:-20, y:20, id:"kezd", text:"-"}
-			, {x:0, y:80, id:"Brady háza", text:"(Frisco embere) <i>Hello Éhenkórász! Nos mesélj, hogy tüntetted el a pénzünket?</i><br>(Alan) <i>Hogy mit?</i>"}
-            , {x:0, y:60, id:"Brady háza", text:"(Frisco embere) <i>Hé, nem vagy te süket, a 15000 dollárt.</i><br>Alan: <i>De hiszen már megmondtam!</i>"
+			, {x:0, y:80, id:"Brady háza", text:"<i>- Hello Éhenkórász! Nos mesélj, hova tüntetted el a pénzünket?<br>- Hogy mit?</i>"}
+            , {x:0, y:60, id:"Brady háza", text:"<i>- Hé, nem vagy te süket, a 15000 dollárt.<br>- De hiszen már megmondtam!</i>"
 			  , move:-1 }
             , {x:0, y:40, id:"Brady háza", text:"(Frisco embere) <i>Hát mit is mondtál már meg nekünk?</i><br>Alan: <i>Befektettük. Méghozzá nektek fektettem be, bomba üzlet!</i>"
 			  , move:-2 }
@@ -140,6 +140,7 @@ function start() {
     document.getElementById('b'+i).disabled = false;
     document.getElementById('b'+i).style.filter = 'invert(25%)';
   }
+  document.getElementById('mytext').innerHTML=gameDesc.start_message;
   //document.getElementById('cp').style.display="inline";
   //setTimeout(debugStartup, tickMs*2);
 }
@@ -205,7 +206,6 @@ function kerem_a_kovetkezot() {
     document.getElementById('cur_player').innerHTML = p.name;
     document.getElementById('b'+gameData.players[gameData.aktiv]).style.border="3px solid red";
     document.getElementById('b'+gameData.players[gameData.aktiv]).style.borderRadius="20%";
-    document.getElementById('cur_story').innerHTML=p.step + " : " ;
     document.getElementById('kocka').disabled=false;
     document.getElementById('kocka').style.filter = 'invert(0)';
   }
@@ -229,10 +229,10 @@ function kockadobas() {
    document.getElementById('kocka').disabled=true;
    document.getElementById('kocka').style.filter = 'invert(25%)';
 
-   var dobas = Math.floor(Math.random() * 4) + 1;
-   dobas = 1;
+   var dobas = Math.floor(Math.random() * gameDesc.dice) + 1;
+   //dobas = 1;
 
-   document.getElementById('dobas').innerHTML=dobas;
+   document.getElementById('dobas').innerHTML = dobas;
 
    stepPlayer(gameData.players[gameData.aktiv], dobas);
 }
@@ -248,6 +248,7 @@ function do_join(player) {
   movePlayerImg(player,0);
   
   if (gameData.players.length == 1) {
+    document.getElementById('b'+player).style.filter = 'invert(0%)';
     kerem_a_kovetkezot();
   }
 }
@@ -276,22 +277,21 @@ function myResize() {
   <tr style="height:25%;">
     <td style="width:20%;"><h2>Kincs ami nincs</h2><u>Le&iacute;r&aacute;s:</u> Juss el a szigetre, szerezd meg a kincset &eacute;s sz&ouml;kj el a szigetr&#337;l.</td>
     <td id="td_tabla" rowspan="3" style="width:60%;padding:0;text-align:left;">
-
      <div id="div_tabla" style="position:relative;object-fit: contain;">
       <img id="tabla" src="kincsaminincs-terkep800.jpg" style="object-fit:contain;xheight:100%;width:100%;">
       <img id="p0" class="mozgo" src="data:," style="display:none;">
       <img id="p1" class="mozgo" src="data:," style="display:none;">
       <img id="p2" class="mozgo" src="data:," style="display:none;">
       <img id="p3" class="mozgo" src="data:," style="display:none;">
-      <p id="mytext" style="margin:0;paddig:0"></p>
+      <p id="mytext" style="margin:0;paddig:0;font-size:1.5em;text-align:center;"></p>
      </div>
 </td>
     <td style="width:20%;text-align:center;"><i>coding: szalabala<br>grafika: imperat<br>music: ukulele.hu<br>thanks: kispalv</i><br><br>Heha Info Szakkor<br>2019</td>
   </tr>
   <tr style="height:50%;">
     <td>
-	  <button id="kocka" onclick="kockadobas();" style="max-width:90%;max-height:90%;">
-      <img src="https://hehainfoszakkor2019.github.io/elso/imgs/dice2.jpg" style="max-height:90%;max-width:90%;">
+	  <button id="kocka" onclick="kockadobas();" disabled=true style="max-width:90%;max-height:90%;filter:invert(25%);">
+      <img src="dice2.jpg" style="max-height:90%;max-width:90%;">
 	  Csak a Puffin ad neked er&#337;t &eacute;s mindent leb&iacute;r&oacute; akaratot!
 	  </button>
     </td>
@@ -302,7 +302,6 @@ function myResize() {
 	<p id="p1_status">-</p>
 	<p id="p2_status">-</p>
 	<p id="p3_status">-</p>
-	<p id="cur_story">lépés története</p></td>
   </tr>
   <tr style="height:25%;">
     <td>
