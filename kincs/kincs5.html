@@ -9,7 +9,7 @@ html, body {
   padding:0;
   margin:0;
 }
-p { margin:0; padding:0; font-size:2em; }
+p { margin:0; padding:0; }
 body {
   background-image:url("csempe2.jpg");
   xxbackground-repeat: no-repeat;
@@ -78,7 +78,7 @@ var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"c
 			  , move:-1 }
 			, {x:85, y:75, id:"Tenger", text:"<i>Pakito ékes! Pakito éhes!</i>"}
 			, {x:70, y:80, id:"Tenger", text:"<i>Vagy az iránytű kergült meg, vagy én hibbantam meg.<br> Hát persze, ha takarékperselynek használja.</i>"
-			  , move:-7 }
+			  , move:-8 }
 			, {x:55, y:85, id:"Tenger", text:"(Charlie) <i>aa</i><br>(Alan) <i>Ússzunk ki...</i>"}
 			, {x:45, y:78, id:"Pongo Pongo", text:"<i>Charlie! Parancsnok! Én egy vallomással tartozom önnek...<br>Ha hiszi, ha nem, ez a sziget teljesen lakatlan és egyetlen térképen sincs jelezve.</i>"}
 /*20*/		, {x:45, y:65, id:"Pongo Pongo", text:"(<i>Egyelőre nem öllek meg, de én jobbra megyek, te meg balra! Megértetted?<br> Meg, Parancsnok!</i>"}
@@ -127,7 +127,7 @@ var players = [ {name:"Charlie", step:0, kincs:false, imgsrc:"fig1b.png"}
               , {name:"Frisco", step: 0, kincs:false, imgsrc:"fig4.png" }
               , {name:"Kalóz", step: 0, kincs:false, imgsrc:"fig5.png" }
 			  ];
-var gameUI = { mainAreaPercent:60, figureSizePercent:10 };
+var gameUI = { mainAreaWidthPercent:60, mainAreaHeightPercent:90,figureSizePercent:10 };
 function start() {
   document.getElementById('tabla').src = gameDesc.tabla0;
   setTimeout(myResize,10);
@@ -156,23 +156,22 @@ function movePlayerImg(player, pos) {
   var ypc = gameDesc.steps[pos].y;
   var elem = document.getElementById('p'+player);
   var tt = document.getElementById('tabla');
-  var x0 = parseInt(elem.style.left);
-  var y0 = parseInt(elem.style.top);
+  var x0 = parseInt(elem.style.left) - tt.offsetLeft;
+  var y0 = parseInt(elem.style.top) - tt.offsetTop;
   var x = Math.floor( (tt.offsetWidth - elem.offsetWidth) * gameDesc.steps[pos].x / 100); 
   var y = Math.floor( (tt.offsetHeight - elem.offsetHeight) * gameDesc.steps[pos].y / 100);
   //elem.style.left = x + 'px';
   //elem.style.top = y + 'px';
-  console.log(`move${pos}: p${player} p${player}_status x0:${x0} ${players[player].step} ${JSON.stringify(gameDesc.steps[players[player].step])}`)
-
+  console.log(`move${pos}: p${player} x0:${x0} ${players[player].step} ol:${tt.offsetLeft} ot:${tt.offsetTop}`)
   document.getElementById(`p${player}_status`).innerHTML = `${players[player].name}: ${players[player].step}`;
-
   var N = tickPerFrame;
   var ms = Math.floor(frameMs / tickPerFrame);
   for (var i=1; i <= N; i++) {
-  //console.log(`i${i}/${N} x0:${x0} x:${x}  x${Math.floor((i*x + (N-i)*x0)/N)} y${Math.floor((i*y + (N-i)*y0)/N)}`);
-    setTimeout(xx, i*ms, elem, Math.floor((i*x + (N-i)*x0)/N), Math.floor((i*y + (N-i)*y0)/N) );
+    //console.log(`i${i}/${N} x0:${x0} x:${x}  x${Math.floor((i*x + (N-i)*x0)/N)} y${Math.floor((i*y + (N-i)*y0)/N)}`);
+    setTimeout(xx, i*ms, elem, tt.offsetLeft + Math.floor((i*x + (N-i)*x0)/N), tt.offsetTop + Math.floor((i*y + (N-i)*y0)/N) );
   }
 }
+
 function xx(elem, x, y) {
       elem.style.left = x + 'px';
       elem.style.top = y + 'px';
@@ -276,10 +275,21 @@ function do_join(player) {
 //&#369; &#368; | ű Ű
 function myResize() {
   var cw = document.documentElement.clientWidth;
-  var tw = Math.floor(cw * gameUI.mainAreaPercent / 100);
-  var fw = Math.floor( tw / 8 );
+  var ch = document.documentElement.clientHeight;
   document.getElementById('div_tabla').style.width = tw + 'px';
-  document.getElementById('div_tabla').style.height = tw + 'px';
+  var dh = document.getElementById('div_tabla').offsetHeight;
+  var r0 = document.getElementById('tabla').naturalWidth / document.getElementById('tabla').naturalHeight;
+  var r = document.getElementById('tabla').offsetWidth / document.getElementById('tabla').offsetHeight;
+  var tw = Math.floor(cw * gameUI.mainAreaWidthPercent / 100);
+  var th = Math.floor(ch * gameUI.mainAreaHeightPercent / 100);
+  var th0= Math.floor(tw / r0);
+	console.log(`tw:${tw} th:${th} dh:${dh} ooh:${th0}`);
+  document.getElementById('tabla').style.height = dh + 'px';
+  if (th > th0) {
+	  document.getElementById('tabla').style.height = th0 + 'px';
+  }
+
+  var fw = Math.floor( th0 / 8 );//tw
   for (var i=0;i < players.length; i++ ) {
     document.getElementById('p'+i).width=fw;
     document.getElementById('p'+i).height=fw;
@@ -294,9 +304,9 @@ function myResize() {
 <table style="width:100%;height:100%;">
   <tr style="height:25%;">
     <td style="width:20%;"><h2>Kincs ami nincs</h2><u>Le&iacute;r&aacute;s:</u> Juss el a szigetre, szerezd meg a kincset &eacute;s sz&ouml;kj el a szigetr&#337;l.</td>
-    <td id="td_tabla" rowspan="3" style="width:60%;padding:0;text-align:left;">
-     <div id="div_tabla" style="position:relative;object-fit: contain;">
-      <img id="tabla" src="kincsaminincs-terkep1000b.jpg" style="object-fit:contain;xheight:100%;width:100%;">
+    <td id="td_tabla" rowspan="3" style="width:60%;padding:0;text-align:center;vertical-align:top;">
+     <div id="div_tabla" style="position:relative;xxobject-fit:contain;max-height:80%;max-width:100%;">
+      <img id="tabla" src="kincsaminincs-terkep1000b.jpg" style="object-fit:contain;max-height:100%;max-width:100%;">
       <img id="p0" class="mozgo" src="data:," style="display:none;">
       <img id="p1" class="mozgo" src="data:," style="display:none;">
       <img id="p2" class="mozgo" src="data:," style="display:none;">
