@@ -52,7 +52,7 @@ var frameMs = 500;
 var tickMs = frameMs / tickPerFrame;
 //  console.log("tick" + tickCnt);
 var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"color:blue;text-decoration:blink;\">Kattints a figurára akivel játszani akasz!<br>&lt;&lt;&lt;- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -&gt;&gt;&gt;</span>" 
-          , tabla:"kincsaminincs-terkep1000b.jpg", tabla0:"kincsaminincs-terkep800.jpg", tabla_end:"kincsaminincs-terkep400.jpg"
+          , tabla:"kincsaminincs-terkep1000b.jpg", tabla0:"kincsaminincs-terkep800.jpg", tabla_end:"ending.jpg"
           , steps:[ {x:-20, y:20, id:"kezd", text:"-"}
 			, {x:3, y:0, id:"Brady háza", text:"<i>Hello Éhenkórász! Nos mesélj, hova tüntetted el a pénzünket?<br>Hogy mit?</i>"}
             , {x:0, y:20, id:"Brady háza", text:"<i>Hé, nem vagy te süket, a 15000 dollárt.<br>De hiszen már megmondtam!</i>"
@@ -145,10 +145,12 @@ function start() {
   document.getElementById('mytext').innerHTML=gameDesc.start_message;
   document.getElementById('kocka').onclick = function() { kockadobas();};
   //document.getElementById('cp').style.display="inline";
-  //setTimeout(debugStartup, tickMs*2);
+  setTimeout(debugStartup, tickMs*2);
 }
 function debugStartup() {
   do_join(0);
+  players[0].step = 43;
+  movePlayerImg(0, players[i].step)
   kerem_a_kovetkezot();
 }
 function movePlayerImg(player, pos) {
@@ -198,7 +200,7 @@ function stepPlayer(player,cnt=1) {
 	if (players[player].step < gameDesc.steps.length - 1) {
 		setTimeout(kerem_a_kovetkezot, frameMs*(cnt+1) );
 	} else {
-		doHailWinner(player);
+		setTimeout(doHailWinner, frameMs*(cnt+1), player);
 	}
 }
 function kerem_a_kovetkezot() {
@@ -221,6 +223,7 @@ function kerem_a_kovetkezot() {
   }
 }
 function doHailWinner(player) {
+    document.getElementById('tabla').src = gameDesc.tabla_end;
 	document.getElementById('kocka').onclick = function() { start();};
     document.getElementById('kocka').disabled=false;
     document.getElementById('kocka').style.filter = 'invert(0)';
@@ -320,7 +323,7 @@ function myResize() {
     <td>
 	  <button id="kocka" onclick="kockadobas();" disabled=true style="max-width:90%;max-height:90%;filter:invert(25%);">
       <img src="dice2.jpg" style="max-height:90%;max-width:90%;">
-	  Csak a Puffin ad neked er&#337;t &eacute;s mindent leb&iacute;r&oacute; akaratot!
+	  <br>Csak a Puffin ad neked er&#337;t &eacute;s mindent leb&iacute;r&oacute; akaratot!
 	  </button>
     </td>
     <td><p id="cur_player" style="font-size:3em;"></p><br><img id="cp" src="data:," style="display:none;">
