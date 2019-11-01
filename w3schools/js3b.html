@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<style>
+html,body { width:100%;height:100%;pading:0;margin:0; }
+table { width:100%;height:100%;} 
+tr, td { width:50%; pading:0;margin:0; }
+p { pading:0;margin:0; }
+button.start { width:auto;height:auto; }
+button { width:100%;height:100%;border-radius: 50%; }
+img { max-height:80%; }
+</style>
+<script>
+var start_date=0;
+var quiz='';
+var buttons = { b1:"lightyellow", b2:"blue", b3:"pink", b4:"green" }; 
+var img = { 
+  off:"https://www.w3schools.com/js/pic_bulboff.gif", 
+  on:"https://www.w3schools.com/js/pic_bulbon.gif"
+};
+var results=[];
+function mystart() {
+  for (var b in buttons) {
+    document.getElementById(b+'img').src=img["off"];
+  }
+  let wait_ms = Math.floor(Math.random()*1000) + 1000;
+  quiz = "b" + (Math.floor(Math.random()*4)+1); 
+  setTimeout(startTimer, wait_ms);
+}
+function startTimer() {
+  document.getElementById(quiz+'img').src=img["on"];
+  start_date = new Date();
+}
+function myclick(button) {
+  var now = new Date();
+  if (button == quiz) {
+  document.getElementById(quiz+'img').src=img["off"];
+    results.push((now - start_date));
+    quiz='';
+  } else if (quiz != '') {
+    results.push(9999);
+  }
+  document.getElementById('result').innerHTML=results;
+  best=results.slice().sort(function(a, b){return a-b});
+  document.getElementById('bestresult').innerHTML=best[0];
+}
+function resetResults() {
+  results=[];
+  document.getElementById('result').innerHTML=results;
+}
+function myresize() {
+const width  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+const height = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
+
+console.log(width, height);
+  document.getElementById('td3').style.height=Math.floor(height/3)+'px';
+  
+}
+</script>
+<body onresize="myresize();">
+<table>
+ <tr style="height:20%;">
+  <td colspan="2">Simon's reflex<hr>
+   <button class="start" onclick="mystart()">Start</button>
+   <button class="start" id="button-reset" onclick="resetResults()" style="float:right;">Reset</button>
+  </td>
+ </tr>
+ <tr style="height:30%;max-height:30%;">
+  <td>
+   <button id="b1" onclick="myclick('b1');" dstyle="background-color:lightyellow;">
+    <img id="b1img" src="https://www.w3schools.com/js/pic_bulboff.gif" style="width:100px">
+	<br>Egy megérett a meggy.<br>Kettő, csipkebokor vessző.
+   </button>
+  </td>
+  <td>
+   <button id="b2" onclick="myclick('b2');" style="background-color:blue;">
+    <img id="b2img" src="https://www.w3schools.com/js/pic_bulboff.gif" style="width:100px">
+	<p style="font-size:2em;">6</p>
+	<p>Alan: 23</p>
+   </button>
+  </td>
+ </tr>
+ <tr style="height:30%;">
+  <td id="td3">
+   <button id="b3" onclick="myclick('b3');" style="background-color:pink;">
+    <img id="b3img" src="https://www.w3schools.com/js/pic_bulboff.gif" style="width:100px">
+	<p style="font-size:6em;">6</p>
+	<p>Alan: 23</p>
+	<br>Egy megérett a meggy.<br>Kettő, csipkebokor vessző.
+	<br>Egy megérett a meggy.<br>Kettő, csipkebokor vessző.
+   </button>
+  </td>
+  <td>
+   <button id="b4" onclick="myclick('b4');" style="background-color:green;">
+    <img id="b4img" src="https://www.w3schools.com/js/pic_bulboff.gif" style="object-fit:contain;width:100px">
+   </button>
+  </td>
+ </tr>
+ <tr style="height:20%;">
+  <td colspan="2">
+   <p>Eredmények (ms): <cite id='result'></cite></p>
+   <p>Legjobb eredmény (ms): <cite id='bestresult'></cite></p>
+  </td>
+ </tr>
+</table>
+</body>
+</html>
