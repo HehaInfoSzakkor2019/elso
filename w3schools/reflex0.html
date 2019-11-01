@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
 <style>
-* { font-size:4vh; }
 html,body { width:100%;height:100%;pading:0;margin:0; }
-table { width:100%;height:100%;pading:0;margin:0;} 
-tr, td { width:50%; pading:0;margin:0; }
-p { pading:0;margin:0; }
-button.small { width:auto;height:auto; }
+table { pading:0;margin:0;} 
+tr, td { pading:0;margin:0; }
+td { border:1px solid black; }
 </style>
 <script>
 function myclick(b) {
@@ -14,17 +12,17 @@ function myclick(b) {
 </script>
 <body>
 <table>
- <tr style="height:20vh;">
+ <tr style="">
   <td><p>Nevem reflex játéka</p></td>
  </tr>
- <tr style="height:30vh">
+ <tr style="">
   <td>
    <button id="b1" onclick="myclick('b1');" style="background-color:lightyellow;">
     <img id="b1img" src="pic_bulboff.gif">
    </button>
   </td>
  </tr>
- <tr style="height:20vh;">
+ <tr style="">
   <td>
    <p>Eredmények (ms): <cite id='result'></cite></p>
   </td>
