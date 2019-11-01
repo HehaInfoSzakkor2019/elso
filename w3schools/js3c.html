@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<style>
+* { font-size:4vh; }
+html,body { width:100%;height:100%;pading:0;margin:0; }
+table { width:100%;height:100%;pading:0;margin:0;} 
+tr, td { width:50%; pading:0;margin:0; }
+p { pading:0;margin:0; }
+button.small { width:auto;height:auto; }
+button { width:100%;height:100%;border-radius: 50%; }
+img { max-height:30vh; max-width:40vw; }
+</style>
+<script>
+var start_date=0;
+var quiz='';
+var buttons = { b1:"lightyellow", b2:"blue", b3:"pink", b4:"green" }; 
+var img = { 
+  off:"pic_bulboff.gif", 
+  on:"pic_bulbon.gif"
+};
+var results=[];
+function mystart() {
+  for (var b in buttons) {
+    document.getElementById(b+'img').src=img["off"];
+  }
+  let wait_ms = Math.floor(Math.random()*1000) + 1000;
+  quiz = "b" + (Math.floor(Math.random()*4)+1); 
+  setTimeout(startTimer, wait_ms);
+}
+function startTimer() {
+  document.getElementById(quiz+'img').src=img["on"];
+  start_date = new Date();
+}
+function myclick(button) {
+  var now = new Date();
+  if (button == quiz) {
+    document.getElementById(quiz+'img').src = img["off"];
+    results.push((now - start_date));
+    quiz='';
+	showResult();
+  }
+}
+function showResult() {
+  document.getElementById('result').innerHTML = results;
+  best=results.slice().sort(function(a, b){return a-b});
+  document.getElementById('bestresult').innerHTML = best[0];
+}
+function resetResults() {
+  results=[];
+  showResult();
+//  document.getElementById('result').innerHTML=results;
+  //document.getElementById('bestresult').innerHTML='';
+//   <button class="small" onclick="mystart()">Start</button>
+}
+</script>
+<body>
+<table>
+ <tr style="height:20vh;">
+  <td><p style="font-size:10vh">Simon's reflex</p></td>
+  <td><button class="small" id="button-reset" onclick="resetResults()" style="float:right;">Reset</button></td>
+ </tr>
+ <tr style="height:30vh">
+  <td>
+   <button id="b1" onclick="myclick('b1');" style="background-color:lightyellow;">
+    <img id="b1img" src="pic_bulboff.gif">
+   </button>
+  </td>
+  <td>
+   <button id="b2" onclick="myclick('b2');" style="background-color:blue;">
+    <img id="b2img" src="pic_bulboff.gif">
+   </button>
+  </td>
+ </tr>
+ <tr style="height:30vh;">
+  <td id="td3">
+   <button id="b3" onclick="myclick('b3');" style="background-color:pink;">
+    <img id="b3img" src="pic_bulboff.gif">
+   </button>
+  </td>
+  <td>
+   <button id="b4" onclick="myclick('b4');" style="background-color:green;">
+    <img id="b4img" src="pic_bulboff.gif">
+   </button>
+  </td>
+ </tr>
+ <tr style="height:20vh;">
+  <td colspan="2">
+   <p>Eredmények (ms): <cite id='result'></cite></p>
+   <p>Legjobb eredmény (ms): <cite id='bestresult'></cite></p>
+  </td>
+ </tr>
+</table>
+<button class="small" onclick="mystart()" style="position:absolute;left:42vw; top:42vh;font-size:8vh;width:16vw;height:16vh;">start</button>
+</body>
+</html>
