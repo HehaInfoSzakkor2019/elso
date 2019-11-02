@@ -42,8 +42,8 @@ function myclick(button) {
 }
 function showResult() {
   document.getElementById('result').innerHTML = results;
-  best=results.slice().sort(function(a, b){return a-b});
-  document.getElementById('bestresult').innerHTML = best[0];
+  best=Math.min( ...results );
+  document.getElementById('bestresult').innerHTML = best;
 }
 function resetResults() {
   results=[];
