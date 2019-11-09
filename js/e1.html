@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="UTF-8">
+<!-- SCRIPT ----- ----- ----- ----- ----- ----- ----- ----- ----- -->
 <script>
-// -- script ------------------------------------------------------
-
 function f1() {
+  write('hello')
+  setStyle("gomb","border-color",'red')
 }
-
-// -- SCRIPT vege -------------------------------------------------
 </script>
-  </head>
+</head>
 
 <!-- BODY ----- ----- ----- ----- ----- ----- ----- ----- ----- -->
-  <body>
-    <button onclick="f1()">NYOMD MEG</button>
+<body>
+    <button id="gomb" onclick="f1()" style="border-width:5px;">NYOMD MEG</button>
     <hr>
     <textarea id="text" rows="25"></textarea>
 
 
 
+<!-- SCRIPT ----- ----- ----- ----- ----- ----- ----- ----- ----- -->
 <script>
-    // -- script eljarasok -----------------------------------------
     function write(text) {
         document.getElementById("text").textContent += text + '\n'
     }
@@ -32,5 +32,5 @@ function f1() {
         document.getElementById(elem).style.setProperty(styleitem,value)
     }
 </script>
-  </body>
+</body>
 <html>
