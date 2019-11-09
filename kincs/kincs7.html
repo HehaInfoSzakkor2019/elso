@@ -17,18 +17,8 @@ h2 { font-size:5vmin }
 .icon { height:10vmin;width:10vmin; }
 p { margin:auto; padding:0;font-size:3vmin; border-radius:25%; }
 body { background-image:url("csempe2.jpg"); }
-table, tr, td {
-  border: none;
-  padding:0;
-  margin:0;
-  text-align: center;    
-}
-img.mozgo {
-    position: absolute;
-	xmax-height:15vmin;
-    left: 0px;
-    top: 0px;
-}
+table, tr, td { border: none; padding:0; margin:0; text-align: center; }
+img.mozgo { position: absolute;     zleft: 0px;  ztop: 0px; }
 img.top { z-index: 3; }
 img.med { z-index: 2; }
 button { background-color: Transparent; border-radius:25%; }
@@ -42,7 +32,7 @@ var frameMs = 500;
 var tickMs = frameMs / tickPerFrame;
 var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"color:blue;text-decoration:blink;\">Kattints a figurára akivel játszani akasz!<br>&lt;&lt;&lt;- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -&gt;&gt;&gt;</span>" 
           , tabla:"kincsaminincs-terkep1000b.jpg", tabla0:"kincsaminincs-terkep800.jpg", tabla_end:"ending.jpg"
-          , steps:[ {x:-20, y:20, id:"kezd", text:"-"}
+          , steps:[ {x:-20, y:40, id:"kezd", text:"-"}
 			, {x:3, y:0, id:"Brady háza", text:"<i>Hello Éhenkórász! Nos mesélj, hova tüntetted el a pénzünket?<br>Hogy mit?</i>"}
             , {x:0, y:20, id:"Brady háza", text:"<i>Hé, nem vagy te süket, a 15000 dollárt.<br>De hiszen már megmondtam!</i>"
 			  , move:-1 }
@@ -60,12 +50,12 @@ var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"c
 			, {x:80, y:99, id:"Tenger", text:"<i>Hová lett? Hová lett a babom??<br> Ki tudja? Pakito ártatlan.</i>"}
 			, {x:90, y:99, id:"Tenger", text:"<i>Igyekezz a hajóra, ha nem akarsz egy cápa legszebb emléke lenni.<br> Micsoda szörnyeteg, mint Ön parancsnok.</i>"
 			  , move:4 }
-			, {x:99, y:90, id:"Tenger", text:"<i>Kit látnak szememim, a láthatatlan ember.<br> Neeem, valójában Alannak hívnak, örvendek a ...</i>"
+			, {x:99, y:88, id:"Tenger", text:"<i>Kit látnak szememim, a láthatatlan ember.<br> Neeem, valójában Alannak hívnak, örvendek a ...</i>"
 			  , move:-3 }
-			, {x:99, y:75, id:"Tenger", text:"<i>A rádió nem müködik és itt van egy sziget, aminek nem kellene itt lennie.<br> Lehet, hogy nemrég rakták ide.</i>"}
+			, {x:99, y:72, id:"Tenger", text:"<i>A rádió nem müködik és itt van egy sziget, aminek nem kellene itt lennie.<br> Lehet, hogy nemrég rakták ide.</i>"}
 			, {x:92, y:65, id:"Tenger", text:"<i>Add ide a távcsövet. Na add már.</i><br>(Alan) <i> Itt van dobom, kapja el. Jelentem a távcső a tengerben.</i>"
 			  , move:-1 }
-			, {x:85, y:75, id:"Tenger", text:"<i>Pakito ékes! Pakito éhes!</i>"}
+			, {x:86, y:76, id:"Tenger", text:"<i>Pakito ékes! Pakito éhes!</i>"}
 			, {x:70, y:80, id:"Tenger", text:"<i>Vagy az iránytű kergült meg, vagy én hibbantam meg.<br> Hát persze, ha takarékperselynek használja.</i>"
 			  , move:-8 }
 			, {x:55, y:85, id:"Tenger", text:"(Charlie) <i>aa</i><br>(Alan) <i>Ússzunk ki...</i>"}
@@ -91,18 +81,18 @@ var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"c
 			, {x:70, y:35, id:"Pongo Pongo", text:"(Mama) <i>Páncélautó igen.  //nagy pofon//</i><br>(Anulu) <i>Páncélauto igen, páncélautó igen.</i>"}
 			, {x:65, y:25, id:"Páncélautó", text:"<i>Hé, ellopták belőle a kormánykereket!<br>Még annyit sem tudsz, hogy a tankokban botkormány van?</i>"}
 			, {x:58, y:35, id:"Páncélautó", text:"<i>Melyik az a kurbli? Parancsnok, ez lesz az?<br>Hát persze hogy ez az, nem látod, hogy kurbli formája van?</i>"}
-/*40*/		, {x:50, y:30, id:"Japán erőd", text:"(Kamasuka) <i>Sok évvel ezelptt ez az ajtó mindig zárva volt és egy őr állt előtte.<br>De most hogy már nem áll előtte senki, bemegyünk</i>"}
+/*40*/		, {x:50, y:30, id:"Japán erőd", text:"(Kamasuka) <i>Sok évvel ezelőtt, ez az ajtó mindig zárva volt és egy őr állt előtte.<br>De most hogy már nem áll előtte senki, bemegyünk</i>"}
 			, {x:55, y:20, id:"Pongo Pongo", text:"(Anulu) <i>Repülő jönni, brrr rrr ááá züüü rrr rrr</i>"}
 			, {x:55, y:5, id:"Pongo Pongo", text:"(a) <i>aa</i><br>(b) <i>bb</i>"}
-			, {x:45, y:15, id:"Frisco", text:"(Frisco) <i>Frisco: na végre, itt van Pongo Pongo szigete<br>Akkor tehát megérkeztünk</i>"}
+			, {x:45, y:15, id:"Frisco", text:"(Frisco) <i>Frisco: na végre, itt van Pongo Pongo szigete<br> Akkor tehát megérkeztünk</i>"}
 			, {x:35, y:2, id:"Frisco", text:"(verekedés)"}
-			, {x:15, y:20, id:"Szökés", text:"(Charlie) <i>Alua, kerüljük a szóvirágokat, mondd meg mit akarsz?</i><br>(Alua) <i>Te adni előtte egy csokit.</i>"
+			, {x:15, y:20, id:"Szökés", text:"<i>Alua, kerüljük a szóvirágokat, mondd meg mit akarsz?<br> Te adni előtte egy csokit.</i>"
 			  , move:-1 }
-			, {x:22, y:47, id:"Szökés", text:"(Ulla) <i>Ulla nagyon szomorú, hogy látni Charlie elmenni szigetről.<br>Előtte Charli adni Ullának egy csókát.</i>"
+			, {x:22, y:47, id:"Szökés", text:"<i>Ulla nagyon szomorú, hogy látni _ elmenni szigetről.<br>Előtte _ adni Ullának egy csókát.</i>"
 			  , move:-2 }
-			, {x:27, y:60, id:"Szökés", text:"(Ayola) <i>Előtte elmenni, Ayola kérni nagy csocsót Charlie</i><br>(Charlie) <i>Rendben, megcsocsollak.</i>"
+			, {x:27, y:60, id:"Szökés", text:"<i>Előtte elmenni, Ayola kérni nagy csocsót!<br>Rendben, megcsocsollak.</i>"
 			  , move:-3 }
-/*48*/		, {x:21, y:70, id:"Vége", text:"<i>Mert aki barátot talál, az kincset talál.<br>Vagy mégsem?</i>"}
+/*48*/		, {x:21, y:70, id:"Vége", text:"<i>Mert aki barátot talál, az kincset talál.<br> Vagy mégsem?</i>"}
             ] };
 var gameData = { turn:0, aktiv:0, players:[] };
 var players = [ {name:"Charlie", step:0, kincs:false, imgsrc:"fig1b.png"}
@@ -135,8 +125,6 @@ function debugStartup() {
   kerem_a_kovetkezot();
 }
 function movePlayerImg(player, pos) {
-  var xpc = gameDesc.steps[pos].x;
-  var ypc = gameDesc.steps[pos].y;
   var elem = document.getElementById('p'+player);
   var tt = document.getElementById('tabla');
   var x0 = parseInt(elem.style.left) - tt.offsetLeft;
@@ -153,43 +141,40 @@ function movePlayerImg(player, pos) {
   }
 }
 function moveAndZoomPlayerImg(player, pos, s0, s1) {
-  var xpc = gameDesc.steps[pos].x;
-  var ypc = gameDesc.steps[pos].y;
   var elem = document.getElementById('p'+player);
   var tt = document.getElementById('tabla');
   var x0 = parseInt(elem.style.left) - tt.offsetLeft;
   var y0 = parseInt(elem.style.top) - tt.offsetTop;
   var x = Math.floor( (tt.offsetWidth - elem.offsetWidth) * gameDesc.steps[pos].x / 100); 
   var y = Math.floor( (tt.offsetHeight - elem.offsetHeight) * gameDesc.steps[pos].y / 100);
-  //console.log(`move${pos}: p${player} x0:${x0} ${players[player].step} ol:${tt.offsetLeft} ot:${tt.offsetTop}`)
   document.getElementById(`p${player}_status`).innerHTML = `${players[player].name}: ${players[player].step}`;
   var N = tickPerFrame;
   var ms = Math.floor(frameMs / tickPerFrame);
   for (var i=1; i <= N; i++) {
-    //console.log(`i${i}/${N} x0:${x0} x:${x}  x${Math.floor((i*x + (N-i)*x0)/N)} y${Math.floor((i*y + (N-i)*y0)/N)}`);
+    //console.log(`i${i}/${N} y0:${y0} y1:${y}  x${Math.floor((i*x + (N-i)*x0)/N)} y${Math.floor((i*y + (N-i)*y0)/N)}`);
     setTimeout(moveScaleImg, i*ms, elem
     , tt.offsetLeft + Math.floor((i*x + (N-i)*x0)/N)
     , tt.offsetTop + Math.floor((i*y + (N-i)*y0)/N)
     , Math.floor((i*s1 + (N-i)*s0)/N) );
   }
 }
-function moveImg(elem, x, y) {
-      elem.style.left = x + 'px';
-      elem.style.top = y + 'px';
+function moveImg(elem, x, y, s=0) {
+  elem.style.left = x + 'px';
+  elem.style.top = y + 'px';
 }
 function moveScaleImg(elem, x, y, s) {
-      elem.style.left = x + 'px';
-      elem.style.top = y + 'px';
-      elem.style.height = s + 'vmin';
-      elem.style.width = s + 'vmin';
+  elem.style.left = x + 'px';
+  elem.style.top = y + 'px';
+  elem.style.height = s + 'vmin';
+  elem.style.width = s + 'vmin';
 }
 function stepPlayer(player,cnt=1) {
-    document.getElementById('dobas').innerHTML = cnt;
-    if (cnt >= gameDesc.steps.length - players[player].step ) {
+  document.getElementById('dobas').innerHTML = cnt;
+  if (cnt >= gameDesc.steps.length - players[player].step ) {
 	   cnt = gameDesc.steps.length - players[player].step - 1;
 	}
 
-    var p = players[player];
+  var p = players[player];
 	for (var i = 1; i <= cnt; i++ ) {
 	  setTimeout(movePlayerImg, frameMs*i, player, players[player].step + i);
 	}
@@ -249,7 +234,7 @@ function do_join(player) {
   document.getElementById('b'+player).style.filter = 'invert(0%)';
   document.getElementById('p'+player).style.display="inline";
   document.getElementById('p'+player).style.left="0px";
-  document.getElementById('p'+player).style.top="100px";
+  document.getElementById('p'+player).style.top="0px";
   //console.log('players ' + JSON.stringify(gameData.players) );
   moveAndZoomPlayerImg(player,0,80,10);
   players[player].step = 0;
@@ -296,7 +281,7 @@ function myResize() {
     <td id="td_tabla" rowspan="3" style="width:60%;padding:0;text-align:center;vertical-align:top;">
      <div id="div_tabla" style="position:relative;xxobject-fit:contain;max-height:80%;max-width:100%;">
       <img id="tabla" src="kincsaminincs-terkep1000b.jpg" style="max-width:60vw;max-height:85vh;" xstyle="object-fit:contain;max-height:100%;max-width:100%;">
-      <img id="p0" class="mozgo icon" src="data:," style="display:none;">
+      <img id="p0" class="mozgo icon" src="data:," style="display:none;top:0px;left:0px;">
       <img id="p1" class="mozgo icon" src="data:," style="display:none;">
       <img id="p2" class="mozgo icon" src="data:," style="display:none;">
       <img id="p3" class="mozgo icon" src="data:," style="display:none;">
