@@ -30,7 +30,15 @@ var tickCnt = 0;
 var tickPerFrame = 15;
 var frameMs = 500;
 var tickMs = frameMs / tickPerFrame;
-var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"color:blue;text-decoration:blink;\">Kattints a figurára akivel játszani akasz!<br>&lt;&lt;&lt;- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -&gt;&gt;&gt;</span>" 
+var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"color:blue;text-decoration:blink;\">"
+              +"<br>1. Válassz figurákat, akikkel játszani szeretnél."
+              +"<br>2. Kattinta a Puffin Lekvár képére hogy lépjél."
+              +"<br>3. Légy az első, aki célba ér!"
+              +"<br> Jobbra látod mennyit léphetsz. "
+              +"<br> Alatta, hogy ki merre jár."
+              +"<br>&lt;&lt;&lt;- - -  - - - - - - - - - - - - - - - - -&gt;&gt;&gt;"
+              +"<br>Csak a Puffin ad neked erőt és mindent lebíró akaratot!"
+              +"</span>" 
           , tabla:"kincsaminincs-terkep1000b.jpg", tabla0:"kincsaminincs-terkep800.jpg", tabla_end:"ending.jpg"
           , steps:[ {x:-20, y:40, id:"kezd", text:"-"}
 			, {x:3, y:0, id:"Brady háza", text:"<i>Hello Éhenkórász! Nos mesélj, hova tüntetted el a pénzünket?<br>Hogy mit?</i>"}
@@ -53,7 +61,7 @@ var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"c
 			, {x:99, y:88, id:"Tenger", text:"<i>Kit látnak szememim, a láthatatlan ember.<br> Neeem, valójában Alannak hívnak, örvendek a ...</i>"
 			  , move:-3 }
 			, {x:99, y:72, id:"Tenger", text:"<i>A rádió nem müködik és itt van egy sziget, aminek nem kellene itt lennie.<br> Lehet, hogy nemrég rakták ide.</i>"}
-			, {x:92, y:65, id:"Tenger", text:"<i>Add ide a távcsövet. Na add már.</i><br>(Alan) <i> Itt van dobom, kapja el. Jelentem a távcső a tengerben.</i>"
+			, {x:88, y:60, id:"Tenger", text:"<i>Add ide a távcsövet. Na add már.</i><br>(Alan) <i> Itt van dobom, kapja el. Jelentem a távcső a tengerben.</i>"
 			  , move:-1 }
 			, {x:86, y:76, id:"Tenger", text:"<i>Pakito ékes! Pakito éhes!</i>"}
 			, {x:70, y:80, id:"Tenger", text:"<i>Vagy az iránytű kergült meg, vagy én hibbantam meg.<br> Hát persze, ha takarékperselynek használja.</i>"
@@ -115,12 +123,12 @@ function start() {
     document.getElementById('b'+i).style.border="none";
   }
   document.getElementById('mytext').innerHTML=gameDesc.start_message;
-  document.getElementById('kocka').onclick = function() { kockadobas();};
+  document.getElementById('kocka').onclick = function() { kockadobas(); };
   //setTimeout(debugStartup, tickMs*2);
 }
 function debugStartup() {
   do_join(0);  do_join(1);
-  players[0].step = 43;
+  players[0].step = 10;
   movePlayerImg(0, players[0].step)>
   kerem_a_kovetkezot();
 }
@@ -236,13 +244,15 @@ function do_join(player) {
   document.getElementById('p'+player).style.left="0px";
   document.getElementById('p'+player).style.top="0px";
   //console.log('players ' + JSON.stringify(gameData.players) );
-  moveAndZoomPlayerImg(player,0,80,10);
   players[player].step = 0;
   if (gameData.players.length == 1) {
+    document.getElementById('mytext').innerHTML="";
+    myResize();
     document.getElementById('tabla').src = gameDesc.tabla;
     document.getElementById('b'+player).style.filter = 'invert(0%)';
     kerem_a_kovetkezot();
   }
+  moveAndZoomPlayerImg(player,0,80,10);
 }
 function myResize() {
   var cw = document.documentElement.clientWidth;
@@ -255,11 +265,22 @@ function myResize() {
   var th = Math.floor(ch * gameUI.mainAreaHeightPercent / 100);
   var th0= Math.floor(tw / r0);
   //console.log(`tw:${tw} th:${th} dh:${dh} ooh:${th0}`);
-  document.getElementById('tabla').style.height = dh + 'px';
-  if (th > th0) {
-	  document.getElementById('tabla').style.height = th0 + 'px';
+
+  if (ch <= cw) {
+    if (gameData.players.length >= 1) {
+      document.getElementById('tabla').style.height = dh + 'px';
+      if (th > th0) {
+        document.getElementById('tabla').style.height = th0 + 'px';
+      }
+      document.getElementById('mytext').innerHTML=gameDesc.steps[players[gameData.players[gameData.aktiv]].step].text;
+    } else {
+      setStyle('tabla','height','50vmin');
+      document.getElementById('mytext').innerHTML=gameDesc.start_message;
+    }
+  } else {
+    setStyle('tabla','height','50vmin');
+    document.getElementById('mytext').innerHTML="<p style=\"font-size:15vmin;text-align:center;\">Döntsd<br> el a<br>telefonod!</p>";
   }
-  
   var tt = document.getElementById('tabla');
   for (var i=0;i<gameData.players.length;i++) {
     var elem = document.getElementById(`p${gameData.players[i]}`);
@@ -268,9 +289,12 @@ function myResize() {
     moveImg(elem, tt.offsetLeft + x, tt.offsetTop + y);
   }
 }
+function setStyle(elem,styleitem,value) {
+  document.getElementById(elem).style.setProperty(styleitem,value)
+}
 </script>
 </head>
-<body onload="start();" onresize=myResize();"">
+<body onload="start();" onresize="myResize();">
 <audio id="myaudio" src="audio/movin-crusin-cover2.mp3" autoplay loop> </audio>
 <table style="width:100%;height:100%;">
   <tr style="height:25%;">
@@ -280,12 +304,12 @@ function myResize() {
 	</td>
     <td id="td_tabla" rowspan="3" style="width:60%;padding:0;text-align:center;vertical-align:top;">
      <div id="div_tabla" style="position:relative;xxobject-fit:contain;max-height:80%;max-width:100%;">
-      <img id="tabla" src="kincsaminincs-terkep1000b.jpg" style="max-width:60vw;max-height:85vh;" xstyle="object-fit:contain;max-height:100%;max-width:100%;">
+      <img id="tabla" src="kincsaminincs-terkep1000b.jpg" style="max-width:60vw;max-height:80vh;" xstyle="object-fit:contain;max-height:100%;max-width:100%;">
       <img id="p0" class="mozgo icon" src="data:," style="display:none;top:0px;left:0px;">
       <img id="p1" class="mozgo icon" src="data:," style="display:none;">
       <img id="p2" class="mozgo icon" src="data:," style="display:none;">
       <img id="p3" class="mozgo icon" src="data:," style="display:none;">
-      <p id="mytext" class="medium" style="text-align:left;"></p>
+      <p id="mytext" class="medium" style="text-align:left;font-stretch:semi-condensed;"></p>
      </div>
     </td>
     <td style="width:20%;text-align:center;">
@@ -293,15 +317,14 @@ function myResize() {
 	</td>
   </tr>
   <tr style="height:50%;">
-    <td style="border:1px solid black">
+    <td>
 	  <button id="kocka" onclick="kockadobas();" disabled=true style="max-width:90%;max-height:95%;filter:invert(25%);">
         <img src="dice.png" style="max-height:35vmin;max-width:90%;">
-	    <p>Csak a Puffin ad neked er&#337;t &eacute;s mindent leb&iacute;r&oacute; akaratot!</p>
 	  </button>
     </td>
     <td><p id="cur_player" class="big"></p>
 	  <img id="cp" class="icon" src="data:," style="display:none;">
-	  <p id="dobas" class="xl"></p>
+	  <p id="dobas" class="xl" style="width:50%;border:3px solid red;border-radius:30%;"> </p>
 	  <br>
 	  <p id="p0_status" style="width:75%">-</p>
 	  <p id="p1_status" style="width:75%">-</p>
