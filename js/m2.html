@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+<!-- SCRIPT ----- ----- ----- ----- ----- ----- ----- ----- ----- -->
+<style>
+button, textarea { border-width:5px; }
+</style>
+<script>
+function f1() {
+  setStyle("gomb","border-color",'red')
+  setStyle("in","border-color",'blue')
+  setStyle("out","border-color",'green')
+
+  var l2 = read_numbers()
+  write('osszeg: ' + (l2[0] + l2[1]))
+}
+
+function f2() {
+  // sor
+  var sor = read_line()
+  write(sor)
+
+  // szavak
+  write('-- l1 -----')
+  var l1 = read_list()
+  write(JSON.stringify(l1))
+  var s1 = 0;
+  for (var i = 0; i < l1.length; i+=1) {
+      s1 += l1[i]
+  }
+  write("s1=" + s1) 
+
+  // szamok
+  write('-- l2 -----')
+  var l2 = read_numbers()
+  write(JSON.stringify(l2))
+  var s2 = 0;
+  for (var i = 0; i < l2.length; i+=1) {
+    s2 += l2[i]
+  }
+  write("s2=" + s2) 
+}
+</script>
+</head>
+
+<!-- BODY ----- ----- ----- ----- ----- ----- ----- ----- ----- -->
+<body>
+    <button id="gomb" onclick="f1()">NYOMD MEG</button>
+    <hr>
+    <textarea id="in" rows="1" cols="80" style="resize:none">1, 2, 3, 5, 10, 12, 23, 34, 45, 56, 67, 78, 89</textarea>
+    <br>
+    <textarea id="out" rows="25"></textarea>
+
+<!-- SCRIPT ----- ----- ----- ----- ----- ----- ----- ----- ----- -->
+<script>
+    function write(text) {
+        document.getElementById("out").textContent += text + '\n'
+    }
+    function clear(text) {
+        document.getElementById("out").textContent = ''
+    }
+    function setStyle(elem,styleitem,value) {
+        document.getElementById(elem).style.setProperty(styleitem,value)
+    }
+    function read_line() {
+        return document.getElementById("in").value
+    }
+    function read_list() {
+        return document.getElementById("in").value.split(/[ ,]+/)
+    }
+    function read_numbers() {
+        let l = document.getElementById("in").value.split(/[ ,]+/)
+        l.forEach((e,i,a) => {a[i] = parseInt(e)})
+        return l
+    }
+    function read_floats() {
+        let l = document.getElementById("in").value.split(/[ ,]+/)
+        l.forEach((e,i,a) => {a[i] = parseFloat(e)})
+        return l
+    }
+</script>
+</body>
+<html>
