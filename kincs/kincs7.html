@@ -247,10 +247,11 @@ function do_join(player) {
   players[player].step = 0;
   if (gameData.players.length == 1) {
     document.getElementById('mytext').innerHTML="";
-    myResize();
     document.getElementById('tabla').src = gameDesc.tabla;
+    setStyle('tabla','height','90vh');
     document.getElementById('b'+player).style.filter = 'invert(0%)';
     kerem_a_kovetkezot();
+    myResize();
   }
   moveAndZoomPlayerImg(player,0,80,10);
 }
