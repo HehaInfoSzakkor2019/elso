@@ -1,11 +1,16 @@
-Javascript példafeladatok
-
-# Első lépések
+# Javascript programozás, első lépések
+## értékek, változók
   * https://hehainfoszakkor2019.github.io/elso/js/masodik.html
     * print hello
-    * számok 1..10
+    * számok kiírása 1..10
+    * összeg, különbség, szorzat, hányados
+    * osztható 3-al
+    * fizz-buzz
+    * párosak száma
+    * hárommal oszthatók összege
     * https://hehainfoszakkor2019.github.io/elso/js/m1.html
     * https://hehainfoszakkor2019.github.io/elso/js/m2.html
+## listák
   * https://hehainfoszakkor2019.github.io/elso/js/harmadik.html
     * összeg, szorzat
     * osztható 3-al
