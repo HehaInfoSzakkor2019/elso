@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<script>
+// -- script ------------------------------------------------------
+
+function f1() {
+  var nevem = "Kirúg Hümér";
+  write("Hello " + nevem + "!")
+  for (var i=1; i<=10; i+=1) {
+    write(i + ". páros szám: " + i*2)
+  }
+}
+
+// -- SCRIPT vege -------------------------------------------------
+</script>
+  </head>
+
+<!-- BODY ----- ----- ----- ----- ----- ----- ----- ----- ----- -->
+  <body>
+    <button onclick="f1()">NYOMD MEG</button>
+    <hr>
+    <textarea id="text" rows="25"></textarea>
+
+
+<script>
+    // -- script eljarasok -----------------------------------------
+    function write(text) {
+        document.getElementById("text").textContent += text + '\n'
+    }
+    function clear(text) {
+        document.getElementById("text").textContent = ''
+    }
+    function setStyle(elem,styleitem,value) {
+        document.getElementById(elem).style.setProperty(styleitem,value)
+    }
+</script>
+  </body>
+<html>
