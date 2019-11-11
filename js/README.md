@@ -2,10 +2,18 @@
 ## értékek, változók
   * https://hehainfoszakkor2019.github.io/elso/js/masodik.html
     * print hello
+    * print "hello Nevem!"
     * számok kiírása 1..10
-    * összeg, különbség, szorzat, hányados
-    * osztható 3-al
+      * páros számok kírása
+      * 3-mal osztható számok kiírása
+      * négyzetszámok kiírása (x^2)
+```
+a=1 5a^3=5
+a=2 5a^3=40
+```
+      * https://hehainfoszakkor2019.github.io/elso/js/gyakorlas1.html
     * fizz-buzz
+      * írjuk ki a számokat 30-id, de 2-vel osztható számok 'fizz', míg a 3-mal osztható helyére 'buzz'. Ami 2-vel és 3-mal is osztható, arra meg 'fizzbuzz'
     * párosak száma
     * hárommal oszthatók összege
     * https://hehainfoszakkor2019.github.io/elso/js/m1.html
