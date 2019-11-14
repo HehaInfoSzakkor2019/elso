@@ -125,11 +125,11 @@ function start() {
   }
   document.getElementById('mytext').innerHTML=gameDesc.start_message;
   document.getElementById('kocka').onclick = function() { kockadobas(); };
-  //setTimeout(debugStartup, tickMs*2);
+  setTimeout(debugStartup, tickMs*2);
 }
 function debugStartup() {
   do_join(0);  //do_join(1);
-  players[0].step = 44;
+  players[0].step = 47;
   movePlayerImg(0, players[0].step)
   kerem_a_kovetkezot();
 }
@@ -162,9 +162,9 @@ function moveAndZoomPlayerImg(player, pos, s0, s1) {
   document.getElementById(`p${player}_status`).innerHTML = `${players[player].name}: ${players[player].step}`;
   var N = tickPerFrame;
   var ms = Math.floor(frameMs / (tickPerFrame+1));
-  console.log(`moveTo ${pos} x.${gameDesc.steps[pos].x} y.${gameDesc.steps[pos].y} x0:${x0} y0:${y0}`);
+  //console.log(`moveTo ${pos} x.${gameDesc.steps[pos].x} y.${gameDesc.steps[pos].y} x0:${x0} y0:${y0}`);
   for (var i=1; i <= N; i++) {
-    console.log(`i ${pos} ${i}/${N} y0:${y0} y1:${y}  x${Math.floor((i*x + (N-i)*x0)/N)} y${Math.floor((i*y + (N-i)*y0)/N)}`);
+    //console.log(`i ${pos} ${i}/${N} y0:${y0} y1:${y}  x${Math.floor((i*x + (N-i)*x0)/N)} y${Math.floor((i*y + (N-i)*y0)/N)}`);
     setTimeout(moveScaleImg, i*ms, elem
     , tt.offsetLeft + Math.floor((i*x + (N-i)*x0)/N)
     , tt.offsetTop + Math.floor((i*y + (N-i)*y0)/N)
@@ -236,15 +236,48 @@ function doHailWinner(player) {
   document.getElementById('p0').src = gameDesc.plane;
   document.getElementById('p0').style.display = "inline";
 
-  setTimeout( function() { moveAndZoomPlayerImg(0, 1, 10, 100) }, 0 )
-  setTimeout( function() { moveAndZoomPlayerImg(0, 13, 100, 20) }, 2*frameMs )
-  setTimeout( function() { 
-      document.getElementById('p0').style.display = "none";
-      document.getElementById('tabla').src = gameDesc.tabla_end;
-    	document.getElementById('kocka').onclick = function() { start();};
-      document.getElementById('kocka').disabled=false;
-      document.getElementById('kocka').style.filter = 'invert(0)';
-    }, 4*frameMs )
+  var tt = document.getElementById('tabla');
+  var dh = document.getElementById('tabla').offsetHeight;
+  var dw = document.getElementById('div_tabla').offsetWidth;
+  var tickCnt = 0
+  var tickMax = 260
+  var tid;
+  var N=100
+  let x0 = document.getElementById('p0').offsetLeft;
+  let y0 = dh/5;
+  
+  var tid = setInterval(circleAround, 10);
+  function circleAround() {
+    if (tickCnt >= tickMax) {
+      clearInterval(tid);
+      tickCnt=0
+      tid = setInterval(flyAway, 10)
+    } else {
+      tickCnt+=1
+      moveScaleImg(document.getElementById('p0'),
+      tt.offsetLeft + Math.floor(dh/3) + Math.cos(tickCnt/25)*Math.floor(dh/4),
+      Math.floor(dh/3) + Math.sin(tickCnt/25)*Math.floor(dh/4),
+      Math.floor(10 + tickCnt*90/tickMax)
+      )
+    }
+  }
+  function flyAway() {
+    if (tickCnt >= N) {
+      clearInterval(tid);
+      theEnd();
+    } else {
+      moveScaleImg( document.getElementById('p0'), Math.floor((tickCnt*dw + (N-tickCnt)*x0)/N), Math.floor(((N-tickCnt)*y0)/N), N-tickCnt);
+      tickCnt+=1
+    }
+  }
+  
+  function theEnd() { 
+    document.getElementById('p0').style.display = "none";
+    document.getElementById('tabla').src = gameDesc.tabla_end;
+    document.getElementById('kocka').onclick = function() { start();};
+    document.getElementById('kocka').disabled=false;
+    document.getElementById('kocka').style.filter = 'invert(0)';
+  }
 }
 function kockadobas() {
   document.getElementById('kocka').disabled=true;
