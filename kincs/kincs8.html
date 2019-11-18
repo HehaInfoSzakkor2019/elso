@@ -24,6 +24,8 @@ img.med { z-index: 2; }
 button { background-color: Transparent; border-radius:25%; }
 </style>
 <script>
+var isDebug = false;  // set this for debug/troubleshooting, jump to start debugStartup
+var x=0;var y=0;
 var _version = '0.1.1';
 var debugAutoMove = false;//true;
 var tickCnt = 0;
@@ -42,34 +44,34 @@ var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"c
           , tabla:"kincsaminincs-terkep1000c.jpg", tabla0:"kincsaminincs-terkep800.jpg", tabla_end:"ending.jpg"
           , plane:"plane.png"
           , steps:[ {x:-20, y:40, id:"kezd", text:"-"}
-			, {x:3, y:0, id:"Brady háza", text:"<i>Hello Éhenkórász! Nos mesélj, hova tüntetted el a pénzünket?<br>Hogy mit?</i>"}
+			      , {x:5, y:0, id:"Brady háza", text:"<i>Hello Éhenkórász! Nos mesélj, hova tüntetted el a pénzünket?<br>Hogy mit?</i>"}
             , {x:0, y:20, id:"Brady háza", text:"<i>Hé, nem vagy te süket, a 15000 dollárt.<br>De hiszen már megmondtam!</i>"
-			  , move:-1 }
-            , {x:0, y:37, id:"Brady háza", text:"<i>Hát mit is mondtál már meg nekünk?<br>Befektettük. Méghozzá nektek fektettem be, bomba üzlet!</i>"
-			  , move:-2 }
-			, {x:0, y:55, id:"Brady háza", text:"<i>Tiétek a bácsikám térképe, a kincsről... csak követni kell az utasításokat.<br>Éppen azért vagyunk itt, hogy eleget tegyünk bizonyos utasításoknak, de azokat Frisco adta.</i>"
-			  , move:-3 }
-			, {x:0, y:75, id:"Brady háza", text:"Brady: <i>Halgass ide kisfiam, jobb lesz ha most eltűnsz innen. Fogd, ez a Tiéd.<br>Kösz, de már reggeliztem.<br>Neeem, a térkép. Benne van a térkép!</i>"}
-            , {x:0, y:90, id:"Brady háza", text:"<i>Hű, rengeteg víz van körülötte. Hajót kell szereznem!</i>"
-			  , move:4 }
-            , {x:15, y:99, id:"Kikötő", text:"<i>Biztos benne Mr O'Brien, hogy ki fogja állni a próbált?<br> Csak a puffin ad neked erőt és mindent lebíró akaratot.</i>"}
-			, {x:30, y:99, id:"Kikötő", text:"<i>Talán Pakito is rajong a Puffin lekvárért?<br> Én csak a papagáj csajokat szeretem!</i>"}
-			, {x:40, y:99, id:"Tenger", text:"<i>Csak a puffin adhat erőt, mi?<br> Dögvész pusztít majd a cápák között.</i>"} //10
-/*10*/		, {x:65, y:99, id:"Tenger", text:"<i>Itt a Parti állomás, Charlie van valami újság?<br>Semmi különös, csak ... a hegyekben szomjas vagyok a tengeren meg éhes.</i>"}
-			, {x:80, y:99, id:"Tenger", text:"<i>Hová lett? Hová lett a babom??<br> Ki tudja? Pakito ártatlan.</i>"}
-			, {x:90, y:99, id:"Tenger", text:"<i>Igyekezz a hajóra, ha nem akarsz egy cápa legszebb emléke lenni.<br> Micsoda szörnyeteg, mint Ön parancsnok.</i>"
-			  , move:4 }
-			, {x:99, y:88, id:"Tenger", text:"<i>Kit látnak szememim, a láthatatlan ember.<br> Neeem, valójában Alannak hívnak, örvendek a ...</i>"
-			  , move:-3 }
-			, {x:99, y:72, id:"Tenger", text:"<i>A rádió nem müködik és itt van egy sziget, aminek nem kellene itt lennie.<br> Lehet, hogy nemrég rakták ide.</i>"}
-			, {x:88, y:60, id:"Tenger", text:"<i>Add ide a távcsövet. Na add már.</i><br>(Alan) <i> Itt van dobom, kapja el. Jelentem a távcső a tengerben.</i>"
-			  , move:-1 }
-			, {x:86, y:76, id:"Tenger", text:"<i>Pakito ékes! Pakito éhes!</i>"}
-			, {x:70, y:80, id:"Tenger", text:"<i>Vagy az iránytű kergült meg, vagy én hibbantam meg.<br> Hát persze, ha takarékperselynek használja.</i>"
-			  , move:-8 }
-			, {x:55, y:85, id:"Tenger", text:"(Charlie) <i>aa</i><br>(Alan) <i>Ússzunk ki...</i>"}
-			, {x:45, y:78, id:"Pongo Pongo", text:"<i>Charlie! Parancsnok! Én egy vallomással tartozom önnek...<br>Ha hiszi, ha nem, ez a sziget teljesen lakatlan és egyetlen térképen sincs jelezve.</i>"}
-/*20*/		, {x:45, y:65, id:"Pongo Pongo", text:"(<i>Egyelőre nem öllek meg, de én jobbra megyek, te meg balra! Megértetted?<br> Meg, Parancsnok!</i>"}
+			        , move:-1 }
+            , {x:10, y:30, id:"Brady háza", text:"<i>Hát mit is mondtál már meg nekünk?<br>Befektettük. Méghozzá nektek fektettem be, bomba üzlet!</i>"
+      			  , move:-2 }
+			      , {x:0, y:40, id:"Brady háza", text:"<i>Tiétek a bácsikám térképe, a kincsről... csak követni kell az utasításokat.<br>Éppen azért vagyunk itt, hogy eleget tegyünk bizonyos utasításoknak, de azokat Frisco adta.</i>"
+			        , move:-3 }
+			      , {x:7, y:52, id:"Brady háza", text:"Brady: <i>Halgass ide kisfiam, jobb lesz ha most eltűnsz innen. Fogd, ez a Tiéd.<br>Kösz, de már reggeliztem.<br>Neeem, a térkép. Benne van a térkép!</i>"}
+            , {x:0, y:65, id:"Brady háza", text:"<i>Hű, rengeteg víz van körülötte. Hajót kell szereznem!</i>"
+      			  , move:4 }
+            , {x:7, y:77, id:"Kikötő", text:"<i>Biztos benne Mr O'Brien, hogy ki fogja állni a próbált?<br> Csak a puffin ad neked erőt és mindent lebíró akaratot.</i>"}
+            , {x:8, y:90, id:"Kikötő", text:"<i>Talán Pakito is rajong a Puffin lekvárért?<br> Én csak a papagáj csajokat szeretem!</i>"}
+            , {x:22, y:100, id:"Tenger", text:"<i>Csak a puffin adhat erőt, mi?<br> Dögvész pusztít majd a cápák között.</i>"} //10
+/*10*/		  , {x:35, y:100, id:"Tenger", text:"<i>Itt a Parti állomás, Charlie van valami újság?<br>Semmi különös, csak ... a hegyekben szomjas vagyok a tengeren meg éhes.</i>"}
+            , {x:47, y:100, id:"Tenger", text:"<i>Hová lett? Hová lett a babom??<br> Ki tudja? Pakito ártatlan.</i>"}
+            , {x:60, y:100, id:"Tenger", text:"<i>Igyekezz a hajóra, ha nem akarsz egy cápa legszebb emléke lenni.<br> Micsoda szörnyeteg, mint Ön parancsnok.</i>"
+              , move:4 }
+            , {x:72, y:100, id:"Tenger", text:"<i>Kit látnak szememim, a láthatatlan ember.<br> Neeem, valójában Alannak hívnak, örvendek a ...</i>"
+              , move:-3 }
+            , {x:85, y:100, id:"Tenger", text:"<i>A rádió nem müködik és itt van egy sziget, aminek nem kellene itt lennie.<br> Lehet, hogy nemrég rakták ide.</i>"}
+            , {x:97, y:100, id:"Tenger", text:"<i>Add ide a távcsövet. Na add már.</i><br>(Alan) <i> Itt van dobom, kapja el. Jelentem a távcső a tengerben.</i>"
+              , move:-1 }
+            , {x:100, y:87, id:"Tenger", text:"<i>Pakito ékes! Pakito éhes!</i>"}
+            , {x:87, y:85, id:"Tenger", text:"<i>Vagy az iránytű kergült meg, vagy én hibbantam meg.<br> Hát persze, ha takarékperselynek használja.</i>"
+              , move:-8 }
+            , {x:75, y:80, id:"Tenger", text:"(Charlie) <i>aa</i><br>(Alan) <i>Ússzunk ki...</i>"}
+            , {x:62, y:78, id:"Pongo Pongo", text:"<i>Charlie! Parancsnok! Én egy vallomással tartozom önnek...<br>Ha hiszi, ha nem, ez a sziget teljesen lakatlan és egyetlen térképen sincs jelezve.</i>"}
+/*20*/, {x:50, y:78, id:"Pongo Pongo", text:"(<i>Egyelőre nem öllek meg, de én jobbra megyek, te meg balra! Megértetted?<br> Meg, Parancsnok!</i>"}
 			, {x:40, y:55, id:"Pongo Pongo", text:"<i>Ha egyedül vagyunk, ki akarna golyót röpíteni belém, talán a nénikéd?<br> Nem valószínű. Az én nénikém egy ilyet, mint te, még csak le se lőne.</i>"}
 			, {x:38, y:48, id:"Pongo Pongo", text:"<i>Ejha, sok ellenséged lehet ezen a szigeten.<br> Nekem csak egy van, te.</i>"}
 			, {x:30, y:40, id:"Pongo Pongo", text:"<i>Tudod a térkép szerint a kincs egy katonai erődben van elrejtve.<br>Nem, ez egy raktár, mégpedig az ameriaki hadseregé.</i>"}
@@ -125,7 +127,7 @@ function start() {
   }
   document.getElementById('mytext').innerHTML=gameDesc.start_message;
   document.getElementById('kocka').onclick = function() { kockadobas(); };
-  //setTimeout(debugStartup, tickMs*2);
+  if (isDebug) { setTimeout(debugStartup, tickMs*2); }
 }
 function debugStartup() {
   do_join(0);  //do_join(1);
@@ -382,7 +384,11 @@ function setStyle(elem,styleitem,value) {
 	  <p id="p0_status" style="width:75%">Charlie: -</p>
 	  <p id="p1_status" style="width:75%">Alan: -</p>
 	  <p id="p2_status" style="width:75%">-</p>
-	  <p id="p3_status" style="width:75%">-</p>
+    <p id="p3_status" style="width:75%">-</p>
+    <button onclick="gameDesc.steps[0].y-=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">fel</button><br>
+    <button onclick="gameDesc.steps[0].x-=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">bal</button>
+    <button onclick="gameDesc.steps[0].x+=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">jobb</button><br>
+    <button onclick="gameDesc.steps[0].y+=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">le</button>
     </td>
   </tr>
   <tr style="height:25%;">
