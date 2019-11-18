@@ -6,17 +6,17 @@
 // -- script ------------------------------------------------------
 
 function f1() {
-  var nevem = "Kirúg Hümér";
-  write("Hello " + nevem + "!")
+  var nevem = "Kukorica János";
+  write("Hello " + nevem + "!<br>")
   for (var i=1; i<=20; i+=1) {
-    if (i%6 == 0) {
+    if (i%10 == 0) {
       write('fizzbuzz')
-    } else if (i%3 == 0) {
-      write('buzz')
     } else if (i%2 == 0) {
       write('fizz')
+    } else if (i%3 == 0) {
+      write('buzz')
     } else {
-      write('a=' + i + " 5*a<sup>3</sup>=" + 5*i*i*i )
+      write('a=' + i + ' 5*a<sup>3</sup>=' + 5*i*i*i)
     }
   }
 }
@@ -29,7 +29,7 @@ function f1() {
   <body>
     <button onclick="f1()">NYOMD MEG</button>
     <hr>
-    <p id="text" rows="25" style="border:1px solid blue"></p>
+    <p id="text" style="border:1px solid black"></p>
 
 
 <script>
