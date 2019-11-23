@@ -16,15 +16,6 @@ turtle.screensize(800,600)
                 
 turtle.bgcolor("grey")
 
-kijelzo = turtle.Turtle()
-kijelzo.penup()
-kijelzo.goto(-turtle.getcanvas().canvwidth/2,-270)
-kijelzo.pendown()
-kijelzo.goto(turtle.getcanvas().canvwidth/2,-270)
-kijelzo.penup()
-kijelzo.goto(-turtle.getcanvas().canvwidth/2,-270)
-kijelzo.write("Holdraszállás")
-
 def leszallas():
     urhajo = turtle.Turtle()
     urhajo.hideturtle()
@@ -91,8 +82,6 @@ def leszallas():
         urhajo_y += v_y * dt
         
         urhajo.goto(urhajo_x, urhajo_y)
-        kijelzo.undo()
-        kijelzo.write("  v:"+str(round(v_y,2))+" x:"+str(urhajo_x)+" y:"+str(int(urhajo_y))+" a:"+str(round(a/dt,3)), False) 
         print("  v:"+str(round(v_y,2))+" x:"+str(round(urhajo_x,2))+" y:"+str(int(urhajo_y))+" a:"+str(round(a,3))) 
         
         t += dt         # ha a mp felbontás túl gyors, akkor legyen 10x lassított felvétel

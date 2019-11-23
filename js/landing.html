@@ -7,65 +7,94 @@
 canvas {
     border:1px solid #d3d3d3;
     position:absolute;
-    left:0px;
-    top:0px;
+    width:800px;
+    xleft:0px;
+    xtop:0px;
 }
+button { margin:2px;padding:2px;border:2px solid blue}
+output { margin:2px;padding:2px;border:1px dashehd brown}
 </style>
 
 <script>
 var time = { tick:0, frame:0,
-             tickMs:500, tickPerFrame:1 ,
+             tickMs:10, tickPerFrame:1, msPerTick:100,
              loop:0
            }
+var planet = { height:600, width:800, 
+               g:3.711,     // gravitációs állandó. A Földön: 9.807 m/s², a Holdon: 1.622 m/s², a Marson: 3.711 m/s², A Jupiteren: 24.79 m/s². Tapasztalati érték, játssz vele!
+               base_y:100
+             } 
 var lander = { x:50,
-               y:50,
-               engineUp:false
+               y:50,            // függőleges helyzet
+               vx:0,            // oldal, sofródás sebesség
+               vy:0,            // zuhanó sebesség
+               ay:0,            // zuhanás-gyorsulás
+               str:8,           // leszálló rakéta tolóereje
+               height:11,
+               engineOn:false
              }
 function start() {
-    drawLander()
-    document.addEventListener("keydown",handleKeyDown, false);	
-    document.addEventListener("keyup",handleKeyUp, false);	
-    time.loop = setInterval(gameLoop,time.tickMs)
+    lander.x = Math.floor(Math.random()*100)
+    lander.y = 500 + Math.floor(Math.random()*100)
+    lander.ay = 0
+    lander.vy = 0
+    lander.height = document.getElementById("urhajo").offsetHeight
+    if (time.loop == 0) {
+        document.addEventListener("keydown",handleKeyDown, false);	
+        document.addEventListener("keyup",handleKeyUp, false);	
+        time.loop = setInterval(gameLoop,time.tickMs)
+    } else {
+        //clearInterval(time.loop)
+        console.log("restart")
+    }
 }
 
 function gameLoop() {
-  console.log(`tick:${time.tick}: y:${lander.y},lander:${lander.engineUp}`)
-  if (lander.engineUp) {
-      lander.y += 1
-      document.getElementById("myCanvas2").style.top=`${lander.y}px`
-  }
+    lander.ay = -planet.g
+    lander.vy += lander.ay * (time.msPerTick/1000)
+    lander.y += lander.vy * (time.msPerTick/1000)
+    log(`tick:${time.tick}: ay:${lander.ay}, vy:${lander.vy.toFixed(2)}, y:${lander.y.toFixed(2)}, lander:${lander.engineOn}`)
+    if (lander.engineUp) {
+        lander.y += 1
+    }
+    mozog(lander.x, lander.y)
+    if (lander.y <= 0) {
+        endGame()
+    }
   //drawLander()
 }
 
+function endGame() {
+    clearInterval(time.loop)
+}
 function handleKeyDown(event) {
-    console.log(`keY: ${event.key}-${event.keyCode}-${event.which}`)
+    log(`keY: ${event.key}-${event.keyCode}-${event.which}`)
 	if (event.key == "W" || event.key=="w" || event.key==" ")
 	{		
         lander.engineUp=true;
 	}
-
 }
 function handleKeyUp(event) {
     lander.engineUp=false;
 }
 
-function drawLander() {
-    var c = document.getElementById("myCanvas2");
-    var ctx = c.getContext("2d");
-    ctx.beginPath();
-    ctx.arc(lander.x, lander.y, 10, 0, 2 * Math.PI);
-    ctx.stroke(); 
+function mozog(x,y) {
+    var elem = document.getElementById("urhajo");
+    elem.style.top = document.getElementById("mycanvas").offsetHeight - lander.y - lander.height + "px";
+    elem.style.left = lander.x + 100;
 }
-
+function log(text) {
+    console.log(text)
+    document.getElementById("status").innerHTML = text
+}
 </script>
 
 </head>
-<body onload="start()">
-    <button onclick="start()">START</button>
-    <hr>
+<body>
+    <button onclick="start()">START</button><output id="status">blabla</output>
     <div style="position:relative">
-        <canvas id="myCanvas1" width="800" height="600" style="z-index:1;border:1px solid #000000;background-color: #f1f1f1;">    </canvas>  
-        <canvas id="myCanvas2" width="200" height="100" style="z-index:2;border:1px solid blue;">    </canvas> 
-    </div>div>
+        <canvas id="mycanvas" width="800px" height="600px" style="z-index:1;border:1px solid #000000;background-color: #f1f1f1;"></canvas>
+        <img id="urhajo" src="raketa-B1.png" style="position:absolute;z-index:2;max-height:10vh">
+    </div>
 </body>
 <html>
