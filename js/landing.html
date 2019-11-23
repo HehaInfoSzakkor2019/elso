@@ -6,15 +6,66 @@
 <style>
 canvas {
     border:1px solid #d3d3d3;
-    background-color: #f1f1f1;
+    position:absolute;
+    left:0px;
+    top:0px;
 }
 </style>
 
 <script>
+var time = { tick:0, frame:0,
+             tickMs:500, tickPerFrame:1 ,
+             loop:0
+           }
+var lander = { x:50,
+               y:50,
+               engineUp:false
+             }
+function start() {
+    drawLander()
+    document.addEventListener("keydown",handleKeyDown, false);	
+    document.addEventListener("keyup",handleKeyUp, false);	
+    time.loop = setInterval(gameLoop,time.tickMs)
+}
+
+function gameLoop() {
+  console.log(`tick:${time.tick}: y:${lander.y},lander:${lander.engineUp}`)
+  if (lander.engineUp) {
+      lander.y += 1
+      document.getElementById("myCanvas2").style.top=`${lander.y}px`
+  }
+  //drawLander()
+}
+
+function handleKeyDown(event) {
+    console.log(`keY: ${event.key}-${event.keyCode}-${event.which}`)
+	if (event.key == "W" || event.key=="w" || event.key==" ")
+	{		
+        lander.engineUp=true;
+	}
+
+}
+function handleKeyUp(event) {
+    lander.engineUp=false;
+}
+
+function drawLander() {
+    var c = document.getElementById("myCanvas2");
+    var ctx = c.getContext("2d");
+    ctx.beginPath();
+    ctx.arc(lander.x, lander.y, 10, 0, 2 * Math.PI);
+    ctx.stroke(); 
+}
 
 </script>
 
 </head>
-<body onload="startGame()">
+<body onload="start()">
+    <button onclick="start()">START</button>
+    <hr>
+    <div style="position:relative">
+        <canvas id="myCanvas1" width="800" height="600" style="z-index:1;border:1px solid #000000;background-color: #f1f1f1;">    </canvas>  
+        <canvas id="myCanvas2" width="200" height="100" style="z-index:2;border:1px solid blue;">    </canvas> 
+    </div>div>
 </body>
 <html>
