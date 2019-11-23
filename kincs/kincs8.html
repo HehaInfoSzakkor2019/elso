@@ -25,23 +25,32 @@ button { background-color: Transparent; border-radius:25%; }
 </style>
 <script>
 var isDebug = false;  // set this for debug/troubleshooting, jump to start debugStartup
-var x=0;var y=0;
+//var x=0;var y=0;
 var _version = '0.1.1';
 var debugAutoMove = false;//true;
 var tickCnt = 0;
 var tickPerFrame = 15;
 var frameMs = 500;
 var tickMs = frameMs / tickPerFrame;
-var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"color:blue;text-decoration:blink;\">"
+var gameDesc = { name:"Kincs, ami nincs", dice:4
+            , start_message:"<span style=\"color:blue;text-decoration:blink;\">"
               +"<br>1. Válassz figurákat, akikkel játszani szeretnél."
-              +"<br>2. Kattinta a Puffin Lekvár képére hogy lépjél."
+              +"<br>2. Kattints a a Puffin Lekvár képére hogy lépjél."
               +"<br>3. Légy az első, aki célba ér!"
-              +"<br> Jobbra látod mennyit léphetsz. "
+              +"<hr> Jobbra látod mennyit léphetsz. "
               +"<br> Alatta, hogy ki merre jár."
-              +"<br>&lt;&lt;&lt;- - -  - - - - - - - - - - - - - - - - -&gt;&gt;&gt;"
+              +"<br>&lt;&lt;&lt;- - - - - - - - - - - - - - - - - - - -&gt;&gt;&gt;"
               +"<br>Csak a Puffin ad neked erőt és mindent lebíró akaratot!"
               +"</span>" 
+            , restart_message:"<span style=\"color:blue;text-decoration:blink;\">Kattints a Puffinra az újrakezdéshez</span>"
           , tabla:"kincsaminincs-terkep1000c.jpg", tabla0:"kincsaminincs-terkep800.jpg", tabla_end:"ending.jpg"
+          , figure_scale : 15 // % of table-height, cc 15vh
+          , figures : {
+            'player1' : {name:"Charlie", step:0, kincs:false, imgsrc:"fig1b.png", imgsrc2:"fig1c.png"},
+            'player2' : {name:"Alan", step:0, kincs:false, imgsrc:"fig2b.png", imgsrc2:"fig2c.png" },
+            'player3' : {name:"Frisco", step: 0, kincs:false, imgsrc:"fig4.png", imgsrc2:"fig4c.png" },
+            'player4' : {name:"Kalóz", step: 0, kincs:false, imgsrc:"fig5.png", imgsrc2:"fig5c.png" }
+          }
           , plane:"plane.png"
           , steps:[ {x:-20, y:40, id:"kezd", text:"-"}
 			      , {x:5, y:0, id:"Brady háza", text:"<i>Hello Éhenkórász! Nos mesélj, hova tüntetted el a pénzünket?<br>Hogy mit?</i>"}
@@ -75,7 +84,7 @@ var gameDesc = { name:"Kincs, ami nincs", dice:4, start_message:"<span style=\"c
 			, {x:40, y:55, id:"Pongo Pongo", text:"<i>Ha egyedül vagyunk, ki akarna golyót röpíteni belém, talán a nénikéd?<br> Nem valószínű. Az én nénikém egy ilyet, mint te, még csak le se lőne.</i>"}
 			, {x:38, y:48, id:"Pongo Pongo", text:"<i>Ejha, sok ellenséged lehet ezen a szigeten.<br> Nekem csak egy van, te.</i>"}
 			, {x:30, y:40, id:"Pongo Pongo", text:"<i>Tudod a térkép szerint a kincs egy katonai erődben van elrejtve.<br>Nem, ez egy raktár, mégpedig az ameriaki hadseregé.</i>"}
-			, {x:25, y:30, id:"Pongo Pongo", text:"<i>Hét, ez ehetőnek tűnik. Az van ráírva: csak puffin ad nekem erőt...<br>Dobod el! Látni sem akarom!</i>"}
+			, {x:22, y:33, id:"Pongo Pongo", text:"<i>Hét, ez ehetőnek tűnik. Az van ráírva: csak puffin ad nekem erőt...<br>Dobod el! Látni sem akarom!</i>"}
 			, {x:40, y:25, id:"Pongo Pongo", text:"<i>Jobb lesz ha vele megyünk.<br>Jössz Anulu fogoly. Mamanak fogolyot kettő!</i>"}
 			, {x:45, y:38, id:"Pongo Pongo", text:"(Mama) <i>Szívesen látunk titeket, szép fehéreket,<br>én is és a leánykáim.</i>"}
 			, {x:50, y:45, id:"Pongo Pongo", text:"<i>Nem hallott egy titkos kincsről, ami ezen a szigeten van?<br>Négy nagy kincsünk van, a napfény a tenger, az öröm és a szerelem.</i>"}
@@ -164,24 +173,20 @@ function moveAndZoomPlayerImg(player, pos, s0, s1) {
   document.getElementById(`p${player}_status`).innerHTML = `${players[player].name}: ${players[player].step}`;
   var N = tickPerFrame;
   var ms = Math.floor(frameMs / (tickPerFrame+1));
-  //console.log(`moveTo ${pos} x.${gameDesc.steps[pos].x} y.${gameDesc.steps[pos].y} x0:${x0} y0:${y0}`);
   for (var i=1; i <= N; i++) {
-    //console.log(`i ${pos} ${i}/${N} y0:${y0} y1:${y}  x${Math.floor((i*x + (N-i)*x0)/N)} y${Math.floor((i*y + (N-i)*y0)/N)}`);
-    setTimeout(moveScaleImg, i*ms, elem
+    setTimeout(moveImg, i*ms, elem
     , tt.offsetLeft + Math.floor((i*x + (N-i)*x0)/N)
     , tt.offsetTop + Math.floor((i*y + (N-i)*y0)/N)
     , Math.floor((i*s1 + (N-i)*s0)/N) );
   }
 }
-function moveImg(elem, x, y, s=0) {
-  elem.style.left = x + 'px';
-  elem.style.top = y + 'px';
-}
-function moveScaleImg(elem, x, y, s) {
-  elem.style.left = x + 'px';
-  elem.style.top = y + 'px';
-  elem.style.height = s + 'vmin';
-  elem.style.width = s + 'vmin';
+function moveImg(elem, x_px, y_px, s_vmin=0) {
+  elem.style.left = x_px + 'px';
+  elem.style.top = y_px + 'px';
+  if (s_vmin != 0) {
+    elem.style.height = s_vmin + 'vmin';
+    elem.style.width = s_vmin + 'vmin';
+  }
 }
 function stepPlayer(player,cnt=1) {
   document.getElementById('dobas').innerHTML = cnt;
@@ -209,18 +214,18 @@ function stepPlayer(player,cnt=1) {
 }
 function kerem_a_kovetkezot() {
   if (gameData.players.length > 0) {
-    document.getElementById('b'+gameData.players[gameData.aktiv]).style.border="none";
-    document.getElementById(`p${gameData.players[gameData.aktiv]}_status`).style.border="none";
     document.getElementById(`p${gameData.players[gameData.aktiv]}`).classList.remove("top");
     document.getElementById(`p${gameData.players[gameData.aktiv]}`).classList.add("med");
+    document.getElementById(`p${gameData.players[gameData.aktiv]}_status`).style.border="none";
+    document.getElementById('b'+gameData.players[gameData.aktiv]).style.border="none";
     gameData.aktiv = (gameData.aktiv + 1) % gameData.players.length;    
     var p = players[gameData.players[gameData.aktiv]];
     //document.getElementById('cp').src=p.imgsrc;
     document.getElementById('cur_player').innerHTML = p.name;
     document.getElementById(`p${gameData.players[gameData.aktiv]}`).classList.remove("med");
     document.getElementById(`p${gameData.players[gameData.aktiv]}`).classList.add("top");
-    document.getElementById('b'+gameData.players[gameData.aktiv]).style.border="3px solid red";
     document.getElementById(`p${gameData.players[gameData.aktiv]}_status`).style.border="1px solid red";
+    document.getElementById('b'+gameData.players[gameData.aktiv]).style.border="3px solid red";
     document.getElementById('kocka').disabled=false;
     document.getElementById('kocka').style.filter = 'invert(0)';
 	  if (debugAutoMove == true) {
@@ -277,7 +282,7 @@ function doHailWinner(player) {
     document.getElementById('p0').style.display = "none";
     document.getElementById('tabla').src = gameDesc.tabla_end;
     document.getElementById('kocka').onclick = function() { start();};
-    document.getElementById('kocka').disabled=false;
+    document.getElementById('kocka').disabled = false;
     document.getElementById('kocka').style.filter = 'invert(0)';
   }
 }
@@ -297,7 +302,6 @@ function do_join(player) {
   document.getElementById('p'+player).style.display="inline";
   document.getElementById('p'+player).style.left="0px";
   document.getElementById('p'+player).style.top="0px";
-  //console.log('players ' + JSON.stringify(gameData.players) );
   players[player].step = 0;
   if (gameData.players.length == 1) {
     document.getElementById('mytext').innerHTML="";
@@ -385,10 +389,12 @@ function setStyle(elem,styleitem,value) {
 	  <p id="p1_status" style="width:75%">Alan: -</p>
 	  <p id="p2_status" style="width:75%">-</p>
     <p id="p3_status" style="width:75%">-</p>
+    <!-- uncomment for development/debug to locate figure positions
     <button onclick="gameDesc.steps[0].y-=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">fel</button><br>
     <button onclick="gameDesc.steps[0].x-=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">bal</button>
     <button onclick="gameDesc.steps[0].x+=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">jobb</button><br>
     <button onclick="gameDesc.steps[0].y+=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">le</button>
+    -->
     </td>
   </tr>
   <tr style="height:25%;">
