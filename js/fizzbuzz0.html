@@ -1,0 +1,44 @@
+<!DOCTE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<script>
+// -- script ------------------------------------------------------
+//fizzbuzz.html
+function f1() {
+  var nevem = "Kukorica János";
+  write("Hello " + nevem + "!<br>")
+
+
+  for (var i=1; i<=20; i+=1) {
+      var a = i
+      write('a=' + a + ' 5*a<sup>3</sup>=' + 5*a*a*a)
+
+  }
+}
+
+// -- SCRIPT vege -------------------------------------------------
+</script>
+  </head>
+
+<!-- BODY ----- ----- ----- ----- ---- ----- ----- ----- ----- -->
+  <body>
+    <button onclick="f1()">NYOMD MEG</button>
+    <hr>
+    <p id="text" style="border:1px solid black"></p>
+
+
+<script>
+    // -- script eljarasok -----------------------------------------
+    function write(text) {
+        document.getElementById("text").innerHTML += text + '<br>'
+    }
+    function clear(text) {
+        document.getElementById("text").textContent = ''
+    }
+    function setStyle(elem,styleitem,value) {
+        document.getElementById(elem).style.setProperty(styleitem,value)
+    }
+</script>
+  </body>
+<html>
