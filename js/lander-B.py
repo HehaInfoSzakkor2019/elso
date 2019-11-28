@@ -20,6 +20,8 @@ def leszallas():
     urhajo.penup()
     urhajo.shape("circle")
     urhajo.pen(fillcolor="pink", pencolor="blue")
+    turtle.addshape("")
+    urhajo.shape()
 
     # Az űrhajó mozgását leíró változók
     urhajo_x = random.randint(-400,-300) # random.randint( int(-1* (turtle.window_width() /2)) , int(-3/4*(turtle.window_width() /2)) )
