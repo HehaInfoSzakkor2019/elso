@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Turtle Wax -- Logo-ish Turtle Graphics for HTML5 Canvas</title>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width">
+	<meta name="format-detection" content="false">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+<body>
+
+<canvas id="mycanvas" height="600" width="800">X</canvas>
+
+<style>
+	body { margin: 0; padding: 0; background: #fff; color: #000; font: 15px Helvetica; }
+	p { margin-left: 10px; }
+	a { color: #006; }
+</style>
+
+<!-- including the lib and an rgb to hsv color util function -->
+<script src="pen.js"></script>
+<script src="hsv.js"></script>
+
+<script>
+	var W = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    var H = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+	var p = new Pen("mycanvas");
+
+	console.log(`w2:${W/2} h2:${H/2}`)
+	p.penstyle("blue")
+	p.jump(W/2, H/2)
+	p.go(50)
+	p.right(50)
+	p.go(50)
+	p.draw()
+	//p.jump(W/3,H/3)
+	p.penstyle("red")
+	p.go(0)
+	p.right(5)
+	p.down(5)
+	p.right(50)
+	p.down(50)
+	p.right(50)
+	p.goto(200,200)
+	p.go(150)
+	p.draw()
+	
+</script>
+
+</body>
+</html>

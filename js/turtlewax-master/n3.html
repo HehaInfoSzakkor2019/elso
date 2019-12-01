@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Turtle Wax -- Logo-ish Turtle Graphics for HTML5 Canvas</title>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width">
+	<meta name="format-detection" content="false">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+<body>
+
+<canvas id="mycanvas" height="600" width="800">X</canvas>
+
+<style>
+	body { margin: 0; padding: 0; background: #fff; color: #000; font: 15px Helvetica; }
+	p { margin-left: 10px; }
+	a { color: #006; }
+</style>
+
+<!-- including the lib and an rgb to hsv color util function -->
+<script src="pen.js"></script>
+<script src="hsv.js"></script>
+
+<script>
+	var p = new Pen("mycanvas");
+		// draw a turtle
+	function square(s) {
+		let i = 1;
+		while (i <= 4) {
+			p.go(100)
+			p.turn(100)
+			i += 1
+		}
+		p.draw();
+	};
+	function myshape(s) {
+		let i = 1;
+		while (i <= s) {
+			p.pendown()
+			p.go(50)
+			p.turn(360/s)
+			p.penup()
+			p.go(50)
+			p.turn(360/s)
+			i += 1
+		}
+		p.draw();
+	};
+
+	
+
+	// draw a tiny square
+	//p.jump(10, 30).right(10).down(10).left(10).up(10).draw();
+	
+	
+	p.penstyle("blue")
+	p.jump(100, 222).pensize(3);
+	p.go(33)
+	p.goto(200,200)
+	p.draw()
+	p.penstyle("black")
+
+	//square(50)
+	let s = 3;
+	while (s<20) {
+		myshape(s)
+		s += 1
+	}
+	
+</script>
+
+</body>
+</html>
