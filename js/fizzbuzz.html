@@ -1,48 +1,67 @@
 <!DOCTE html>
-<html>
+  <html>
+
   <head>
     <meta charset="UTF-8">
-<script>
-// -- script ------------------------------------------------------
+    <script>
+      // -- script ------------------------------------------------------
 
-function f1() {
-  var nevem = "Kukorica János";
-  write("Hello " + nevem + "!<br>")
-  for (var i=1; i<=20; i+=1) {
-    if (i%10 == 0) {
-      write('fizzbuzz')
-    } else if (i%2 == 0) {
-      write('fizz')
-    } else if (i%3 == 0) {
-      write('buzz')
-    } else {
-      write('a=' + i + ' 5*a<sup>3</sup>=' + 5*i*i*i)
-    }
-  }
-}
+      function f1() {
+        var nevem = "Kukorica János";
+        write("Hello " + nevem + "!<br>")
+
+        i = 1
+        while (i <= 30) {
+          if (i % 6 == 0) {
+            write('i=' + i + ' kakóscsiga')
+          } else if (i % 2 == 0) {
+            write('kakaó')
+          } else if (i % 3 == 0) {
+            write('csiga')
+          }
+
+          i += 1
+        }
+
+
+        /*
+          for (var i=1; i<=20; i+=1) {
+            if (i%10 == 0) {
+              write('fizzbuzz')
+            } else if (i%2 == 0) {
+              write('fizz')
+            } else if (i%3 == 0) {
+              write('buzz')
+            } else {
+              write('a=' + i + ' 5*a<sup>3</sup>=' + 5*i*i*i)
+            }
+          }
+          */
+      }
 
 // -- SCRIPT vege -------------------------------------------------
-</script>
+    </script>
   </head>
 
-<!-- BODY ----- ----- ----- ----- ----- ----- ----- ----- ----- -->
+  <!-- BODY ----- ----- ----- ----- ----- ----- ----- ----- ----- -->
+
   <body>
     <button onclick="f1()">NYOMD MEG</button>
     <hr>
     <p id="text" style="border:1px solid black"></p>
 
 
-<script>
-    // -- script eljarasok -----------------------------------------
-    function write(text) {
+    <script>
+      // -- script eljarasok -----------------------------------------
+      function write(text) {
         document.getElementById("text").innerHTML += text + '<br>'
-    }
-    function clear(text) {
+      }
+      function clear(text) {
         document.getElementById("text").textContent = ''
-    }
-    function setStyle(elem,styleitem,value) {
-        document.getElementById(elem).style.setProperty(styleitem,value)
-    }
-</script>
+      }
+      function setStyle(elem, styleitem, value) {
+        document.getElementById(elem).style.setProperty(styleitem, value)
+      }
+    </script>
   </body>
-<html>
+  <html>
