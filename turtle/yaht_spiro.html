@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>YAhT - Yet Another Hungarian Turtle - demo</title>
+  <style>
+    canvas {
+      border: 1px dotted #564b47;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='div-header' style="display:none">
+    <h1>YAhT - Yet Another Hungarian Turtle - demo</h1>
+  </div>
+  <div id='div-body'>
+    <canvas id="myDrawing" width="1000" height="800"></canvas>
+  </div>
+  <div id='div-footer' style="display:none">
+  </div>
+
+  <script type="text/javascript">
+    "use strict;"
+
+    function radToDeg(angleRad) {
+      return angleRad * (180 / Math.PI);
+    }
+    function degToRad(angleDeg) {
+      return angleDeg * (Math.PI / 180);
+    }
+
+    // =====================================================================================
+    var color = { black: "#ffffff", red: "#ff0000", green: "#00ff00", blue: "#0000ff", yellow: "#ffff00", fuchsia: "#ff00ff", aqua: "#00ffff" }
+    function Turtle(_ctx) {
+        this.ct = _ctx
+        this.MaxX = 1000
+        this.MaxY = 1000
+        this.x = this.xa = 0
+        this.y = this.ya = 0
+        this.angleRad = 0,
+        this.directionDeg = 0
+        this._penDown = false
+        this.penColor = "#000000"
+        this.penWidth = 2
+
+        this.penDown= function() {
+            this._penDown=true
+            return this
+        }
+        this.penUp= function() {
+            this._penDown=false
+            return this
+        }
+        this.jumpTo= function(x, y) {
+            this.x = x
+            this.y = y
+            this.xa = x
+            this.ya = y
+            return this
+        }
+        this.jump= function(dx, dy) {
+            this.x += dx
+            this.y += dy
+            this.xa = this.x
+            this.ya = this.y
+            return this
+        }
+
+        this.savePos= function() {
+            this.angle0 = this.angleRad
+            this.x0 = this.x
+            this.y0 = this.y
+        }
+        this.loadPos= function() {
+            this.angleRad = this.angle0
+            this.x = this.x0
+            this.y = this.y0
+        }
+		this.getPos= function() {
+			return {x:this.x, y:this.y}
+		}
+
+        this.forward= function (length) {
+            console.log(`fwd len:${length} pd:${this._penDown}`);
+            var x0 = this.x;
+            var y0 = this.y;
+            this.x += length * Math.sin(this.angleRad)
+            this.y += length * Math.cos(this.angleRad)
+            if (this.ct) {
+                if (this._penDown) {
+                    //this.logPenStatus();
+                    this.ct.beginPath();
+                    this.ct.lineWidth = this.penWidth;
+                    this.ct.strokeStyle = this.penColor;
+                    this.ct.moveTo(Math.floor(x0), Math.floor(y0));
+                    this.ct.lineTo(Math.floor(this.x), Math.floor(this.y));
+                    this.ct.stroke();
+                }
+            }
+            else {
+                this.ct.moveTo(this.x, this.y);
+            }
+            return this;
+        }
+        this.backward= function (length) {
+            this.forward(-length);
+            return this;
+        }
+
+        this.left= function (angleInDegrees) {
+            this.angleRad += angleInDegrees * Math.PI / 180.0;
+            return this;
+        }
+      
+        this.right= function (angleInDegrees) {
+            return this.left(-angleInDegrees)
+        }
+        this.logPenStatus = function () {
+            console.log('x=' + this.x + "; y=" + this.y + '; angle = ' + this.angleRad + '; penDown = ' + this._penDown);
+        }
+        this.color= function(color_) {
+            this.penColor = color_
+            return this
+        }
+        this.width= function(width_) {
+            this.penWidth = width_
+            return this
+        }
+
+        // shorthand
+        this.fwd = this.forward
+        this.back = this.backward
+        this.pd = this.penDown
+        this.pu = this.penUp
+
+
+        // Hungarian localization
+        this.menj=this.forward
+        this.hatra=this.backward
+        this.balra=this.left
+        this.jobbra=this.right
+
+        this.drawRegularShape= function(numEdge,lenEdge) {
+            //LOVAS
+            for (i = 1; i < numEdge; i++) {
+                turtle.forward(lenEdge);
+                turtle.left(360/numEdge);
+            }
+            return this
+        }
+        this.drawRegularShapeByDiag= function(numEdge,diag_) {
+            this.savePos()
+            this.jump(0, - diag_/1.5)
+            a_ = 180 * (numEdge - 2) / numEdge
+            turtle.right(a_ / 2);
+            this.drawRegularShape(numEdge, diag_ * Math.sin(degToRad(180/numEdge)))
+            this.loadPos()
+            return this
+        }
+        this.triangle= function(lenEdge) {
+            return this.drawRegularShape(3,lenEdge)
+        }
+        this.square= function(lenEdge) {
+            return this.drawRegularShape(4,lenEdge)
+        }
+        this.hexagon= function(lenEdge) {
+            return this.drawRegularShape(6,lenEdge)
+        }
+
+
+        this.aim= function(length) {
+            var x0 = this.xa;
+            var y0 = this.ya;
+            this.xa += length * Math.sin(this.angleRad)
+            this.ya += length * Math.cos(this.angleRad)
+			return this
+        }
+        this.aimTo= function(x,y) {
+            this.xa = x
+            this.ya = y
+			//console.log(`aimTo x:${x} y:${y}`)
+			return this
+        }
+        this.shoot= function() {
+            if (this.ct) {
+				console.log(`aimTo ${this.x}:${this.y} to ${this.xa}:${this.ya}`)
+                if (this._penDown) {
+                    this.ct.beginPath();
+                    this.ct.lineWidth = this.lineWidth;
+                    this.ct.strokeStyle = this.penColor;
+                    this.ct.moveTo(this.x, this.y);
+                    this.ct.lineTo(this.xa, this.ya);
+                    this.ct.stroke();
+                }
+                this.x = this.xa
+                this.y = this.ya
+            }
+            else {
+                this.ct.moveTo(this.x, this.y);
+            }
+            return this;
+        }
+
+
+        // p:numVertex, q:density https://en.wikipedia.org/wiki/Star_polygon
+        // https://en.wikipedia.org/wiki/Polygram_(geometry)
+        this.drawStar= function(d, p, q) {
+            for (i = 1; i <= p; i++) {
+                for (i2 = 1; i2 <= q; i2++) {
+                    turtle.aim(d);
+                    turtle.left(360/p);
+                }
+                turtle.shoot()
+            }
+            return this
+        }
+        this.drawStar2= function(d, p, q) {
+		    coordsOut = []
+		    coordsIn = []
+			this.penUp()
+			this.angleRad = 0
+			lenEdge = d * Math.sin(degToRad(180/p))
+			for (i = 1; i <= p; i++) {
+                turtle.forward(lenEdge);
+                turtle.left(360/p);
+				coordsOut.push(this.getPos())
+            }
+			console.log(coordsOut)
+			this.jump(d/3, d/6)
+			this.angleRad = 0
+			lenEdge = d * Math.sin(degToRad(180/p)) / 3
+			for (i = 1; i <= p; i++) {
+                turtle.forward(lenEdge);
+                turtle.left(360/p);
+				coordsIn.push(this.getPos())
+            }
+			this.jump(0, d/3)
+
+			this.penDown()
+			turtle.jumpTo(coordsOut[coordsOut.length-1].x,coordsOut[coordsOut.length-1].y)
+			turtle.jumpTo(coordsIn[coordsIn.length-1].x,coordsIn[coordsIn.length-1].y)
+			for (i = 0; i < p; i++) {
+				turtle.aimTo(coordsOut[i].x,coordsOut[i].y).shoot()
+				turtle.aimTo(coordsIn[i].x,coordsIn[i].y).shoot()
+            }
+            return this
+        }
+
+        this.font= function(font_) {
+            this._font = font_
+            this.ct.font = font_
+            return this
+        }
+        this.text= function(text_, x_=0, y_=0, align_='center', color_='black', font_='5vmin Comic Sans MS') {
+            this.ct.fillStyle = color_
+            this.ct.textAlign = align_
+            this.ct.font = font_
+            this.ct.fillText(text_, x_== 0 ? this.x : x_, y_== 0 ? this.y :y_);
+        }
+    };
+
+    var canvas = document.getElementById('myDrawing');
+
+    if (canvas && canvas.getContext) {     // does the browser support 'canvas'?
+        turtle = new Turtle(canvas.getContext("2d"))
+    } else {
+        alert('You need a browser which supports the HTML5 canvas!');
+    }
+
+
+    // =====================================================================================
+
+    turtle.drawArrow = function (len_ = 7) {
+      turtle.forward(50);
+      turtle.left(150);
+      turtle.forward(len_);
+      turtle.backward(len_);
+      turtle.right(150);
+      turtle.right(150);
+      turtle.forward(len_);
+      turtle.backward(len_);
+      turtle.left(150);
+    }
+   
+
+    turtle.drawStar18 = function () {
+      for (i = 0; i < 18; i++) {
+        turtle.left(100);
+        turtle.forward(80);
+      }
+    }
+
+    turtle.figure3 = function (count, angle) {
+      var i;
+      for (i = 1; i <= count; i++) {
+        console.log(i);
+        turtle.drawArrow();
+        turtle.left(angle);
+      }
+    }
+
+
+    turtle.figure4 = function (count, angle, fn) {
+      var i;
+      for (i = 1; i <= count; i++) {
+        console.log(i);
+        fn();
+        turtle.left(angle);
+      }
+    }
+
+	function getRandomColor() {
+		var letters = '0123456789ABCDEF'.split('');
+		var color = '#';
+		for (var i = 0; i < 6; i++ ) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	}
+
+    // =====================================================================================
+    // Using the example definitions
+    // =====================================================================================
+
+    turtle.jumpTo(50, 100);
+    turtle.penDown();
+    
+    turtle.jumpTo(50, 100);
+    turtle.color("green")
+    for (var n = 3; n <=8; n+=1) {
+        turtle.text(''+n)
+        turtle.drawRegularShapeByDiag(n,100)
+        turtle.jump(50,0)
+    }
+    
+    turtle.jumpTo(50, 200);
+    turtle.color("blue")
+    for (var n = 3; n <=8; n+=1) {
+        turtle.savePos();
+        turtle.color("red")
+        turtle.drawRegularShape(4,5)
+        turtle.loadPos();
+        turtle.color("blue")
+        turtle.drawRegularShapeByDiag(n,100)
+    }
+
+    turtle.jumpTo(50, 300);
+    //turtle.penColor = color.blue;
+    turtle.text('a')
+    turtle.drawStar(50,5,2)
+    turtle.text('A')
+
+    turtle.jump(100, 0);
+    turtle.text('b')
+    turtle.drawStar(50,8,3)
+    turtle.text('B')
+
+    turtle.jumpTo(50, 400);
+    turtle.color("green")
+    for (var n = 1; n <=8; n+=1) {
+		for (var i = 1; i <=50; i+=1) {
+		turtle.color(getRandomColor())
+			turtle.forward(100);
+			turtle.left(180-4*n);
+		}
+		turtle.jump(100,0)
+    }
+
+    turtle.jumpTo(50, 500);
+    turtle.color("salmon")
+    for (var n = 3; n <=8; n+=1) {
+        turtle.drawStar2(100,n)
+		turtle.jump(100, 0);
+    }
+
+
+	
+	
+    /*
+
+    turtle.drawArrow();
+    turtle.color("fuchsia")
+    for (var n = 3; n <= 14; n+=1) {
+        turtle.drawRegularShape(n,50)
+    }
+
+
+
+    for (var n = 3; n <=10; n+=1) {
+        turtle.drawStar(50,n,2)
+    }
+
+        turtle.penDown = false;
+        turtle.left(90);
+        turtle.forward(120);
+        turtle.right(90);
+        turtle.penDown = true;
+    
+        turtle.penColor = color.yellow;
+        turtle.drawStar();
+    
+        turtle.x = 180;
+        turtle.y = 200;
+        turtle.lineWidth = 6;
+        turtle.penColor = color.green;
+        turtle.square(50);
+    
+        turtle.x = 350;
+        turtle.y = 150;
+        turtle.lineWidth = 1;
+        turtle.penColor = color.blue;
+        turtle.figure3(6, 60);
+    
+        turtle.x = 450;
+        turtle.y = 150;
+        turtle.penColor = color.fuchsia;
+        turtle.lineWidth = 2;
+        turtle.figure4(8, 45, turtle.drawArrow);
+    */
+
+  </script>
+
+</body>
+
+</html>
