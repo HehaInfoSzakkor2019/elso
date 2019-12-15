@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Boldog Karácsonyt!</title>
+    <style>
+        html, body {width:100%;height:100%;margin:0;padding:0}
+        body {background: url("puffin.jpg") no-repeat center ;}
+        div {margin:0;padding:0}
+        .max {width:99vw;height:99vh}
+    </style>
+</head>
+<body onload="init()">
+  <div id='div-body' class="max" style="position:relative">
+    <canvas id="myDrawing" class="max" xwidth="100%" xheight="100%" style="z-index:2"></canvas>
+  </div>
+  <script type="text/javascript">
+    "use strict;"
+
+    var tcanvas = document.getElementById('myDrawing');
+    var turtle;
+
+    // == rajz =========================================================================
+    function rajz() {
+        turtle.torol()
+        turtle.ugorjIde(0, 0);
+        turtle.tollatLe();
+        rajzoljKeretet() // torold majd
+        turtle.szin("blue")
+        turtle.vastagsag(5)
+
+        turtle.ugorjIde(200, 200);
+        turtle.jobbra(45)
+        turtle.menj(200)
+        szin = getRandomColor()
+        turtle.szoveg("Hello", szin)
+    }
+    // =================================================================================
+    function init() {
+        if (tcanvas && tcanvas.getContext) {     // does the browser support 'canvas'?
+            turtle = new Turtle(tcanvas.getContext("2d"))
+            tcanvas.width = tcanvas.parentElement.clientWidth
+            tcanvas.height = Math.floor(tcanvas.parentElement.clientHeight)
+        } else {
+            alert('You need a browser which supports the HTML5 canvas!');
+        }
+
+        rajz()
+        //setInterval(rajz, 1000)
+    }
+
+    function Turtle(_ctx) {
+        this.ct = _ctx
+        this.width = 1000
+        this.height = 800
+        this.x = this.xa = 0
+        this.y = this.ya = 0
+        this.angleDeg = 0
+        this.angleRad = 0
+        this.directionDeg = 0
+        this._penDown = false
+        this.penColor = "#000000"
+        this.penWidth = 2
+
+        this.penDown= function() {
+            this._penDown=true
+            return this
+        }
+        this.penUp= function() {
+            this._penDown=false
+            return this
+        }
+        this.jumpTo= function(x, y) {
+            this.x = x
+            this.y = y
+            this.xa = x
+            this.ya = y
+            this.angleDeg = 0
+            this.angleRad = 0
+            return this
+        }
+        this.jump= function(dx, dy) {
+            return this.jumpTo( this.x += dx, this.y += dy)
+        }
+
+        this.savePos= function() {
+            this.angle0 = this.angleRad
+            this.x0 = this.x
+            this.y0 = this.y
+        }
+        this.loadPos= function() {
+            this.angleRad = this.angle0
+            this.x = this.x0
+            this.y = this.y0
+        }
+		this.getPos= function() {
+			return {x:this.x, y:this.y}
+		}
+
+        this.posToPx = function( x_, y_ ) {
+            let sw = tcanvas.clientWidth;
+            let sh = tcanvas.clientHeight;
+            let rw = sw / this.width // screenwidth_per_canvaswith
+            let rh = sh / this.height // screenheight_per_canvasheight
+            let offset_x = (rh < rw) ? Math.floor((sw - rh*this.width) / 2) : 0
+            let offset_y = (rh < rw) ? 0 : Math.floor((sh - rw*this.height) / 2) 
+            let rat = Math.min(rh,rw)
+
+            px = { x: Math.floor(x_*rat + offset_x), 
+                   y: Math.floor(sh - y_*rat - offset_y) }
+            return px
+        }
+
+        this.forward= function (length) {
+            var x0 = this.x;
+            var y0 = this.y;
+            // WTF, it seems there's a bug-ish calculus of Math.cos using angle PI..2*PI 
+            if (this.angleRad < Math.PI) {
+                this.x += Math.floor(length * Math.sin(this.angleRad))
+            } else {
+                this.x -= Math.floor(length * Math.sin(this.angleRad - Math.PI))
+            }
+            if (this.angleRad < Math.PI) {
+                this.y += Math.floor(length *  Math.cos(this.angleRad))
+            } else {
+                this.y -= Math.floor(length *  Math.cos(this.angleRad-Math.PI))
+            }
+            if (this.ct) {
+                if (this._penDown) {
+                    p0 = this.posToPx(x0, y0)
+                    p1 = this.posToPx(this.x, this.y)
+                    this.ct.beginPath();
+                    this.ct.lineWidth = this.penWidth;
+                    this.ct.strokeStyle = this.penColor;
+                    this.ct.moveTo(p0.x, p0.y);
+                    this.ct.lineTo(p1.x, p1.y);
+                    this.ct.stroke();
+                }
+            }
+            else {
+                this.ct.moveTo(this.x, this.y);
+            }
+            return this;
+        }
+        this.backward= function (length) {
+            this.forward(-length);
+            return this;
+        }
+
+        this.right= function (angleInDegrees) {
+            this.angleDeg += angleInDegrees
+            this.angleRad = this.angleDeg * Math.PI / 180.0;
+            return this;
+        }
+      
+        this.left= function (angleInDegrees) {
+            return this.right(-angleInDegrees)
+        }
+        this.color= function(color_) {
+            this.penColor = color_
+            return this
+        }
+        this.setPenWidth= function(width_) {
+            this.penWidth = width_
+            return this
+        }
+        this.text= function(text_, color_='black', font_='5vmin Comic Sans MS') {
+            this.ct.fillStyle = color_
+            this.ct.font = font_
+            p = this.posToPx( this.x, this.y )
+            this.ct.fillText(text_, p.x, p.y);
+        }
+        this.clear= function() {
+            tcanvas.getContext("2d").clearRect(0,0,tcanvas.width,tcanvas.height)
+        }
+
+        // Hungarian localization
+        this.tollatLe=this.penDown
+        this.tollatFel=this.penUp
+        this.vastagsag=this.setPenWidth
+        this.menj=this.forward
+        this.hatra=this.backward
+        this.balra=this.left
+        this.jobbra=this.right
+        this.ugorjIde=this.jumpTo
+        this.ugorjXY=this.jump
+        this.szoveg=this.text
+        this.vastagsag=this.setPenWidth
+        this.szin=this.color
+        this.torol=this.clear
+    };
+
+    function degToRad(angleDeg) {
+      return angleDeg * (Math.PI / 180);
+    }
+
+	function getRandomColor() {
+		var letters = '0123456789ABCDEF'.split('');
+		var color = '#';
+		for (var i = 0; i < 6; i++ ) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+    }
+    function rajzoljKeretet() {
+        for (i = 1; i <= 4; i++) {
+            turtle.forward(i%2==0 ? turtle.width-1 : turtle.height-1);
+            turtle.right(90);
+        }
+    }
+  </script>
+</body>
+</html>
