@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <style>
+        html,
+        body {
+            width: 100%; height: 100%;
+            margin: 0; padding: 0
+        }
+
+        body {
+            background: black no-repeat left bottom;
+        }
+
+        div {
+            background: black no-repeat left bottom;
+            margin: 0; padding: 0
+        }
+
+        canvas {
+            border: 1px solid #d3d3d3;
+            position: absolute;
+            wwidth: 100%;
+            height: 100%;
+            xbackground-color: #f1f1f1;
+        }
+
+        button {
+            margin: 2px;
+            padding: 2px;
+            border: 2px solid blue
+        }
+
+        output {
+            margin: 2px;
+            padding: 2px;
+            border: 2px dashed brown;
+            color: blue
+        }
+
+        input[disabled],
+        button[disabled] {
+            pointer-events: none;
+        }
+    </style>
+
+    <script>
+        var HMAX = 1000        // maximum magasság érték pl 0..1000, ezt képezzük le a képernyőre
+        var WMAX = 1000
+        var time = {
+            tick: 0, frame: 0, FPS:15,
+            tickMs: 150, tickPerFrame: 1, msPerTick: 500,
+            loop: 0
+        }
+        var planet = {
+            name: "Föld", image: "Luna.jpg",
+            height: 600, width: 800,
+            g: 3.711,     // gravitációs állandó (m/s²).
+            // Föld: 9.807, Hold: 1.622, Mars: 3.711 m/s², A Jupiteren: 24.79 m/s²
+            // Tapasztalati érték, játssz vele!
+            ground_y: 50
+        }
+        var lander = {
+            x: 50,
+            y: 50,            // függőleges helyzet (m)
+            vx: 0,            // oldal, sofródás sebesség (m/s)
+            vy: 0,            // zuhanó sebesség (m/s)
+            ay: 0,            // zuhanás-gyorsulás (m/s²)
+            ax: 0,
+            str: 8,           // leszálló rakéta tolóereje (m/s²)
+            fuel: 5000,
+            height: 11,
+            powerDown: 0, powerX: 0, legs: false,
+            state: "...",   // "...", ".D.", "..L", "..R", ".DL", ".DR", "S..", "SD.", "SDR", "SDL",
+            state2: "...",  // prev state
+            spritesheet:0
+        }
+        function start() {
+            lander.x = 10 + Math.floor(Math.random() * 100)
+            lander.y = 900 + Math.floor(Math.random() * 100)
+            lander.vx = Math.floor(Math.random() * 10) + 1
+            lander.ay = 0
+            lander.vy = Math.floor(Math.random() * 30)
+            lander.height = 64
+            lander.spritesheet = new Image
+            lander.spritesheet.src = 'rocket1.png'
+            time.tickMs = 1000 / time.FPS
+            if (time.loop == 0) {
+                //document.body.style.backgroundImage = `url('${planet.image}')`
+                document.getElementById("dc").style.backgroundImage = `url('${planet.image}')`
+                document.body.addEventListener("keydown", handleKeyDown, false);
+                document.body.addEventListener("keyup", handleKeyUp, false);
+                time.loop = setInterval(gameLoop, time.tickMs)
+                let canv = document.getElementById("mycanvas");
+                let w = parseInt(document.getElementById("dc").offsetWidth)
+                canv.height = canv.offsetHeight;
+                canv.width = w //canv.offsetWidth;
+                console.log(`lovas: ${w} X`)
+                vonal(0, planet.ground_y - 100, w * 0.8, planet.ground_y - 100)
+            } else {
+                clearInterval(time.loop)
+                console.log("restart")
+                time.loop = setInterval(gameLoop, time.tickMs)
+            }
+            document.getElementById("start_button").disabled = true
+            document.getElementById("kbdinput").focus()
+
+        }
+        function gameLoop() {
+            time.tick += 1
+            lander.ay = -planet.g + lander.powerDown
+            lander.vy += lander.ay * (time.msPerTick / 1000)
+            lander.ax = lander.powerX
+            lander.vx += lander.ax * (time.msPerTick / 1000)
+            let x0 = lander.x
+            let y0 = lander.y
+            lander.y += lander.vy * (time.msPerTick / 1000)
+            lander.x += lander.vx * (time.msPerTick / 1000)
+            let yy = lander.y - planet.ground_y
+            log(`tick:${time.tick} ${lander.state} fuel: ${lander.fuel}<br> y:${yy.toFixed(2)} vy:${lander.vy.toFixed(2)}, ay:${lander.ay}, lander:${lander.powerDown}`)
+            //log(`keY: ${event.key}-${event.keyCode}-${event.which}`)
+
+            //vonal(x0, y0, lander.x, lander.y)
+            //mozog(lander.x+100, lander.y)
+            updateImage(lander, planet)
+
+            if (lander.y <= planet.ground_y) {
+                clearInterval(time.loop)
+                time.loop = setInterval(endGame,time.tickMs)
+            }
+        }
+        function updateImage(l, p) {
+            let canv = document.getElementById("mycanvas")
+            let ctx = canv.getContext("2d");
+            ctx.clearRect(0,0,canv.offsetWidth,canv.offsetHeight)
+
+            let ix = time.tick % 2 
+            let iy = 0
+            if (l.y <= p.ground_y) {
+                if (l.vy < -20) {
+                    iy = 7
+                } else {
+                    iy = 6
+                }
+            } else if (l.state == '...') {
+                iy = 0
+            } else if (l.state == '.D.') {
+                iy = 1
+            } else if (l.state == '..L') {
+                iy = 2
+            } else if (l.state == '..R') {
+                iy = 3
+            } else if (l.state == '.DL') {
+                iy = 4
+            } else if (l.state == '.DR') {
+                iy = 5
+            }
+
+            let s2 = 100 - Math.floor(Math.abs(l.y - p.ground_y) / 10)  + 50
+            let H = canv.offsetHeight - s2;
+            let W = canv.offsetWidth - s2;
+            let x2 = l.x / WMAX
+            let y2 = l.y / HMAX
+            ctx.drawImage(lander.spritesheet,ix*64, iy*64, 64, 64, Math.floor(W * x2), H - Math.floor(H * y2), s2, s2)
+        }
+        function isNearGround(l, p) {
+            return l.y <= p.ground_y + HMAX * 0.1
+        }
+        function setCharAt(str, index, chr) {
+            if (index > str.length - 1) return str;
+            return str.substr(0, index) + chr + str.substr(index + 1);
+        }
+        function endGame() {
+            time.tick += 1
+            lander.state == '...'
+            updateImage(lander, planet)
+            document.getElementById("start_button").disabled = false
+        }
+        function handleKeyDown(event) {
+            //log(`keY: ${event.key}-${event.keyCode}-${event.which}`)
+            if (event.key == "W" || event.key == "w") {
+                lander.state = setCharAt(lander.state, 1, 'D')
+                lander.powerDown = lander.str;
+            } else if (event.key == "A" || event.key == "a") {
+                lander.state = setCharAt(lander.state, 2, 'L')
+                lander.powerX = 1;
+            } else if (event.key == "D" || event.key == "d") {
+                lander.state = setCharAt(lander.state, 2, 'R')
+                lander.powerX = -1;
+            }
+        }
+        function handleKeyUp(event) {
+            if (event.key == "W" || event.key == "w") {
+                lander.state = setCharAt(lander.state, 1, '.')
+                lander.powerDown = 0;
+            } else if (event.key == "A" || event.key == "a") {
+                lander.state = setCharAt(lander.state, 2, '.')
+                lander.powerX = 0;
+            } else if (event.key == "D" || event.key == "d") {
+                lander.state = setCharAt(lander.state, 2, '.')
+                lander.powerX = 0;
+            }
+        }
+
+        function getcoord(x_pc, y_pc) {
+            let canv = document.getElementById("mycanvas");
+            let elem = document.getElementById("urhajo");
+            let H = canv.offsetHeight - elem.offsetHeight;
+            let W = canv.offsetWidth - elem.offsetWidth;
+            let y2 = y_pc / HMAX
+            let x2 = x_pc / WMAX
+            return { x_px: (Math.floor(W * x2)), y_px: (H - Math.floor(H * y2)) }
+        }
+        function vonal(x1, y1, x2, y2) {
+            let elem = document.getElementById("urhajo");
+            let ctx = document.getElementById("mycanvas").getContext("2d");
+            ctx.strokeStyle = "green";
+            ctx.beginPath();
+            ctx.lineWidth = 3
+            let c1 = getcoord(x1, y1)
+            let c2 = getcoord(x2, y2)
+            ctx.moveTo(c1.x_px + elem.offsetWidth / 2, c1.y_px);
+            ctx.lineTo(c2.x_px + elem.offsetWidth / 2, c2.y_px);
+            //console.log(`/ x1:${c1.x_px + elem.offsetWidth / 2} y1:${c1.y_px} x2:${c2.x_px + elem.offsetWidth / 2} y2:${c2.y_px}`)
+            ctx.stroke();
+        }
+        function log(text) {
+            console.log(text)
+            document.getElementById("status").innerHTML = text
+        }
+    </script>
+</head>
+
+<body>
+    <div style="position:relative;height:6vh">
+        <button id="start_button" onclick="start()">START</button>
+        <button id="kbdinput" style="display:none"></button>
+        <output id="status" style="display:inline;color: white;">blabla</output>
+    </div>
+    <div id="dc" style="position:relative;height:90vh">
+        <canvas id="mycanvas" style="z-index:1;"></canvas>
+    </div>
+</body>
+<html>
