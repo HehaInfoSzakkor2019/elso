@@ -177,7 +177,6 @@ return
             return this
         }
         this.jumpTo= function(x, y) {
-            console.log(`jumpTo x:${x} y:${y}`);
             this.x = x
             this.y = y
             this.xa = x
@@ -329,6 +328,25 @@ return
             return this.drawRegularShape(6,lenEdge)
         }
 
+        this.drawPetal= function(n,l1,l2) {
+            a0 = 360 / n
+            a = (180 - a0) 
+            l2 = l1 * Math.sin(degToRad(180/n)) * 4 / 5
+            for (i = 1; i <= n; i++) {
+                turtle.left(a);
+                turtle.forward(l1);
+                turtle.right(a);
+                turtle.forward(l2);
+                turtle.right(a);
+                turtle.forward(l1);
+                turtle.left(a);
+                turtle.right(180/n);
+                //turtle.forward(l2);
+                turtle.right(180/n);
+            }
+            return this
+        }
+
         this.betucsillag = function( betu ) {
             turtle.text(betu)
             turtle.jump(-15, -40)
@@ -378,7 +396,6 @@ return
             }
             return this;
         }
-
 
         // p:numVertex, q:density https://en.wikipedia.org/wiki/Star_polygon
         // https://en.wikipedia.org/wiki/Polygram_(geometry)
@@ -549,7 +566,6 @@ return
     for (var n = 3; n <= 14; n+=1) {
         turtle.drawRegularShape(n,50)
     }
-
 
 
     for (var n = 3; n <=10; n+=1) {
