@@ -3,10 +3,10 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <xtitle>Boldog Karácsonyt!</xtitle>
+    <title>Boldog Karácsonyt!</title>
     <style>
         html, body {width:100%;height:100%;margin:0;padding:0}
-        body {background: url("puffin.jpg") no-repeat center ;}
+        body {background: url("xmas.jpg") no-repeat center black;}
         div {margin:0;padding:0}
         .max {width:99vw;height:99vh}
     </style>
@@ -26,15 +26,9 @@
         turtle.torol()
         turtle.ugorjIde(0, 0);
         turtle.tollatLe();
-        rajzoljKeretet() // torold majd
         turtle.szin("blue")
-        turtle.vastagsag(4)
+        turtle.vastagsag(8)
 
-        turtle.ugorjIde(200, 200);
-        turtle.jobbra(45)
-        turtle.menj(200)
-        szin = getRandomColor()
-        turtle.szoveg("Hello", szin)
 
         turtle.ugorjIde(125,600)
         betucsillag('K')
@@ -77,8 +71,8 @@
     }
 
     function betucsillag( betu ) {
-        turtle.szoveg(betu, getRandomColor())
         csillag2(36)
+        turtle.szoveg(betu, getRandomColor())
     } 
 
     function csillag( hossz ) {
@@ -103,7 +97,7 @@
         }
     }
     function csillag2( hossz ) {
-        turtle.jump(-2, -40)
+        turtle.jump(-1, -40)
         turtle.color(getRandomColor())
         i = 1
         while (i <=9) {
@@ -113,7 +107,7 @@
             turtle.jobbra(150);
             i += 1
         }
-        turtle.jump(2, 40)
+        turtle.jump(1, 40)
     } 
 
     // =================================================================================
@@ -245,7 +239,7 @@
             this.penWidth = width_
             return this
         }
-        this.text= function(text_, color_='black', font_='5vmin Comic Sans MS') {
+        this.text= function(text_, color_='black', font_='6vmin Comic Sans MS') {
             this.ct.fillStyle = color_
             this.ct.font = font_
             p = this.posToPx( this.x, this.y )
