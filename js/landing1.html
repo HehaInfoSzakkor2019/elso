@@ -51,8 +51,8 @@
         var HMAX = 1000        // maximum magasság érték pl 0..1000, ezt képezzük le a képernyőre
         var WMAX = 1000
         var time = {
-            tick: 0, frame: 0, FPS:15,
-            tickMs: 150, tickPerFrame: 1, msPerTick: 500,
+            tick: 0, frame: 0, FPS:5,
+            tickMs: 250, tickPerFrame: 1, msPerTick: 500,
             loop: 0
         }
         var planet = {
@@ -86,7 +86,7 @@
             lander.vy = Math.floor(Math.random() * 30)
             lander.height = 64
             lander.spritesheet = new Image
-            lander.spritesheet.src = 'rocket1.png'
+            lander.spritesheet.src = 'rocket2.png'
             time.tickMs = 1000 / time.FPS
             if (time.loop == 0) {
                 //document.body.style.backgroundImage = `url('${planet.image}')`
@@ -137,7 +137,7 @@
             let ctx = canv.getContext("2d");
             ctx.clearRect(0,0,canv.offsetWidth,canv.offsetHeight)
 
-            let ix = time.tick % 2 
+            let ix = time.tick % 4 
             let iy = 0
             if (l.y <= p.ground_y) {
                 if (l.vy < -20) {
