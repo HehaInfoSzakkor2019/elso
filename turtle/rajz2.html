@@ -11,7 +11,7 @@
         .max {width:99vw;height:99vh}
     </style>
 </head>
-<body onload="init()">
+<body onload="init()" onresize="myresize()">
   <div id='div-body' class="max" style="position:relative">
     <canvas id="myDrawing" class="max" xwidth="100%" xheight="100%" style="z-index:2"></canvas>
   </div>
@@ -114,14 +114,18 @@
     function init() {
         if (tcanvas && tcanvas.getContext) {     // does the browser support 'canvas'?
             turtle = new Turtle(tcanvas.getContext("2d"))
-            tcanvas.width = tcanvas.parentElement.clientWidth
-            tcanvas.height = Math.floor(tcanvas.parentElement.clientHeight)
         } else {
             alert('You need a browser which supports the HTML5 canvas!');
         }
-
-        rajz()
         setInterval(rajz, 1000)
+        myresize()
+    }
+    function myresize() {
+        if (tcanvas && tcanvas.getContext) {     // does the browser support 'canvas'?
+            tcanvas.width = tcanvas.parentElement.clientWidth
+            tcanvas.height = Math.floor(tcanvas.parentElement.clientHeight)
+        }
+        rajz()
     }
 
     function Turtle(_ctx) {
