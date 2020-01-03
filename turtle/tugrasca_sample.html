@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <script src="tugrasca.js" defer></script>
+    <style>
+      html, body {width:100%;height:100%;margin:0;padding:0;xborder:1px solid green}
+      canvas {position:absolute;margin:0;padding:0;}
+    </style>
+  </head>
+
+  <body onload="my_drawing()">
+    <canvas id="mycanvas" style="width:100%;height:100%;">Try another browser with HTML5 canvas support</canvas>
+  </body>
+  
+  <script type="text/javascript">
+    "use strict;"
+    function my_drawing() {
+      // my drawing canvas is 1000 points width and 800 points height, scaled to the actual screen
+      turtle = new Tugrasca("mycanvas", 1000, 800)
+
+      turtle.jumpTo(50,600)
+      turtle.text("Welcome to TUGRASCA drawings!")
+
+      turtle.jumpTo(100,200)
+      turtle.setColor("blue")      // use HTML colors (search the web for hints)
+      turtle.penDown();
+      turtle.setPenWidth(3)        // 
+      
+      // triangle
+      turtle.jumpTo(100,200)
+      i = 1
+      while (i <= 3) {
+        turtle.forward(200)
+        turtle.right(120)
+        i += 1
+      }
+
+      // square
+      turtle.jump(300,0)
+      i = 1
+      while (i <= 4) {
+        turtle.forward(200)
+        turtle.right(90)
+        i += 1
+      }
+
+      // circle .. let's call it a circle for now
+      turtle.jump(300,100)
+      i = 1
+      while (i <= 360) {
+        turtle.forward(2)
+        turtle.right(1)
+        i += 1
+      }
+    }
+  </script>
+</html>

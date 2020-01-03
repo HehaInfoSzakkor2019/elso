@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <script src="tugrasca.js" defer></script>
+        <script src="tugrasca_shapes.js" defer></script>
+        <style>
+        html, body {width:100%;height:100%;margin:0;padding:0;xborder:1px solid green}
+        canvas {position:absolute;margin:0;padding:0;}
+    </style>
+    </head>
+
+    <body onload="rajz()" onresize="myresize()">
+        <canvas id="mycanvas" style="width:100%;height:100%;">Try another browser with HTML5 canvas support</canvas>
+    </body>
+
+    <script type="text/javascript">
+      "use strict;"
+      function rajz() {
+          // my drawing canvas is 1000 points width and 800 points height, scaled to the actual screen
+          turtle = new Tugrasca("mycanvas", 1000, 800)   
+          turtle.simpleBorder()
+
+          turtle.jumpTo(50,600)
+          turtle.text("Welcome to TUGRASCA drawings!")
+
+          turtle.setColor("blue")      // use HTML colors (search the web for hints)
+          turtle.penDown();
+          turtle.setPenWidth(2)
+          
+          // shapes
+          turtle.jumpTo(100,200)
+          turtle.triangle(200)
+
+          // square
+          turtle.jump(300,0)
+          turtle.square(200)
+      }
+    </script>
+</html>

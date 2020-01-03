@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+	<script src="tugrasca.js" defer></script>
+	<script src="tugrasca_shapes.js" defer></script>
+</head>
+<body onload="raiz()" onresize="myresize()">
+  <div id='div-body' class="max" style="position:relative">
+    <canvas id="myDrawing" class="max" xwidth="100%" xheight="100%" style="z-index:2"></canvas>
+  </div>
+  <script type="text/javascript">
+    "use strict;"
+    function rajz(turtle) {
+
+        turtle.torol()
+        turtle.ugorjIde(0, 0);
+        turtle.tollatLe();
+        turtle.szin("blue")
+        turtle.vastagsag(6)
+
+        turtle.ugorjIde(125,600)
+        betucsillag('K')
+        turtle.ugorjXY(100,60)
+        betucsillag('E')
+        turtle.jump(120,40)
+        betucsillag('L')
+        turtle.jump(120,20)
+        betucsillag('L')
+        turtle.jump(120,0)
+        betucsillag('E')
+        turtle.jump(100,-20)
+        betucsillag('M')
+        turtle.jump(100,-40)
+        betucsillag('E')
+        turtle.jump(100,-60)
+        betucsillag('S')
+
+        turtle.jumpTo(50, 200);
+        betucsillag('K')
+        turtle.jump(80,-70)
+        betucsillag('A')
+        turtle.jump(100,-40)
+        betucsillag('R')
+        turtle.jump(110,-20)
+        betucsillag('Á')
+        turtle.jump(110,-10)
+        betucsillag('C')
+        turtle.jump(110,0)
+        betucsillag('S')
+        turtle.jump(110,10)
+        betucsillag('O')
+        turtle.jump(100,20)
+        betucsillag('N')
+        turtle.jump(90,40)
+        betucsillag('Y')
+        turtle.jump(90,70)
+        betucsillag('T')
+    }
+
+    function my_onload() {
+        var turtle = new Tugrasca("mycanvas", 1000, 800)
+        draw(turtle)
+    }
+
+    function my_resize() {
+        rajz(turtle)
+    }
+
+
+
+  </script>
+</body>
+</html>
