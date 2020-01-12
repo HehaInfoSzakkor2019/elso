@@ -15,22 +15,37 @@ var c = 1
 
 // -- SCRIPT ----- ----- ----- ----- ----- ----- ----- ----- ----- 
 function f1() {
-   a = veletlen()
+   a = veletlen(10000)
+   b = veletlen(20000)
+   c = veletlen(10000)
 
-   write("a = "+a)
+   x = (c - b) / a
+
+   write(a + "x + " + b + " = " + c)
+   write("x = " + x)
+   write("x = " + (c-b) + " / " + a)
+
+   if ((c-b)%a == 0) {
+       write("Hurrá")
+   }
 }
-function f2() {
-   sor = read_line()
-   eredmeny = eval(sor)
 
-   write("a = "+a)
+function f2() {
+   a = veletlen()
+   b = veletlen()
+   x = veletlen()
+
+   c = a * x + b
+
+   write(a + "x + " + b + " = " + c)
+   write("x = " + x)
 }
 
 function f3() {
    sor = read_line()
    eredmeny = eval(sor)
 
-   x = 'megoldás?'
+   x = (c - b) / a
 
    write(a + "x + " + b + " = " + c)
    write("x = " + x)
