@@ -31,11 +31,36 @@
         turtle.vastagsag(5)
 
         turtle.ugorjIde(200, 200);
-        turtle.jobbra(45)
-        turtle.menj(200)
+
+        betucsillag(20,4)
+        turtle.ugorjXY(100,100)
+        betucsillag(30,5)
+        turtle.ugorjXY(100,100)
+        betucsillag(50,60)
+
         szin = getRandomColor()
         turtle.szoveg("Hello", szin)
     }
+    
+    function betucsillag(hossz, csucs) {
+        i = 1
+        while ( i <= 18 ) {
+            turtle.menj(hossz)
+            turtle.jobbra(150)
+            turtle.menj(hossz)
+            turtle.balra(120)
+            i += 1
+        }
+    }
+    function sokszog(hossz, csucs) {
+        i = 1
+        while ( i <= csucs ) {
+            turtle.menj(hossz)
+            turtle.jobbra(360 / csucs)
+            i += 1
+        }
+    }
+
     // =================================================================================
     function init() {
         if (tcanvas && tcanvas.getContext) {     // does the browser support 'canvas'?
