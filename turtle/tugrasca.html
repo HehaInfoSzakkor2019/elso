@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Boldog Karácsonyt!</title>
+    <style>
+        html, body {width:100%;height:100%;margin:0;padding:0}
+        body {background: url("xmas2.png") no-repeat center black;background-size:50vw}
+        xbody {background: url("puffin.jpg") no-repeat center auto auto/ 50vw 50vh; }
+
+        div {margin:0;padding:0}
+        .max {width:99vw;height:99vh}
+    </style>
+	<script src="tugrasca.js" defer></script>
+	<script src="tugrasca_shapes.js" defer></script>
+</head>
+<body onload="init()" onresize="myresize()">
+  <div id='div-body' class="max" style="position:relative">
+    <canvas id="myDrawing" class="max" xwidth="100%" xheight="100%" style="z-index:2"></canvas>
+  </div>
+  <script type="text/javascript">
+    "use strict;"
+
+    var tcanvas = document.getElementById('myDrawing');
+    var turtle;
+
+    // == rajz =========================================================================
+    function rajz() {
+        turtle.torol()
+        turtle.ugorjIde(0, 0);
+        turtle.tollatLe();
+        turtle.szin("blue")
+        turtle.vastagsag(6)
+
+        turtle.ugorjIde(125,600)
+        betucsillag('K')
+        turtle.ugorjXY(100,60)
+        betucsillag('E')
+        turtle.jump(120,40)
+        betucsillag('L')
+        turtle.jump(120,20)
+        betucsillag('L')
+        turtle.jump(120,0)
+        betucsillag('E')
+        turtle.jump(100,-20)
+        betucsillag('M')
+        turtle.jump(100,-40)
+        betucsillag('E')
+        turtle.jump(100,-60)
+        betucsillag('S')
+
+        turtle.jumpTo(50, 200);
+        betucsillag('K')
+        turtle.jump(80,-70)
+        betucsillag('A')
+        turtle.jump(100,-40)
+        betucsillag('R')
+        turtle.jump(110,-20)
+        betucsillag('Á')
+        turtle.jump(110,-10)
+        betucsillag('C')
+        turtle.jump(110,0)
+        betucsillag('S')
+        turtle.jump(110,10)
+        betucsillag('O')
+        turtle.jump(100,20)
+        betucsillag('N')
+        turtle.jump(90,40)
+        betucsillag('Y')
+        turtle.jump(90,70)
+        betucsillag('T')
+		
+		t2.tollatLe()
+        t2.szin("blue")
+        t2.vastagsag(16)
+        t2.ugorjIde(25,25)
+        t2.menj(500)
+    }
+
+    // =================================================================================
+    function init() {
+        if (tcanvas && tcanvas.getContext) {     // does the browser support 'canvas'?
+            turtle = new Tugrasca(tcanvas, 1000, 800)
+            t2 = new Tugrasca(tcanvas, 1000, 800)
+        } else {
+            alert('You need a browser which supports the HTML5 canvas!');
+        }
+        setInterval(rajz, 1000)
+        myresize()
+    }
+    function myresize() {
+        if (tcanvas && tcanvas.getContext) {     // does the browser support 'canvas'?
+            tcanvas.width = tcanvas.parentElement.clientWidth
+            tcanvas.height = Math.floor(tcanvas.parentElement.clientHeight)
+        }
+        rajz()
+    }
+  </script>
+</body>
+</html>

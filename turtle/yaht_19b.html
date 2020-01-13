@@ -6,6 +6,7 @@
     <title>Boldog Karácsonyt!</title>
     <style>
         html, body {width:100%;height:100%;margin:0;padding:0}
+        body {background: url("puffin.jpg") no-repeat center ;}
         div {margin:0;padding:0}
         .max {width:99vw;height:99vh}
     </style>
@@ -13,7 +14,6 @@
 <body onload="init()">
   <div id='div-body' class="max" style="position:relative">
     <canvas id="myDrawing" class="max" xwidth="100%" xheight="100%" style="z-index:1"></canvas>
-    <img id="kep" src="puffin.jpg" style="position:absolute;z-index:2;height:50vh;max-height:vh;max-width:50vw;xleft:200px;stop:100px" />
   </div>
   <script type="text/javascript">
     "use strict;"
@@ -21,6 +21,23 @@
     var tcanvas = document.getElementById('myDrawing');
     var turtle;
     var myImage;
+    var frame = 0;
+    var csillagok = [ {betu:'B', x:200, y:500, c1:'white', c2:'white'}
+                    , {betu:'o', x:300, y:580, c1:'white', c2:'white'}
+                    , {betu:'l', x:420, y:620, c1:'white', c2:'white'}
+                    , {betu:'d', x:540, y:620, c1:'white', c2:'white'}
+                    , {betu:'o', x:660, y:580, c1:'white', c2:'white'}
+                    , {betu:'g', x:760, y:500, c1:'white', c2:'white'}
+                    , {betu:'K', x:100, y:200, c1:'white', c2:'white'}
+                    , {betu:'a', x:190, y:120, c1:'white', c2:'white'}
+                    , {betu:'r', x:290, y:80, c1:'white', c2:'white'}
+                    , {betu:'á', x:400, y:60, c1:'white', c2:'white'}
+                    , {betu:'c', x:510, y:60, c1:'white', c2:'white'}
+                    , {betu:'s', x:620, y:60, c1:'white', c2:'white'}
+                    , {betu:'o', x:730, y:80, c1:'white', c2:'white'}
+                    , {betu:'n', x:830, y:120, c1:'white', c2:'white'}
+                    , {betu:'y', x:920, y:200, c1:'white', c2:'white'}
+                    ]
 
     function init() {
         if (tcanvas && tcanvas.getContext) {     // does the browser support 'canvas'?
@@ -31,31 +48,43 @@
             alert('You need a browser which supports the HTML5 canvas!');
         }
 
-        var kep = document.getElementById('kep')
-        kep.style.left = (tcanvas.width / 2 - kep.clientWidth/2) + "px";
-        kep.style.top = (tcanvas.height / 2 - kep.clientHeight/2) + "px";
+//        var kep = document.getElementById('kep')
+        //kep.style.left = (tcanvas.width / 2 - kep.clientWidth/2) + "px";
+        //kep.style.top = (tcanvas.height / 2 - kep.clientHeight/2) + "px";
 
-        setInterval(myMain, 1000)
+        myMain()
+        setInterval(myMain, 100)
     }
 
     function betucsillag( betu ) {
-        irj(betu)
-        csillag()
-    } 
-    function irj( betu ) {
         turtle.text(betu,0,0,'center',getRandomColor())
-    } 
-    function csillag( betu ) {
-        turtle.jump(-15, -40)
+        turtle.jump(-15, -45)
+
         turtle.color(getRandomColor())
+        turtle.penWidth = 5
+        for (var n = 1; n <=18; n+=1) {
+            turtle.menj(50);
+            if (n%2 == 0) {
+                turtle.jobbra(150);
+            } else {
+                turtle.balra(110);
+            }
+        }
+        turtle.jump(15, 45)
+    } 
+    function betucsillag2( idx ) {
+        turtle.jumpTo(csillagok[idx].x, csillagok[idx].y);
+        turtle.text(csillagok[idx].betu,0,0,'center',csillagok[idx].c1)
+        turtle.jump(-15, -45)
+        turtle.color(csillagok[idx].c2)
         for (var n = 1; n <=9; n+=1) {
-            turtle.menj(35);
+            turtle.menj(50);
             turtle.balra(110);
-            turtle.menj(35);
+            turtle.menj(50);
             turtle.jobbra(150);
         }
-        turtle.jump(15, 40)
-    } 
+        turtle.jump(15, 45)
+    }
 
     function myMain() {
         tcanvas.getContext("2d").clearRect(0,0,tcanvas.width,tcanvas.height)
@@ -66,38 +95,17 @@
         turtle.jumpTo(0, 0);
 
         turtle.jumpTo(200, 600);
-        turtle.color("Black")
+        turtle.color("white")
 
-        betucsillag('B')
-        turtle.jump(100,80)
-        betucsillag('o')
-        turtle.jump(120,40)
-        betucsillag('l')
-        turtle.jump(120,0)
-        betucsillag('d')
-        turtle.jump(120,-40)
-        betucsillag('o')
-        turtle.jump(100,-80)
-        betucsillag('g')
+        idx = frame % csillagok.length
+        idx = Math.floor(Math.random() * csillagok.length)
+        csillagok[idx].c1 = getRandomColor()
+        csillagok[idx].c2 = getRandomColor()
+        for (i = 0; i<csillagok.length;i+=1) {
+            betucsillag2(i)
+        }
+        frame += 1
 
-        turtle.jumpTo(100, 200);
-        betucsillag('K')
-        turtle.jump(90,-80)
-        betucsillag('a')
-        turtle.jump(100,-40)
-        betucsillag('r')
-        turtle.jump(110,-20)
-        betucsillag('á')
-        turtle.jump(110,0)
-        betucsillag('c')
-        turtle.jump(110,0)
-        betucsillag('o')
-        turtle.jump(110,20)
-        betucsillag('n')
-        turtle.jump(100,40)
-        betucsillag('y')
-        turtle.jump(90,80)
-        betucsillag('t')
     }
 
     function Turtle(_ctx) {
@@ -223,7 +231,7 @@
         this.jobbra=this.right
         this.ugorj=this.jump
 
-        this.text= function(text_, x_=0, y_=0, align_='center', color_='black', font_='5vmin Comic Sans MS') {
+        this.text= function(text_, x_=0, y_=0, align_='center', color_='white', font_='10vmin Comic Sans MS') {
             this.ct.fillStyle = color_
             this.ct.textAlign = align_
             this.ct.font = font_

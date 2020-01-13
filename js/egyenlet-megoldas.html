@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <style>
+button, textarea { border-width:5px; }
+    </style>
+    <script>
+var x = 1
+var y = 1
+var a = 1
+var b = 1
+var c = 1
+// -- SCRIPT ----- ----- ----- ----- ----- ----- ----- ----- ----- 
+function f1() {
+   a = veletlen()
+   b = veletlen()
+   x = veletlen()
+   c = a*x+b
+
+   clear()
+   write("x = "+x)
+   write(a + "x + " + b + " = " + c)
+   write()
+}
+function f2() {
+   sor = read_line()
+   eredmeny = eval(sor)
+   c = a*x+b
+
+   clear()
+   write("x = "+x)
+   write(a + "x + " + b + " = " + c)
+   write()
+}
+
+function f3() {
+   sor = read_line()
+   eredmeny = eval(sor)
+   //eredmeny = szamol(sor)
+   clear()
+   write("a=" + a)
+   write("b=" + b)
+   write(" lnko(x,y) = " + lnko(a,b) )
+   write()
+}
+
+function f4() {
+   sor = read_line()
+   x = (c - b) / a
+   eredmeny = eval(sor)
+   //eredmeny = szamol(sor)
+
+   clear()
+   write(a + "x + " + b + " = " + c)
+   write("x = " + x)
+   write()
+}
+
+
+function lnko(a, b) {
+   while(b > 0) {
+      tmp = b
+      b = a % b
+      a = tmp
+   }
+   return a
+}
+
+//setStyle("out","border-color",'green')
+
+function veletlen(n=100) {
+  return Math.floor(Math.random()*n + 1)
+}
+
+function szamol(_text){
+    return Function('"use strict";return (' + _text + ');')();
+}
+
+
+// -^- SCRIPT -^-^- -^-^- -^-^- -^-^- -^-^- -^-^- -^-^- -^-^- -^-^-
+    </script>
+  </head>
+<!-- BODY ----- -->
+  <body>
+    <textarea id="sor1" rows="5" cols="80" style="resize:none">a=1
+b=2
+c=3
+x=veletlen()
+</textarea>
+    <br>
+    <button id="gomb" onclick="f1()">egyenlőség<br>készítő</button>
+    <button id="gomb" onclick="f2()">ax + b = c<br>c=?</button>
+    <button id="gomb" onclick="f3()">lnko(a,b)</button>
+    <button id="gomb" onclick="f4()">ax + b = c<br>x=?</button>
+    <button id="gomb" onclick="f5()">f5</button>
+    <hr>
+    <p id="text"  style="border:1px solid black"></p>
+
+
+    
+<!-- more SCRIPT ----- -->
+    <script>
+function write(text='') {
+    document.getElementById("text").innerHTML += text + '<br>'
+}
+function clear(text) {
+    document.getElementById("text").textContent = ''
+}
+function setStyle(elem,styleitem,value) {
+    document.getElementById(elem).style.setProperty(styleitem,value)
+}
+function read_line(ln=1) {
+    return document.getElementById(`sor${ln}`).value
+}
+function read_list(ln=1) {
+    return document.getElementById(`sor${ln}`).value.split(/[ ,]+/)
+}
+function read_numbers(ln=1) {
+    let l = read_line(ln).split(/[ ,]+/)
+    l.forEach((e,i,a) => {a[i] = parseInt(e)})
+    return l
+}
+function read_floats() {
+    let l = document.getElementById("in").value.split(/[ ,]+/)
+    l.forEach((e,i,a) => {a[i] = parseFloat(e)})
+    return l
+}
+    </script>
+  </body>
+<html>

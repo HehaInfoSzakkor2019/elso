@@ -30,54 +30,54 @@
 
 	<canvas id="mycanvas" height="500" width="800"></canvas>
 
-		<!-- including the lib and an rgb to hsv color util function -->
-		<script src="hsv.js"></script>
-		<script src="pen.js"></script>
+	<!-- including the lib and an rgb to hsv color util function -->
+	<script src="hsv.js"></script>
+	<script src="pen.js"></script>
 
-		<script>
-			var p = new Pen("mycanvas");
+	<script>
+		var p = new Pen("mycanvas");
 
-			// add a custom function to draw a square
-			p.square = function (size) {
-				for (var i = 0; i < 4; i++)
-					this.go(size).turn(90);
+		// add a custom function to draw a square
+		p.square = function (size) {
+			for (var i = 0; i < 4; i++)
+				this.go(size).turn(90);
 
-				// to be a good function, we want to allow chaining
-				return this;
-			}
+			// to be a good function, we want to allow chaining
+			return this;
+		}
 
-			// add custom "spirograph" function based on our new square function
-			p.spiro = function () {
-				for (var i = 0; i < 36; i++)
-					this.square(50).turn(10);
-				return this;
-			}
+		// add custom "spirograph" function based on our new square function
+		p.spiro = function () {
+			for (var i = 0; i < 36; i++)
+				this.square(50).turn(10);
+			return this;
+		}
 
-			// an arrow function, for grins
-			p.arrow = function () {
-				var p = this.pen;
+		// an arrow function, for grins
+		p.arrow = function () {
+			var p = this.pen;
 
-				this.pendown().turn(-150).go(20).back(20).turn(300);
-				this.go(20).back(20).turn(-150).close().stroke();
+			this.pendown().turn(-150).go(20).back(20).turn(300);
+			this.go(20).back(20).turn(-150).close().stroke();
 
-				// restore our pen state
-				this.pen = p;
+			// restore our pen state
+			this.pen = p;
 
-				// again, support chaining because it's cool
-				return this;
-			}
+			// again, support chaining because it's cool
+			return this;
+		}
 
-			// make single pixel lines look prettier -- don't ask
-			p.canvas.translate(.5, .5);
+		// make single pixel lines look prettier -- don't ask
+		p.canvas.translate(.5, .5);
 
-			p.jump(300, 250).fillstyle("#ff0").pensize(0);
+		p.jump(300, 250).fillstyle("#ff0").pensize(0);
 
-			p.square().draw()
+		p.square().draw()
 
 			//p.pensize(1).fillstyle("#ff0").jump(50, 300).square(100).draw();
 
 
-		</script>
+	</script>
 
 
 </body>
