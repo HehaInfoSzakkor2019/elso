@@ -9,101 +9,191 @@
         div { background: black no-repeat left bottom; margin: 0; padding: 0 }
         canvas { width: 100%; height: 100%; }
     </style>
-
-    <script>
-        var HMAX = 1000        // maximum magasság érték pl 0..1000, ezt képezzük le a képernyőre
-        var WMAX = 1000
-        var time = {
-            tick: 0, 
-            loop: 0,
-            FPS: 10
-        }
-        var gameData = { gameState: 'startup' }
-        var planet = {
-            name: "Föld", 
-            image: "Luna.jpg",
-            height: 600, 
-            width: 800,
-            g: 3.711,     // gravitációs állandó (m/s²).
-            // Föld: 9.807, Hold: 1.622, Mars: 3.711 m/s², A Jupiteren: 24.79 m/s²
-            // Tapasztalati érték, játssz vele!
-            ground_y: 50
-        }
-        var lander = {
-            x:100,
-            y:1000,
-            url_spritesheet:'raketa4.png',
-            spritesheet:new Image, 
-            spriteWidth:200, spriteHeight:200, spriteCols:4, spriteRows:6,
-            size2:250         // aktuális pont méret (magasság és szélesség is)
-           
-        }
-        function mystart() {
-            time.tickMs = 1000
-            lander.spritesheet.src = lander.url_spritesheet
-            document.getElementById("div-canvas").style.backgroundImage = `url('${planet.image}')`
-            let canv = document.getElementById("mycanvas");
-            let w = parseInt(document.getElementById("div-canvas").offsetWidth)
-            canv.height = canv.offsetHeight;
-            canv.width = canv.offsetWidth; //  TODOOOOO  w?
-            myrestart()
-        }
-        function myrestart() {
-            lander.x = 100
-            lander.y = 1000
-            lander.height = 64
-            time.tickMs = 1000 / time.FPS
-            time.loop = setInterval(gameLoop, time.tickMs)
-        }
-
-        function gameLoop() {
-            time.tick += 1
-
-            log(`tick:${time.tick}`)
-
-            if (lander.y > 10) {
-                lander.y -= 10
-            }
-
-            updateImage(lander, planet)
-        }
-        function updateImage(l, p) {
-            let canv = document.getElementById("mycanvas")
-            let ctx = canv.getContext("2d");
-            ctx.clearRect(0,0,canv.offsetWidth,canv.offsetHeight)
-
-            let ix = 0
-            let iy = 0
-
-            let s2 = lander.size2 // 100 - Math.floor(Math.abs(l.y - p.ground_y) / 10)  + 50
-
-            let H = canv.offsetHeight - s2;
-            let W = canv.offsetWidth - s2;
-            let x2 = l.x / WMAX
-            let y2 = l.y / HMAX
-            log(`ix:${ix} iy:${iy} img:${lander.spritesheet.src} x:${Math.floor(W * x2)} y:${H - Math.floor(H * y2)}, s2:${s2}`,1)
-
-            ctx.drawImage(lander.spritesheet,ix*lander.spriteWidth, iy*lander.spriteHeight, lander.spriteWidth, lander.spriteHeight, Math.floor(W * x2), H - Math.floor(H * y2), s2, s2)
-        }
-        var lines = [""]
-        function log(text,_line=1) {
-            lines[_line-1] = text
-            let logtext = lines.join("<br>")
-            console.log(logtext)
-            document.getElementById("status").innerHTML = logtext
-        }
-        function myrandom( _range=100, _min=0 ) {
-            return _min + Math.floor(Math.random() * _range)
-        }
-
-    </script>
 </head>
-<body onload="mystart()">
+<body onload="mystart__()">
     <div style="position:relative;height:6vh">
         <output id="status" style="display:inline;color: white;">blabla</output>
     </div>
     <div id="div-canvas" style="position:relative;height:90vh">
         <canvas id="mycanvas" style="z-index:1;"></canvas>
     </div>
+
+    <script>
+        var HMAX = 1800        // maximum magasság érték pl 0..1000, ezt képezzük le a képernyőre
+        var WMAX = 1000
+        var FPS = 10
+        var planet = {
+            name: "Föld", 
+            image: "Luna.jpg",
+            g: 3.711,           // gravitációs állandó (m/s²).
+                                // Föld: 9.807, Hold: 1.622, Mars: 3.711 m/s², A Jupiteren: 24.79 m/s²
+                                // Tapasztalati érték, játssz vele!
+            ground_levely: 50   //
+        }
+        var lander = {
+            x:100,              // kezdeti elhelyezkedés
+            y:1000,             // kezdeti magasság
+            sprite : { 
+                img_src:'raketa4.png',
+                sheet:new Image, 
+                width: 200,
+                height: 200,
+                cols:1,
+                rows:6
+            },
+            scaleY:20,        // a megjelenítési méret a képernyő százalékában
+        }
+        //
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        // v v v v v v v v v v v v v v v v v v v v v v v v
+        var game = { state: 'kezd' }
+
+        function gamePlay() {
+            if (lander.y > 10) {
+                lander.y -= 10
+            }
+
+        }
+
+        function myrestart() {
+            game.state = 'kezd'
+            lander.x = 100
+            lander.y = 1000
+            lander.height = 64
+            time.tick = 0
+            time.tickMs = 1000 / time.FPS
+        }
+
+        // ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        //
+        var time = {
+            tick:    0,         // számláló (idő)
+            tickMs_: 1000,      // frissités gyakorisága Milisec-ben 1000/FPS
+            loop_:   0,
+            ms:      0          // store Date().getMilliseconds() 
+        }
+        function mystart__() {
+            lander.sprite.sheet.src = lander.sprite.img_src
+            document.body.addEventListener("keydown", handleKeyDown, false);
+            document.body.addEventListener("keyup", handleKeyUp, false);
+            document.getElementById("div-canvas").style.backgroundImage = `url('${planet.image}')`
+            let canv = document.getElementById("mycanvas");
+            let w = parseInt(document.getElementById("div-canvas").offsetWidth)
+            canv.height = canv.offsetHeight;
+            canv.width = canv.offsetWidth; //  just because it's needed...
+            myrestart()
+            gameLoop()
+            time.loop = setInterval(gameLoop, time.tickMs_)
+        }
+
+        function gameLoop() {
+            time.tick += 1
+            log(`tick:${time.tick}`,2)
+            time.ms = new Date().getMilliseconds()
+
+            if (game.state == 'kezd') {
+                message("Hello", 'purple')
+            } else if (game.state == 'játék') {
+                gamePlay()
+            } else if (game.state == 'vége') {
+                message("THE END")
+            }
+
+            ctx.clearRect(0,0,canv.offsetWidth,canv.offsetHeight)
+            updateImage(lander, planet)
+            logDraw()
+            messageDraw()
+        }
+
+        var canv = document.getElementById("mycanvas");
+        var ctx = canv.getContext("2d");
+        function updateImage(l, p) {
+            let ix = 0
+            let iy = 0
+
+            let s2 = canv.offsetHeight * lander.scaleY / 100 // 100 - Math.floor(Math.abs(l.y - p.ground_y) / 10)  + 50
+
+            let H = canv.offsetHeight - s2;
+            let W = canv.offsetWidth - s2;
+            let x2 = l.x / WMAX
+            let y2 = l.y / HMAX
+            log(`ix:${ix} iy:${iy} img:${lander.sprite.sheet.src} x:${Math.floor(W * x2)} y:${H - Math.floor(H * y2)}, s2:${s2}`,1)
+
+            ctx.drawImage(lander.sprite.sheet,ix*lander.sprite.width, iy*lander.sprite.height, lander.sprite.width, lander.sprite.height, Math.floor(W * x2), H - Math.floor(H * y2), s2, s2)
+        }
+
+        //this.text= function(text_, x_=0, y_=0, align_='center', color_='red', font_='5vmin Comic Sans MS') {
+        var mainmessage= { text:'', color:'red', blinkHz:0, blinkMs:0 }
+        function message(text_, color_='red', blinkHz_=0) {
+            mainmessage.text = text_
+            mainmessage.color = color_
+            mainmessage.blinkHz = blinkHz_
+            if (blinkHz_ >= 1) {
+                mainmessage.blinkMs = 1000 / blinkHz_
+            } else {
+                mainmessage.blinkMs = 0
+            }
+        }
+        function messageDraw() {
+            if (mainmessage.blinkHz == 0 || Math.floor(time.ms / mainmessage.bkinkMs) % 2 == 0) {
+                ctx.fillStyle = mainmessage.color
+                ctx.textAlign = 'center'
+                ctx.font = '5vmin Comic Sans MS'
+                p = posToPx(WMAX/10, HMAX/2)
+                ctx.fillText(mainmessage.text, p.x, p.y);
+            }
+        }
+        var keysDown = ""
+        function handleKeyDown(event) {
+            if (keysDown.indexOf(event.key) == -1) {
+                keysDown += event.key
+                log(`key-down: ${event.key}-${event.keyCode}-${event.which} keys:${keysDown} state:${game.state}`, 2)
+            }
+        }
+        function handleKeyUp(event) {
+            let i = keysDown.indexOf(event.key)
+            keysDown = keysDown.slice(0,i) + keysDown.slice(i+1)
+            log(`key-rel: ${event.key}-${event.keyCode}-${event.which} keys:${keysDown} state:${game.state}`, 1)
+        }
+
+
+        function posToPx( x_, y_ ) {
+            let sw = canv.clientWidth;
+            let sh = canv.clientHeight;
+            let rw = sw / WMAX             // screenwidth_per_canvaswith
+            let rh = sh / HMAX             // screenheight_per_canvasheight
+            let offset_x = (rh < rw) ? Math.floor((sw - rh*WMAX) / 2) : 0
+            let offset_y = (rh < rw) ? 0 : Math.floor((sh - rw*HMAX) / 2) 
+            let rat = Math.min(rh,rw)
+
+            px = { x: Math.floor(x_*rat + offset_x), 
+                   y: Math.floor(sh - y_*rat - offset_y) }
+            //console.log(`  posToPx(${x_}:${y_}) -> ${px.x}:${px.y}`);
+            //console.log(`    scr:${sw}:${sh} can:${this.width}:${this.height} offset:${offset_x}:${offset_y}, h-y:${y_*rat}, rat:${rat}:${rw}:${rh}`);
+            return px
+        }
+
+        var lines=[]
+        function log(text,_line=0) {
+            if (_line==0) {
+                lines.push(text)
+            } else {
+                lines[_line-1] = text
+            }
+            console.log(text)
+        }
+        function logDraw() {
+            let logtext = lines.join("<br>")
+            document.getElementById("status").innerHTML = logtext
+            //lines = []
+        }
+        function myrandom( _range=100, _min=0 ) {
+            return _min + Math.floor(Math.random() * _range)
+        }
+
+    </script>
 </body>
 <html>
