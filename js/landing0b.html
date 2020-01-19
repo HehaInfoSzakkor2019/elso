@@ -15,22 +15,28 @@
         var WMAX = 1000
         var time = {
             tick: 0, 
-            loop: 0
+            loop: 0,
+            FPS: 10
         }
         var gameData = { gameState: 'startup' }
         var planet = {
-            name: "Föld", image: "Luna.jpg",
-            height: 600, width: 800,
+            name: "Föld", 
+            image: "Luna.jpg",
+            height: 600, 
+            width: 800,
             g: 3.711,     // gravitációs állandó (m/s²).
             // Föld: 9.807, Hold: 1.622, Mars: 3.711 m/s², A Jupiteren: 24.79 m/s²
             // Tapasztalati érték, játssz vele!
             ground_y: 50
         }
         var lander = {
+            x:100,
+            y:1000,
             url_spritesheet:'raketa4.png',
             spritesheet:new Image, 
             spriteWidth:200, spriteHeight:200, spriteCols:4, spriteRows:6,
             size2:250         // aktuális pont méret (magasság és szélesség is)
+           
         }
         function mystart() {
             time.tickMs = 1000
@@ -46,6 +52,7 @@
             lander.x = 100
             lander.y = 1000
             lander.height = 64
+            time.tickMs = 1000 / time.FPS
             time.loop = setInterval(gameLoop, time.tickMs)
         }
 
@@ -53,6 +60,10 @@
             time.tick += 1
 
             log(`tick:${time.tick}`)
+
+            if (lander.y > 10) {
+                lander.y -= 10
+            }
 
             updateImage(lander, planet)
         }
