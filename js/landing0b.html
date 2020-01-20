@@ -10,7 +10,7 @@
         canvas { width: 100%; height: 100%; }
     </style>
 </head>
-<body onload="mystart__()">
+<body onload="mystart_()">
     <div style="position:relative;height:6vh">
         <output id="status" style="display:inline;color: white;">blabla</output>
     </div>
@@ -49,9 +49,29 @@
         // v v v v v v v v v v v v v v v v v v v v v v v v
         var game = { state: 'kezd' }
 
+        function gameBegin() {
+            message("Hello! Ez itt a holdraszállás játék.", 'purple')
+            if (isAnyPressed()) {
+                //xgame.state = 'játék'
+            }
+		}
         function gamePlay() {
             if (lander.y > 10) {
                 lander.y -= 10
+            }
+        }
+		function gameEnd() {
+            message("VÉGE")
+		}
+
+		// -----------------------------------------------
+        function gameLoop() {
+            if (game.state == 'kezd') {
+			   gameBegin()
+            } else if (game.state == 'játék') {
+                gamePlay()
+            } else if (game.state == 'vége') {
+                gameEnd()
             }
         }
 
@@ -74,7 +94,7 @@
             loop_:   0,
             ms:      0             // store Date().getMilliseconds() 
         }
-        function mystart__() {
+        function mystart_() {
             lander.sprite.sheet.src = lander.sprite.img_src
             document.body.addEventListener("keydown", handleKeyDown, false);
             document.body.addEventListener("keyup", handleKeyUp, false);
@@ -85,26 +105,15 @@
             canv.width = canv.offsetWidth; //  just because it's needed...
             myrestart()
             gameLoop()
-            time.loop = setInterval(gameLoop, time.tickMs_)
+            time.loop = setInterval(gameLoop_, time.tickMs_)
         }
 
-        function gameLoop() {
+        function gameLoop_() {
             time.tick += 1
             log(`tick:${time.tick}`,2)
             time.ms = new Date().getMilliseconds()
 
-            if (game.state == 'kezd') {
-                message("Hello! Ez itt a holdraszállás játék.", 'purple')
-                if (isAnyPressed()) {
-                    game.state = 'játék'
-                    message('')
-                }
-            } else if (game.state == 'játék') {
-
-                gamePlay()
-            } else if (game.state == 'vége') {
-                message("THE END")
-            }
+			gameLoop()
 
             ctx.clearRect(0,0,canv.offsetWidth,canv.offsetHeight)
             updateImage(lander, planet)
@@ -150,17 +159,21 @@
                 ctx.fillText(mainmessage.text, p.x, p.y);
             }
         }
-        var keysDown = ""
+        var keysDown = [];
+		//keysDown.push(1)
         function handleKeyDown(event) {
-            if (keysDown.indexOf(event.key) == -1) {
-                keysDown += event.key
-                log(`key-down: ${event.key}-${event.keyCode}-${event.which} keys:${keysDown} state:${game.state}`, 2)
+            if (keysDown.indexOf(event.keyCode) == -1) {
+                //keysDown.push(event.keyCode)
+                keysDown += event.keyCode + ','
+				s = JSON.stringify(keysDown)
+                log(`key-down: ${event.key}-${event.keyCode} keys:${keysDown} state:${game.state}`, 3)
             }
         }
-        function handleKeyUp(event) {
-            let i = keysDown.indexOf(event.key)
-            keysDown = keysDown.slice(0,i) + keysDown.slice(i+1)
-            log(`key-rel: ${event.key}-${event.keyCode}-${event.which} keys:${keysDown} state:${game.state}`, 1)
+        function handleKeyUp(event) {s
+            let i = keysDown.indexOf(event.keyCode)
+            keysDown = keysDown.slice(0,i) + keysDown.slice(i+3)
+				s = JSON.stringify(keysDown)
+            log(`key-rel: ${event.key}-${event.keyCode} keys:${s} state:${game.state}`, 3)
         }
 
         function isAnyKeyPressedOf(keys) {
