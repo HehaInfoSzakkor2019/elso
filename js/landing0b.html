@@ -21,7 +21,7 @@
     <script>
         var HMAX = 1800        // maximum magasság érték pl 0..1000, ezt képezzük le a képernyőre
         var WMAX = 1000
-        var FPS = 10
+        var FPS = 1
         var planet = {
             name: "Föld", 
             image: "Luna.jpg",
@@ -53,7 +53,6 @@
             if (lander.y > 10) {
                 lander.y -= 10
             }
-
         }
 
         function myrestart() {
@@ -70,10 +69,10 @@
         // | | | | | | | | | | | | | | | | | | | | | | | |
         //
         var time = {
-            tick:    0,         // számláló (idő)
-            tickMs_: 1000,      // frissités gyakorisága Milisec-ben 1000/FPS
+            tick:    0,            // számláló (idő)
+            tickMs_: 1000 / FPS,   // frissités gyakorisága Milisec-ben 1000/FPS
             loop_:   0,
-            ms:      0          // store Date().getMilliseconds() 
+            ms:      0             // store Date().getMilliseconds() 
         }
         function mystart__() {
             lander.sprite.sheet.src = lander.sprite.img_src
@@ -95,8 +94,13 @@
             time.ms = new Date().getMilliseconds()
 
             if (game.state == 'kezd') {
-                message("Hello", 'purple')
+                message("Hello! Ez itt a holdraszállás játék.", 'purple')
+                if (isAnyPressed()) {
+                    game.state = 'játék'
+                    message('')
+                }
             } else if (game.state == 'játék') {
+
                 gamePlay()
             } else if (game.state == 'vége') {
                 message("THE END")
@@ -142,7 +146,7 @@
                 ctx.fillStyle = mainmessage.color
                 ctx.textAlign = 'center'
                 ctx.font = '5vmin Comic Sans MS'
-                p = posToPx(WMAX/10, HMAX/2)
+                p = posToPx(WMAX/2, 2*HMAX/3)
                 ctx.fillText(mainmessage.text, p.x, p.y);
             }
         }
@@ -159,6 +163,16 @@
             log(`key-rel: ${event.key}-${event.keyCode}-${event.which} keys:${keysDown} state:${game.state}`, 1)
         }
 
+        function isAnyKeyPressedOf(keys) {
+            let val = false
+            for (let i=0;!val && i<keys.length;i+=1) {
+                val = (keysDown.indexOf(keys.charAt(i)) != -1)
+            }
+            return val
+        } 
+        function isAnyPressed(keys) {
+            return keysDown.length > 0
+        } 
 
         function posToPx( x_, y_ ) {
             let sw = canv.clientWidth;
