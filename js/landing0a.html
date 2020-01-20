@@ -27,13 +27,13 @@
             ground_y: 50
         }
         var lander = {
-            url_spritesheet:'rocket2.png',
+            url_spritesheet:'raketa3.png',
             spritesheet:new Image, 
-            spriteWidth:64, spriteHeight:64, spriteCols:4, spriteRows:6,
+            spriteWidth:256, spriteHeight:256, spriteCols:4, spriteRows:6,
             size2:250         // aktuális pont méret (magasság és szélesség is)
         }
         function mystart() {
-            time.tickMs = 1000
+            time.tickMs = 250
             lander.spritesheet.src = lander.url_spritesheet
             document.getElementById("div-canvas").style.backgroundImage = `url('${planet.image}')`
             let canv = document.getElementById("mycanvas");
@@ -61,7 +61,7 @@
             let ctx = canv.getContext("2d");
             ctx.clearRect(0,0,canv.offsetWidth,canv.offsetHeight)
 
-            let ix = 0
+            let ix = time.tick%4//0
             let iy = 0
 
             let s2 = lander.size2 // 100 - Math.floor(Math.abs(l.y - p.ground_y) / 10)  + 50
@@ -71,8 +71,9 @@
             let x2 = l.x / WMAX
             let y2 = l.y / HMAX
             log(`ix:${ix} iy:${iy} img:${lander.spritesheet.src} x:${Math.floor(W * x2)} y:${H - Math.floor(H * y2)}, s2:${s2}`,1)
-
-            ctx.drawImage(lander.spritesheet,ix*64, iy*64, 64, 64, Math.floor(W * x2), H - Math.floor(H * y2), s2, s2)
+            let w1 = lander.spriteWidth
+            let h1 = lander.spriteHeight
+            ctx.drawImage(lander.spritesheet,ix*w1, iy*h1, w1, h1, Math.floor(W * x2), H - Math.floor(H * y2), s2, s2)
         }
         var lines = [""]
         function log(text,_line=1) {
