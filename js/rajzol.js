@@ -5,8 +5,10 @@ var time = {
     tickMs: 50, tickPerFrame: 1, msPerTick: 1000,
     loop: 0
 }
+Tu
 function start() {
     i = 0
+    while (i<)
 
 }
 
