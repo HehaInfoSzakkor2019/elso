@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <style>
+        html, body { width: 100%; height: 100%; margin: 0; padding: 0 }
+        body { background: black no-repeat left bottom; }
+        div { background: black no-repeat left bottom; margin: 0; padding: 0 }
+        canvas { width: 100%; height: 100%; }
+    </style>
+</head>
+<body onload="mystart_()">
+    <div style="position:relative;height:6vh">
+        <output id="status" style="display:inline;color: white;">blabla</output>
+    </div>
+    <div id="div-canvas" style="position:relative;height:90vh">
+        <canvas id="mycanvas" style="z-index:1;"></canvas>
+    </div>
+
+    <script>
+        var HMAX = 1800        // maximum magasság érték pl 0..1000, ezt képezzük le a képernyőre
+        var WMAX = 1000
+        var FPS = 30
+        var planet = {
+            name: "Föld", 
+            image: "Luna.jpg",
+            g: 1.622,           // gravitációs állandó (m/s²).
+                                // Föld: 9.807, Hold: 1.622, Mars: 3.711 m/s², A Jupiteren: 24.79 m/s²
+                                // Tapasztalati érték, játssz vele!
+            ground_levely: 50   //
+        }
+        var lander = {
+            x:100,              // kezdeti elhelyezkedés, m
+            y:1000,             // kezdeti magasság, m
+            sprite : { 
+                img_src:'raketa4.png',
+                sheet:new Image, 
+                width: 200,
+                height: 200,
+                cols:1,
+                rows:6
+            },
+            scaleY:20,        // a megjelenítési méret a képernyő százalékában
+        }
+        //
+		var key2event = { 32:'up', 38:'up', 87:'up' }
+		const uiActions = { 'up':[32 , 38, 83, 87]
+						, 'right':[39 , 68, 102]
+						, 'left':[37 , 65, 100] }
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        // v v v v v v v v v v v v v v v v v v v v v v v v
+        var game = { state: 'kezd', keysDown:[], input:[] }
+
+        function gameBegin() {
+            message("Hello! Ez itt a holdraszállás játék.", 'purple')
+			
+            if (isAnyPressed()) {
+                game.state = 'játék'
+				message("Vigyázz! Óvatosan, hogy össze ne törtjön...")
+            }
+		}
+        function gamePlay() {
+            if (lander.y > 10) {
+                lander.y -= 10
+            }
+			
+			//uiInput = getInputs()
+			//log(`ui: ${uiInput}`)
+        }
+		function gameEnd() {
+            message("VÉGE")
+		}
+
+		// -----------------------------------------------
+        function gameLoop() {
+            if (game.state == 'kezd') {
+			   gameBegin()
+            } else if (game.state == 'játék') {
+                gamePlay()
+            } else if (game.state == 'vége') {
+                gameEnd()
+            }
+        }
+
+        function myrestart() {
+            game.state = 'kezd'
+            lander.x = 100
+            lander.y = 1000
+            lander.height = 64
+            time.tick = 0
+            time.tickMs = 1000 / time.FPS
+        }
+
+        // ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        //
+        var time = {
+            tick:    0,            // számláló (idő)
+            tickMs_: 1000 / FPS,   // frissités gyakorisága Milisec-ben 1000/FPS
+            loop_:   0,
+            ms:      0             // store Date().getMilliseconds() 
+        }
+        function mystart_() {
+            lander.sprite.sheet.src = lander.sprite.img_src
+            document.body.addEventListener("keydown", handleKeyDown, false);
+            document.body.addEventListener("keyup", handleKeyUp, false);
+            document.getElementById("div-canvas").style.backgroundImage = `url('${planet.image}')`
+            let canv = document.getElementById("mycanvas");
+            let w = parseInt(document.getElementById("div-canvas").offsetWidth)
+            canv.height = canv.offsetHeight;
+            canv.width = canv.offsetWidth; //  just because it's needed...
+            myrestart()
+            gameLoop()
+            time.loop = setInterval(gameLoop_, time.tickMs_)
+        }
+
+        function gameLoop_() {
+            time.tick += 1
+            log(`tick:${time.tick} state:${game.state} keys:${keysDown}`,2)
+			
+            time.ms = new Date().getMilliseconds()
+
+			gameLoop()
+
+            ctx.clearRect(0,0,canv.offsetWidth,canv.offsetHeight)
+            updateImage(lander, planet)
+            logDraw()
+            messageDraw()
+        }
+
+        var canv = document.getElementById("mycanvas");
+        var ctx = canv.getContext("2d");
+        function updateImage(l, p) {
+            let ix = 0
+            let iy = 0
+
+            let s2 = canv.offsetHeight * lander.scaleY / 100 // 100 - Math.floor(Math.abs(l.y - p.ground_y) / 10)  + 50
+
+            let H = canv.offsetHeight - s2;
+            let W = canv.offsetWidth - s2;
+            let x2 = l.x / WMAX
+            let y2 = l.y / HMAX
+            log(`ix:${ix} iy:${iy} img:${lander.sprite.sheet.src} x:${Math.floor(W * x2)} y:${H - Math.floor(H * y2)}, s2:${s2}`,1)
+
+            ctx.drawImage(lander.sprite.sheet,ix*lander.sprite.width, iy*lander.sprite.height, lander.sprite.width, lander.sprite.height, Math.floor(W * x2), H - Math.floor(H * y2), s2, s2)
+        }
+
+        //this.text= function(text_, x_=0, y_=0, align_='center', color_='red', font_='5vmin Comic Sans MS') {
+        var mainmessage= { text:'', color:'red', blinkHz:0, blinkMs:0 }
+        function message(text_, color_='red', blinkHz_=0) {
+            mainmessage.text = text_
+            mainmessage.color = color_
+            mainmessage.blinkHz = blinkHz_
+            if (blinkHz_ >= 1) {
+                mainmessage.blinkMs = 1000 / blinkHz_
+            } else {
+                mainmessage.blinkMs = 0
+            }
+        }
+        function messageDraw() {
+            if (mainmessage.blinkHz == 0 || Math.floor(time.ms / mainmessage.bkinkMs) % 2 == 0) {
+                ctx.fillStyle = mainmessage.color
+                ctx.textAlign = 'center'
+                ctx.font = '5vmin Comic Sans MS'
+                p = posToPx(WMAX/2, 2*HMAX/3)
+                ctx.fillText(mainmessage.text, p.x, p.y);
+            }
+        }
+        var keysDown = [];
+		//keysDown.push(1)
+        function handleKeyDown(event) {
+            if (keysDown.indexOf(event.keyCode) == -1) {
+                keysDown.push(event.keyCode)
+                //log(`key-down: ${event.keyCode}-${event.key}-${event.code}-`, 3)
+            }
+        }
+        function handleKeyUp(event) {
+            let i = keysDown.indexOf(event.keyCode)
+            //keysDown = keysDown.slice(0,i) + keysDown.slice(i+3)
+            keysDown.splice(i,1)
+			s = JSON.stringify(keysDown)
+            //log(`key-rel: idx:${i} ${event.keyCode}-${event.key}-`, 3)
+        }
+
+        function isAnyKeyPressedOf(keys) {
+            let val = false
+            for (let i=0;!val && i<keys.length;i+=1) {
+                val = (keysDown.indexOf(keys.charAt(i)) != -1)
+            }
+            return val
+        } 
+        function isAnyPressed(keys) {
+            return keysDown.length > 0
+        } 
+
+		function getInputs() {
+			ret = []
+			//log(`zz.${JSON.stringify(uiActions)}`)
+			Object.keys(uiActions).forEach(x => {
+				if (uiActions[x].some(r=> keysDown.includes(r))) {
+					ret.push(x)
+				}
+			})
+
+			return ret
+		}
+
+
+        function posToPx( x_, y_ ) {
+            let sw = canv.clientWidth;
+            let sh = canv.clientHeight;
+            let rw = sw / WMAX             // screenwidth_per_canvaswith
+            let rh = sh / HMAX             // screenheight_per_canvasheight
+            let offset_x = (rh < rw) ? Math.floor((sw - rh*WMAX) / 2) : 0
+            let offset_y = (rh < rw) ? 0 : Math.floor((sh - rw*HMAX) / 2) 
+            let rat = Math.min(rh,rw)
+
+            px = { x: Math.floor(x_*rat + offset_x), 
+                   y: Math.floor(sh - y_*rat - offset_y) }
+            //console.log(`  posToPx(${x_}:${y_}) -> ${px.x}:${px.y}`);
+            //console.log(`    scr:${sw}:${sh} can:${this.width}:${this.height} offset:${offset_x}:${offset_y}, h-y:${y_*rat}, rat:${rat}:${rw}:${rh}`);
+            return px
+        }
+
+        var lines=[]
+        function log(text,_line=0) {
+            if (_line==0) {
+                lines.push(text)
+            } else {
+                lines[_line-1] = text
+            }
+            console.log(text)
+        }
+        function logDraw() {
+            let logtext = lines.join("<br>")
+            document.getElementById("status").innerHTML = logtext
+            //lines = []
+        }
+        function myrandom( _range=100, _min=0 ) {
+            return _min + Math.floor(Math.random() * _range)
+        }
+
+    </script>
+</body>
+<html>
