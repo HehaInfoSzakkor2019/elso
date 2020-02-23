@@ -195,9 +195,8 @@
             //log(`key-rel: idx:${i} ${event.keyCode}-${event.key}-`, 3)
         }
         function handleTouchDown(event) {
-		    uimsg = 't.down ' 
-			   + event.touches.length + "." + event.changedtouches.length
-			   + event.touches[0].identifier
+		    uimsg = 't.down ' + \
+			   event.touches.length + "." + event.changedtouches.length + event.touches[0].identifier
 			event.preventDefault();
         }
         function handleTouchUp(event) {
