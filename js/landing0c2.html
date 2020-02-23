@@ -203,11 +203,14 @@
 				mytouch.y0 = event.touches[0].pageY
 			} else if (event.type == 'touchend' && event.touches.length == 1) {
 				mytouch.id = 0
+				mytouch.dx = 0
+				mytouch.dy = 0
+			} else if (event.type == 'touchmove') {
 				mytouch.dx = event.touches[0].pageX - mytouch.x0
 				mytouch.dy = event.touches[0].pageY - mytouch.y0
-			} else if (event.type == 'touchmove') {
 				uimsg = 't.' + event.type + event.touches.length + "." + mytouch.dx + "." + mytouch.dy
 			}
+			uimsg = 't.' + event.type + event.touches.length + "." + mytouch.dx + "." + mytouch.dy
         }
 
         function isAnyKeyPressedOf(keys) {
@@ -229,6 +232,14 @@
 					ret.push(x)
 				}
 			})
+			if (mytouch.dy < -20) {
+			    ret.push('up')
+			}
+			if (mytouch.xy < -20) {
+			    ret.push('left')
+			} else if (mytouch.xy > 20) {
+			    ret.push('right')
+			}
 
 			return ret
 		}
