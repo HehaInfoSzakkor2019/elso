@@ -201,7 +201,7 @@
 				mytouch.id = event.touches[0].identifier
 				mytouch.x0 = event.touches[0].pageX
 				mytouch.y0 = event.touches[0].pageY
-			} else if (event.type == 'touchend' && event.touches.length == 1) {
+			} else if (event.type == 'touchend' && event.changedTouches[0].identifier == mytouch.id) {
 				mytouch.id = 0
 				mytouch.dx = 0
 				mytouch.dy = 0
