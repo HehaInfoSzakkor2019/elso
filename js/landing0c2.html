@@ -198,15 +198,16 @@
         function handleTouch(event) {
 			event.preventDefault();
 		    if (event.type == 'touchstart' && event.touches.length == 1) {
-			   mytouch.id = event.touches[0].identifier
-			   mytouch.x0 = event.touches[0].pageX
-			   mytouch.y0 = event.touches[0].pageY
+				mytouch.id = event.touches[0].identifier
+				mytouch.x0 = event.touches[0].pageX
+				mytouch.y0 = event.touches[0].pageY
 			} else if (event.type == 'touchend' && event.touches.length == 1) {
-			   mytouch.id = 0
-			   mytouch.dx = event.touches[0].pageX - mytouch.x0
-			   mytouch.dy = event.touches[0].pageY - mytouch.y0
+				mytouch.id = 0
+				mytouch.dx = event.touches[0].pageX - mytouch.x0
+				mytouch.dy = event.touches[0].pageY - mytouch.y0
 			} else if (event.type == 'touchmove') {
-		    uimsg = 't.' + event.type + event.touches.length + "." + mytouch.dx + "." + mytouch.dy
+				uimsg = 't.' + event.type + event.touches.length + "." + mytouch.dx + "." + mytouch.dy
+			}
         }
 
         function isAnyKeyPressedOf(keys) {
