@@ -194,17 +194,19 @@
 			s = JSON.stringify(keysDown)
             //log(`key-rel: idx:${i} ${event.keyCode}-${event.key}-`, 3)
         }
-        function handleTouchDown(event) {
-		    uimsg = 't.down ' + event.type + event.touches.length + "." + event.changedTouches.length + "." + event.touches[0].identifier
+		var mytouch = { id:0, x0:0, y0:0, dx:0, dy:0 }
+        function handleTouch(event) {
 			event.preventDefault();
-        }
-        function handleTouchUp(event) {
-		    uimsg = 't.end ' + event.type + event.touches.length + "." + event.changedTouches.length + "." + event.touches[0].identifier + "." + event.touches[0].pageX
-			event.preventDefault();
-        }
-        function handleTouchMove(event) {
-		    uimsg = 't.move ' + event.type + event.touches.length + "." + event.changedTouches.length + "." + event.touches[0].identifier + "." + event.changedTouches[0].identifier  + "." + event.touches[0].pageX
-			event.preventDefault();
+		    if (event.type == 'touchstart' && event.touches.length == 1) {
+			   mytouch.id = event.touches[0].identifier
+			   mytouch.x0 = event.touches[0].pageX
+			   mytouch.y0 = event.touches[0].pageY
+			} else if (event.type == 'touchend' && event.touches.length == 1) {
+			   mytouch.id = 0
+			   mytouch.dx = event.touches[0].pageX - mytouch.x0
+			   mytouch.dy = event.touches[0].pageY - mytouch.y0
+			} else if (event.type == 'touchmove') {
+		    uimsg = 't.' + event.type + event.touches.length + "." + mytouch.dx + "." + mytouch.dy
         }
 
         function isAnyKeyPressedOf(keys) {
