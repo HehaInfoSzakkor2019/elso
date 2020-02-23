@@ -198,12 +198,15 @@
 		    uimsg = 't.down ' 
 			   + event.touches.length + "." + event.changedtouches.length
 			   + event.touches[0].identifier
+			event.preventDefault();
         }
         function handleTouchUp(event) {
 		    uimsg = 't.end ' + event.touches.length;
+			event.preventDefault();
         }
         function handleTouchMove(event) {
 		    uimsg = 't.move ' + event.touches.length;
+			event.preventDefault();
         }
 
         function isAnyKeyPressedOf(keys) {
