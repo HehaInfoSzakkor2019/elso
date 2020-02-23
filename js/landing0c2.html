@@ -219,9 +219,26 @@
                 val = (keysDown.indexOf(keys.charAt(i)) != -1)
             }
             return val
-        } 
+        }
+		var keyDownHist = false	
+		var touchHist = false
         function isAnyPressed(keys) {
-            return keysDown.length > 0
+		    let ret = false
+			if (keyDownHist == false && keysDown.length > 0) {
+			    ret = true
+				keyDownHist = true
+			} else if (keyDownHist && keysDown.length == 0) {
+				keyDownHist = false
+			}
+
+			if (touchHist == false && mytouch.id != 0) {
+			    ret = true
+				touchHist = true
+			} else if (touchHist && mytouch.id == 0) {
+				keyDownHist = false
+			}
+			
+		    return ret
         } 
 
 		function getInputs() {
@@ -232,13 +249,15 @@
 					ret.push(x)
 				}
 			})
-			if (mytouch.dy < 10) {
-			    ret.push('up')
-			}
-			if (mytouch.xy < -20) {
-			    ret.push('left')
-			} else if (mytouch.xy > 20) {
-			    ret.push('right')
+			if (mytouch.id != 0) {
+				if (mytouch.dy < 10) {
+					ret.push('up')
+				}
+				if (mytouch.xy < -20) {
+					ret.push('left')
+				} else if (mytouch.xy > 20) {
+					ret.push('right')
+				}
 			}
 
 			return ret
