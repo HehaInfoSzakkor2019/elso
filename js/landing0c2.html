@@ -195,15 +195,15 @@
             //log(`key-rel: idx:${i} ${event.keyCode}-${event.key}-`, 3)
         }
         function handleTouchDown(event) {
-		    uimsg = 't.down ' + event.type + event.touches.length + "." + event.changedTouches.length + event.touches[0].identifier
+		    uimsg = 't.down ' + event.type + event.touches.length + "." + event.changedTouches.length + "." + event.touches[0].identifier
 			event.preventDefault();
         }
         function handleTouchUp(event) {
-		    uimsg = 't.end ' + event.type + event.touches.length + "." + event.changedTouches.length + event.touches[0].identifier + event.touches[0].pageX
+		    uimsg = 't.end ' + event.type + event.touches.length + "." + event.changedTouches.length + "." + event.touches[0].identifier + "." + event.touches[0].pageX
 			event.preventDefault();
         }
         function handleTouchMove(event) {
-		    uimsg = 't.move ' + event.type + event.touches.length + "." + event.changedTouches.length + event.touches[0].identifier
+		    uimsg = 't.move ' + event.type + event.touches.length + "." + event.changedTouches.length + "." + event.touches[0].identifier + "." + event.changedTouches[0].identifier  + "." + event.touches[0].pageX
 			event.preventDefault();
         }
 
