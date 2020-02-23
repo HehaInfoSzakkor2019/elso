@@ -194,13 +194,13 @@
             //log(`key-rel: idx:${i} ${event.keyCode}-${event.key}-`, 3)
         }
         function handleTouchDown(event) {
-		    uimsg = 't.down' + event;
+		    uimsg = 't.down ' + event.touches.length;
         }
         function handleTouchUp(event) {
-		    uimsg = 't.end' + event;
+		    uimsg = 't.end ' + event.touches.length;
         }
         function handleTouchMove(event) {
-		    uimsg = 't.move' + event;
+		    uimsg = 't.move ' + event.touches.length;
         }
 
         function isAnyKeyPressedOf(keys) {
