@@ -3,8 +3,14 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
+	<meta name="msapplication-tap-highlight" content="no"/> 
     <style>
-	    * { margin: 0; padding: 0; touch-action:none;
+	    * { margin: 0; padding: 0; }
+        html, body { width: 100%; height: 100%; }
+        body { background: black no-repeat left bottom; }
+        div { background: black no-repeat left bottom; margin: 0; padding: 0 }
+        canvas { width: 100%; height: 100%;
+			touch-action:none;
             -webkit-touch-callout: none;
 			-webkit-user-select: none;
 			-khtml-user-select: none;
@@ -12,11 +18,6 @@
 			-ms-user-select: none;
 			user-select: none;
 			outline: none;
-		}
-        html, body { width: 100%; height: 100%; }
-        body { background: black no-repeat left bottom; }
-        div { background: black no-repeat left bottom; margin: 0; padding: 0 }
-        canvas { width: 100%; height: 100%;
 			-webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
 		}
 	}
@@ -124,9 +125,10 @@
             document.body.addEventListener("keydown", handleKeyDown, false);
             document.body.addEventListener("keyup", handleKeyUp, false);
 			if ('ontouchstart' in window) {
-				document.body.addEventListener("touchstart", handleTouch, false)
-				document.body.addEventListener("touchend", handleTouch, false)
-				document.body.addEventListener("touchmove", handleTouch, false)
+				//document.body.addEventListener("touchstart", handleTouch, false)
+				window.addEventListener("touchstart", handleTouch, false)
+				window.addEventListener("touchend", handleTouch, false)
+				window.addEventListener("touchmove", handleTouch, false)
 			}
             document.getElementById("div-canvas").style.backgroundImage = `url('${planet.image}')`
             let canv = document.getElementById("mycanvas");
