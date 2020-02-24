@@ -25,10 +25,10 @@
     </style>
 </head>
 <body onload="mystart_()">
-    <div style="position:relative;height:6vh">
+    <div style="position:relative;height:19vh">
         <output id="status" style="display:inline;color: white;">blabla</output>
     </div>
-    <div id="div-canvas" style="position:relative;height:90vh">
+    <div id="div-canvas" style="position:relative;height:80vh">
         <canvas id="mycanvas" style="z-index:1;"></canvas>
     </div>
 
@@ -212,6 +212,8 @@
 		var mytouch = { id:0, x0:0, y0:0, dx:0, dy:0 }
         function handleTouch(event) {
 			event.preventDefault();
+            log(`t.${JSON.stringify(event)}`,3)
+
 		    if (event.type == 'touchstart' && event.touches.length == 1) {
 				mytouch.id = 1 // LOVAS event.touches[0].identifier
 				mytouch.x0 = event.touches[0].pageX
