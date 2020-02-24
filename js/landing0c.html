@@ -113,7 +113,7 @@
             }
 			
             //message(uiInput)
-			message(" ay:" + lander.ay + "vy: " + lander.vy)
+			message(" ay:" + lander.ay.toFixed(2) + "vy: " + lander.vy.toFixed(2))
 			
         }
 		function gameEnd() {
@@ -196,7 +196,7 @@
             let x2 = l.x / WMAX
             let y2 = l.y / HMAX
             //log(`ix:${ix} iy:${iy} img:${lander.sprite.sheet.src} x:${Math.floor(W * x2)} y:${H - Math.floor(H * y2)}, s2:${s2}`,1)
-            log(`x:${l.x} y:${l.y} ix:${ix} iy:${iy} x:${Math.floor(W * x2)} y:${H - Math.floor(H * y2)}, s2:${s2}`,1)
+            log(`x:${l.x.toFixed(2)} y:${l.y.toFixed(2)} ix:${ix} iy:${iy} x:${Math.floor(W * x2)} y:${H - Math.floor(H * y2)}, s2:${s2}`,1)
 
             ctx.drawImage(lander.sprite.sheet,ix*lander.sprite.width, iy*lander.sprite.height, lander.sprite.width, lander.sprite.height, Math.floor(W * x2), H - Math.floor(H * y2), s2, s2)
         }
