@@ -216,7 +216,8 @@
 				mytouch.id = 1 // LOVAS event.touches[0].identifier
 				mytouch.x0 = event.touches[0].pageX
 				mytouch.y0 = event.touches[0].pageY
-			} else if (event.type == 'touchend' && event.changedTouches[0].identifier == mytouch.id) {
+			//} else if (event.type == 'touchend' && event.changedTouches[0].identifier == mytouch.id) {
+			} else if (event.type == 'touchend' && event.touches.length <= 1) {
 				mytouch.id = 0
 				mytouch.dx = 0
 				mytouch.dy = 0
