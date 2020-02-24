@@ -108,12 +108,20 @@
                 lander.y = s
                 lander.vx += lander.ax * t       // v = a * t
                 lander.x += lander.vx * t       // s = v * t
+				
+				lander.scaleY = 50 - (50 * lander.y / HMAX)
+				if (lander.scaleY < 5) {
+				    lander.scaleY = 5
+				}
+				//  y:500    50 - (10 * 500/1000)
+				//
+
             } else {
                 game.state = 'vége'
             }
 			
             //message(uiInput)
-			message(" ay:" + lander.ay + "vy: " + lander.vy)
+			message(" ay:" + lander.ay.toFixed(1) + "m/s^2  vy: " + Math.floor(lander.vy) + "m/s")
 			
         }
 		function gameEnd() {
@@ -186,7 +194,7 @@
         var canv = document.getElementById("mycanvas");
         var ctx = canv.getContext("2d");
         function updateImage(l, p) {
-            let ix = time.tick % 4
+            let ix = (Math.floor(time.tick/4)) % 4
             let iy = lander.i
 
             let s2 = canv.offsetHeight * lander.scaleY / 100 // 100 - Math.floor(Math.abs(l.y - p.ground_y) / 10)  + 50
@@ -196,7 +204,8 @@
             let x2 = l.x / WMAX
             let y2 = l.y / HMAX
             //log(`ix:${ix} iy:${iy} img:${lander.sprite.sheet.src} x:${Math.floor(W * x2)} y:${H - Math.floor(H * y2)}, s2:${s2}`,1)
-            log(`x:${l.x} y:${l.y} ix:${ix} iy:${iy} x:${Math.floor(W * x2)} y:${H - Math.floor(H * y2)}, s2:${s2}`,1)
+            log(`x:${l.x.toFixed(2)} y:${l.y.toFixed(0)}m ix:${ix.toFixed(2)} iy:${iy.toFixed(2)} x:${Math.floor(W * x2)} y:${(H - Math.floor(H * y2)).toFixed(2)}, s2:${s2.toFixed(2)}`,1)
+            log(`x:${l.x.toFixed(2)} y:${l.y.toFixed(0)}m ix:${ix.toFixed(2)} iy:${iy.toFixed(2)} x:${Math.floor(W * x2)} y:${(H - Math.floor(H * y2)).toFixed(2)}, s2:${s2.toFixed(2)}`,1)
 
             ctx.drawImage(lander.sprite.sheet,ix*lander.sprite.width, iy*lander.sprite.height, lander.sprite.width, lander.sprite.height, Math.floor(W * x2), H - Math.floor(H * y2), s2, s2)
         }
