@@ -18,7 +18,7 @@
         body { background: black no-repeat left bottom; }
         div { background: black no-repeat left bottom; margin: 0; padding: 0 }
         canvas { width: 100%; height: 100%;
-			touch-action:none;
+			xxtouch-action:none;
             -xxwebkit-touch-callout: none;
 		}
 	}
@@ -123,17 +123,17 @@
         }
         function mystart_() {
             lander.sprite.sheet.src = lander.sprite.img_src
+            let canv = document.getElementById("mycanvas");
             document.body.addEventListener("keydown", handleKeyDown, false);
             document.body.addEventListener("keyup", handleKeyUp, false);
 			if ('ontouchstart' in window) {
 				//window.add ???
-				document.addEventListener("touchstart", handleTouch, true)
+				canv.addEventListener("touchstart", handleTouch, false)
 				//window.addEventListener("touchstart", handleTouch, false)
 				document.addEventListener("touchend", handleTouch, false)
 				window.addEventListener("touchmove", handleTouch, false)
 			}
             document.getElementById("div-canvas").style.backgroundImage = `url('${planet.image}')`
-            let canv = document.getElementById("mycanvas");
             let w = parseInt(document.getElementById("div-canvas").offsetWidth)
             canv.height = canv.offsetHeight;
             canv.width = canv.offsetWidth; //  just because it's needed...
