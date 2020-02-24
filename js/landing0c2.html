@@ -126,7 +126,7 @@
             document.body.addEventListener("keydown", handleKeyDown, false);
             document.body.addEventListener("keyup", handleKeyUp, false);
 			if ('ontouchstart' in window) {
-				document.body.addEventListener("touchstart", handleTouch, false)
+				document.addEventListener("touchstart", function(e) {handleTouch(e) }, false)
 				//window.addEventListener("touchstart", handleTouch, false)
 				document.addEventListener("touchend", handleTouch, false)
 				window.addEventListener("touchmove", handleTouch, false)
