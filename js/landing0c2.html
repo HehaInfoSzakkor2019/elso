@@ -212,7 +212,7 @@
 		var mytouch = { id:0, x0:0, y0:0, dx:0, dy:0 }
         function handleTouch(event) {
 			event.preventDefault();
-            log(`t.${JSON.stringify(event.touches)}.${event.touches.item(0)}`,3)
+            log(`t.${JSON.stringify(event.touches)}.${JSON.stringify(event.touches.item(0))}.${event.touches.item(0).identifier}`,3)
 
 		    if (event.type == 'touchstart' && event.touches.length == 1) {
 				mytouch.id = 1 // LOVAS event.touches[0].identifier
