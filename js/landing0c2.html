@@ -78,8 +78,10 @@
 		}
         function gamePlay() {
             if (lander.y > 10) {
-                lander.y -= 10
-            }
+                lander.y -= 20
+            } else {
+				game.state = 'vége'
+			}
 			
 			uiInput = getInputs()
 			if (uiInput.includes('up')) {
@@ -89,7 +91,12 @@
         }
 		function gameEnd() {
             message("VÉGE")
+			if (isWaitUntilNoInput()) {
+                game.state = 'kezd'
+				myrestart()
+			}
 		}
+
 
 		// -----------------------------------------------
         function gameLoop() {
@@ -250,29 +257,24 @@
             }
             return val
         }
-		var keyDownHist = false	
-		var touchHist = false
         function isAnyPressed(keys) {
 		    let ret = false
-			if (keyDownHist == false && keysDown.length > 0) {
+			
+			if (keysDown.length > 0) {
 			    ret = true
-				keyDownHist = true
-			} else if (keyDownHist && keysDown.length == 0) {
-				keyDownHist = false
 			}
 
-			if (touchHist == false && mytouch.id != 0) {
+			if (mytouch.id != 0) {
 			    ret = true
-				touchHist = true
-			} else if (touchHist && mytouch.id == 0) {
-				keyDownHist = false
 			}
 			
 		    return ret
         } 
 
-        function isWaitUntilNoInput(keys) {
-		    ret = False
+        function isWaitUntilNoInput() {
+                //log(`l4.${JSON.stringify(event.touches[0].target)}`,4)
+		    ret = (keysDown.length == 0) && (mytouch.id == 0)
+			return ret
 		}
 
 		function getInputs() {
