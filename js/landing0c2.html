@@ -227,7 +227,7 @@
 				mytouch.dx = event.touches[0].pageX - mytouch.x0
 				mytouch.dy = event.touches[0].pageY - mytouch.y0
 			}
-			uimsg = 't.' + event.type + event.touches.length + "." + mytouch.dx.toFixed(1) + "." + mytouch.dy.toFixed(1)
+			uimsg = 't.' + event.type + ":" + event.touches.length + ":" + mytouch.dx.toFixed(1) + ":" + mytouch.dy.toFixed(1)
         }
 
         function isAnyKeyPressedOf(keys) {
