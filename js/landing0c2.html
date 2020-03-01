@@ -168,7 +168,7 @@
             let W = canv.offsetWidth - s2;
             let x2 = l.x / WMAX
             let y2 = l.y / HMAX
-            log(`ix:${ix.toFixed(2)} iy:${iy.toFixed(2)} img:${lander.sprite.sheet.src.replace(/.*\//,'')}, ui:${uimsg} x:${Math.floor(W * x2)} y:${Math.floor(H - H * y2).toPrecision(2)}, s2:${s2}`,1)
+            log(`ix:${ix.toFixed(2)} iy:${iy.toFixed(2)} img:${lander.sprite.sheet.src.replace(/.*\//,'')}, ui:${uimsg} x:${Math.floor(W * x2)} y:${Math.floor(H - H * y2).toFixed(1)}, s2:${s2}`,1)
 
             ctx.drawImage(lander.sprite.sheet,ix*lander.sprite.width, iy*lander.sprite.height, lander.sprite.width, lander.sprite.height, Math.floor(W * x2), H - Math.floor(H * y2), s2, s2)
         }
