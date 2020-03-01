@@ -35,7 +35,7 @@
     <script>
         var HMAX = 1800        // maximum magasság érték pl 0..1000, ezt képezzük le a képernyőre
         var WMAX = 1000
-        var FPS = 30
+        var FPS = 10
         var planet = {
             name: "Föld", 
             image: "Luna.jpg",
@@ -242,13 +242,13 @@
 		    if (event.type == 'touchstart' && event.touches.length == 1) {
 				mytouch.id = 1
 				mytouch.x0 = event.touches[0].clientX
-				mytouch.y0 = event.touches[0].clientY - event.touches[0].target.offsetY
+				mytouch.y0 = event.touches[0].clientY // - event.touches[0].target.offsetY
 			} else if (event.type == 'touchend' && event.touches.length <= 1) {
 				mytouch.id = 0
 				mytouch.dx = 0
 				mytouch.dy = 0
 			} else if (event.type == 'touchmove') {
-				mytouch.y1 = event.touches[0].clientY
+				//mytouch.y1 = event.touches[0].clientY
 				// - event.touches[0].target.offsetY
 				mytouch.dx = event.touches[0].clientX - mytouch.x0
 				mytouch.dy = event.touches[0].clientY - mytouch.y0
