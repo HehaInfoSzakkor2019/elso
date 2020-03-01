@@ -226,17 +226,17 @@
 
 		    if (event.type == 'touchstart' && event.touches.length == 1) {
 				mytouch.id = 1
-				mytouch.x0 = event.touches[0].pageX
-				mytouch.y0 = event.touches[0].pageY
+				mytouch.x0 = event.touches[0].clientX
+				mytouch.y0 = event.touches[0].clientY
 			} else if (event.type == 'touchend' && event.touches.length <= 1) {
 				mytouch.id = 0
 				mytouch.dx = 0
 				mytouch.dy = 0
 			} else if (event.type == 'touchmove') {
-				mytouch.dx = event.touches[0].pageX - mytouch.x0
-				mytouch.dy = event.touches[0].pageY - mytouch.y0
+				mytouch.dx = event.touches[0].clientX - mytouch.x0
+				mytouch.dy = event.touches[0].clientY - mytouch.y0
 			}
-			line(mytouch.x0, mytouch.y0, event.touches[0].pageX, event.touches[0].pageY)
+			line(mytouch.x0, mytouch.y0, event.touches[0].clientX, event.touches[0].clientY)
 			uimsg = 't.' + event.type + ":" + event.touches.length + ":" + mytouch.dx.toFixed(1) + ":" + mytouch.dy.toFixed(1)
         }
 
