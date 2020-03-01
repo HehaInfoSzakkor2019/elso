@@ -85,7 +85,7 @@
 			
 			uiInput = getInputs()
 			if (uiInput.includes('up')) {
-                lander.y += 15
+                lander.y += 30
 			}
 			//log(`ui: ${uiInput}`)
         }
@@ -234,7 +234,7 @@
 			s = JSON.stringify(keysDown)
             //log(`key-rel: idx:${i} ${event.keyCode}-${event.key}-`, 3)
         }
-		var mytouch = { id:0, x0:0, y0:0, dx:0, dy:0 }
+		var mytouch = { id:0, x0:0, y0:0, dx:0, dy:0, x1:0, y1:0 }
         function handleTouch(event) {
 			event.preventDefault();
             log(`t.${JSON.stringify(event.touches)}.${JSON.stringify(event.touches[0])}`,3)
