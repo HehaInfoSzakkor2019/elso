@@ -228,6 +228,7 @@
             log(`t.${JSON.stringify(event.touches)}.${JSON.stringify(event.touches.item(0))}.${event.touches.item(0).identifier}`,3)
 
 		    if (event.type == 'touchstart' && event.touches.length == 1) {
+				mytouch.id = 1
 				mytouch.x0 = event.touches[0].pageX
 				mytouch.y0 = event.touches[0].pageY
 			} else if (event.type == 'touchend' && event.touches.length <= 1) {
