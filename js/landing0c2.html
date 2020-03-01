@@ -248,9 +248,10 @@
 				mytouch.dx = 0
 				mytouch.dy = 0
 			} else if (event.type == 'touchmove') {
-				mytouch.y1 = event.touches[0].clientY // - event.touches[0].target.offsetY
+				mytouch.y1 = event.touches[0].clientY
+				// - event.touches[0].target.offsetY
 				mytouch.dx = event.touches[0].clientX - mytouch.x0
-				mytouch.dy = mytouch.y1 - mytouch.y0
+				mytouch.dy = event.touches[0].clientY - mytouch.y0
                 //log(`l4.${JSON.stringify(event.touches[0].target)}`,4)
 			}
             log(`t.${JSON.stringify(event.touches)}.${JSON.stringify(event.touches[0])}:${mytouch.dx.toFixed(1)}:${mytouch.dy.toFixed(1)}`,3)
