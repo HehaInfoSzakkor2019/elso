@@ -242,7 +242,8 @@
 		    if (event.type == 'touchstart' && event.touches.length == 1) {
 				mytouch.id = 1
 				mytouch.x0 = event.touches[0].clientX
-				mytouch.y0 = event.touches[0].clientY // - event.touches[0].target.offsetY
+				mytouch.y0 = event.touches[0].clientY // - event.touches[0].target.offsetTop
+                log(`l4:${event.touches[0].clientY}:${JSON.stringify(event.touches[0].target.offsetTop)}`,4)
 			} else if (event.type == 'touchend' && event.touches.length <= 1) {
 				mytouch.id = 0
 				mytouch.dx = 0
@@ -252,7 +253,6 @@
 				// - event.touches[0].target.offsetY
 				mytouch.dx = event.touches[0].clientX - mytouch.x0
 				mytouch.dy = event.touches[0].clientY - mytouch.y0
-                //log(`l4.${JSON.stringify(event.touches[0].target)}`,4)
 			}
             log(`t.${JSON.stringify(event.touches)}.${JSON.stringify(event.touches[0])}:${mytouch.dx.toFixed(1)}:${mytouch.dy.toFixed(1)}`,3)
 			line(mytouch.x0, mytouch.y0, event.touches[0].clientX, event.touches[0].clientY)
