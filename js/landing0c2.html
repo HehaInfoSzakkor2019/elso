@@ -196,15 +196,12 @@
         }
 		
 		function line(x1,y1,x2,y2)  {
-        this.x += length * Math.sin(this.angleRad)
-        this.y += length *  Math.cos(this.angleRad)
-                this.ctx.beginPath();
-                this.ctx.lineWidth = 3;
-                this.ctx.strokeStyle = "blue";
-                this.ctx.moveTo(x1, y1);
-                this.ctx.lineTo(x2, y2);
-                this.ctx.stroke();
-            }
+			ctx.beginPath();
+			ctx.lineWidth = 3;
+			ctx.strokeStyle = "blue";
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.stroke();
 		}
 		
         var keysDown = [];
