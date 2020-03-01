@@ -222,7 +222,7 @@
 		var mytouch = { id:0, x0:0, y0:0, dx:0, dy:0 }
         function handleTouch(event) {
 			event.preventDefault();
-            log(`t.${JSON.stringify(event.touches)}.${JSON.stringify(event.touches.item(0))}.${event.touches.item(0).identifier}`,3)
+            log(`t.${JSON.stringify(event.touches)}.${JSON.stringify(event.touches[0])}`,3)
 
 		    if (event.type == 'touchstart' && event.touches.length == 1) {
 				mytouch.id = 1
@@ -236,6 +236,7 @@
 				mytouch.dx = event.touches[0].clientX - mytouch.x0
 				mytouch.dy = event.touches[0].clientY - mytouch.y0
 			}
+            log(`t.${JSON.stringify(event.touches)}.${JSON.stringify(event.touches[0])}:mytouch.dx:mytouch.dy`,3)
 			line(mytouch.x0, mytouch.y0, event.touches[0].clientX, event.touches[0].clientY)
 			uimsg = 't.' + event.type + ":" + event.touches.length + ":" + mytouch.dx.toFixed(1) + ":" + mytouch.dy.toFixed(1)
         }
