@@ -234,7 +234,7 @@
 				mytouch.dy = 0
 			} else if (event.type == 'touchmove') {
 				mytouch.y1 = event.touches[0].clientY - event.touches[0].target.offsetY
-                log(`l4.${JSON.stringify(event.touches[0].target)}`,3)
+                log(`l4.${JSON.stringify(event.touches[0].target)}`,4)
 				mytouch.dx = event.touches[0].clientX - mytouch.x0
 				mytouch.dy = mytouch.y1 - mytouch.y0
 			}
