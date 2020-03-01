@@ -194,6 +194,19 @@
                 ctx.fillText(mainmessage.text, p.x, p.y);
             }
         }
+		
+		function line(x1,y1,x2,y2)  {
+        this.x += length * Math.sin(this.angleRad)
+        this.y += length *  Math.cos(this.angleRad)
+                this.ctx.beginPath();
+                this.ctx.lineWidth = 3;
+                this.ctx.strokeStyle = "blue";
+                this.ctx.moveTo(x1, y1);
+                this.ctx.lineTo(x2, y2);
+                this.ctx.stroke();
+            }
+		}
+		
         var keysDown = [];
 		//keysDown.push(1)
         function handleKeyDown(event) {
@@ -215,10 +228,8 @@
             log(`t.${JSON.stringify(event.touches)}.${JSON.stringify(event.touches.item(0))}.${event.touches.item(0).identifier}`,3)
 
 		    if (event.type == 'touchstart' && event.touches.length == 1) {
-				mytouch.id = 1 // LOVAS event.touches[0].identifier
 				mytouch.x0 = event.touches[0].pageX
 				mytouch.y0 = event.touches[0].pageY
-			//} else if (event.type == 'touchend' && event.changedTouches[0].identifier == mytouch.id) {
 			} else if (event.type == 'touchend' && event.touches.length <= 1) {
 				mytouch.id = 0
 				mytouch.dx = 0
@@ -227,6 +238,7 @@
 				mytouch.dx = event.touches[0].pageX - mytouch.x0
 				mytouch.dy = event.touches[0].pageY - mytouch.y0
 			}
+			line(mytouch.x0, mytouch.y0, event.touches[0].pageX, event.touches[0].pageY)
 			uimsg = 't.' + event.type + ":" + event.touches.length + ":" + mytouch.dx.toFixed(1) + ":" + mytouch.dy.toFixed(1)
         }
 
