@@ -89,11 +89,19 @@
 			}
 			//log(`ui: ${uiInput}`)
         }
+		var valami = false
 		function gameEnd() {
             message("VÉGE")
-			if (isWaitUntilNoInput()) {
-                game.state = 'kezd'
-				myrestart()
+			if (valami == false) {
+				if (isWaitUntilNoInput()) {
+					valami = true
+				}
+			} else {
+				if (isAnyPressed()) {
+				    game.state = 'kezd'
+					myrestart()
+					valami = false
+				}
 			}
 		}
 
