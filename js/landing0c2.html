@@ -213,6 +213,8 @@
 		function line(x1,y1,x2,y2)  {
 			ctx.beginPath();
 			ctx.lineWidth = 3;
+			ctx.arc(x1, y, 50, 0, 2 * Math.PI, false);
+			context.fillStyle = 'none';
 			ctx.strokeStyle = "blue";
 			ctx.moveTo(x1, y1);
 			ctx.lineTo(x2, y2);
@@ -243,7 +245,7 @@
 				mytouch.id = 1
 				mytouch.x0 = event.touches[0].clientX
 				mytouch.y0 = event.touches[0].clientY - canv.clientTop; // - event.touches[0].target.offsetTop
-                log(`l4:${event.touches[0].clientY.toFixed(2)}:${JSON.stringify(canv.offsetTop)}:${canv.clientTop}`,4)
+                log(`l4:${event.touches[0].clientY.toFixed(2)}:${JSON.stringify(canv.offsetTop)}:${canv.getBoundingClientRect().top}`,4)
 			} else if (event.type == 'touchend' && event.touches.length <= 1) {
 				mytouch.id = 0
 				mytouch.dx = 0
