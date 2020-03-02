@@ -35,7 +35,7 @@
     <script>
         var HMAX = 1800        // maximum magasság érték pl 0..1000, ezt képezzük le a képernyőre
         var WMAX = 1000
-        var FPS = 10
+        var FPS = 30
         var planet = {
             name: "Föld", 
             image: "Luna.jpg",
@@ -214,8 +214,8 @@
 		function line(x1,y1,x2,y2)  {
 			ctx.beginPath();
 			ctx.lineWidth = 3;
-			ctx.arc(x1, y1, 20, 0, 2 * Math.PI, false);
-			//ctx.fillStyle = 'none';
+			let r = Math.floor(Math.min(HMAX, WMAX) / 10);
+			ctx.arc(x1, y1, r, 0, 2 * Math.PI, false);
 			ctx.strokeStyle = "blue";
 			ctx.moveTo(x1, y1);
 			ctx.lineTo(x2, y2);
