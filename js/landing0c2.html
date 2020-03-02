@@ -216,10 +216,10 @@
         }
 		
 		function line(x1,y1,x2,y2)  {
-            log(`ll:${HMAX}:${WMAX}:${Math.min(HMAX, WMAX)}`,4)
+			let r = Math.floor(Math.min(canv.offsetWidth, canv.offsetHeight) / 10);
+            log(`ll:${HMAX}:${WMAX}:${Math.min(HMAX, WMAX)}:${r}`,4)
 			ctx.beginPath();
 			ctx.lineWidth = 3;
-			let r = Math.floor(Math.min(HMAX, WMAX) / 10);
 			ctx.arc(x1, y1, r, 0, 2 * Math.PI, false);
 			ctx.strokeStyle = "blue";
 			ctx.moveTo(x1, y1);
