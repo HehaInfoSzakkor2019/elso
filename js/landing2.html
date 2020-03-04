@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <style>
+	    * { margin: 0; padding: 0;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			outline: none;
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+		}
+        html, body { width: 100%; height: 100%; }
+        body { background: black no-repeat left bottom; }
+        div { background: black no-repeat left bottom; }
+        canvas { width: 100%; height: 100%; }
+    </style>
+</head>
+<body onload="mystart_()">
+    <div style="position:relative;height:6vh">
+        <output id="status" style="display:inline;color: white;">blabla</output>
+    </div>
+    <div id="div-canvas" style="position:relative;height:90vh">
+        <canvas id="mycanvas" style="z-index:1;"></canvas>
+    </div>
+
+    <script>
+        var HMAX = 800        // maximum magasság érték pl 0..1000, ezt képezzük le a képernyőre
+        var WMAX = 1000
+        var FPS = 30
+		var playSpeed = 5.0   // ration to real time
+        var planet = {
+            name: "Föld", 
+            image: "Mars.jpg",
+            g: 3.711,           // gravitációs állandó (m/s²).
+                                // Föld: 9.807, Hold: 1.622, Mars: 3.711 m/s², A Jupiteren: 24.79 m/s²
+                                // Tapasztalati érték, játssz vele!
+            ground_levely: 5    //
+        }
+        var lander = {
+            x:100,              // kezdeti elhelyezkedés, m
+            y:1000,             // kezdeti magasság, m
+			vy: 0,
+			vx: 0,
+			ay: 0,
+			i:  0,
+            sprite : {  	
+                img_src:'raketa5.png',
+                sheet:new Image, 
+                width: 200,
+                height: 200,
+                cols:1,
+                rows:6
+            },
+            scaleY:20,        // a megjelenítési méret a képernyő százalékában
+			thrustY:15
+        }
+        //  v - sebesség    - vx   vy
+		//  t - idő
+		//  s - út   s = v * t         s = s0 + v * t       y = y0 + vy * t
+		//  a - gyorsulás
+		//
+		var key2event = { 32:'up', 38:'up', 87:'up' }
+		const uiActions = { 'up':[32 , 38, 83, 87]
+						, 'right':[39 , 68, 102]
+						, 'left':[37 , 65, 100] }
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        // v v v v v v v v v v v v v v v v v v v v v v v v
+        var game = { state: 'kezd', keysDown:[], input:[] }
+		var uimsg = ""
+
+        function gameBegin() {
+            message("Hello! Ez itt a holdraszállás játék.", 'purple')
+			
+            if (isAnyPressed()) {
+                game.state = 'játék'
+                lander.y = HMAX
+				lander.vy = 0
+                lander.x = Math.floor(WMAX / 2)
+				message("Vigyázz! Óvatosan, hogy össze ne törtjön...")
+            }
+		}
+        // s = v * t
+        // v = a * t    ......     s 
+        function gamePlay() {
+		    s0 = lander.y
+			t = 1 / FPS
+			lander.ay = -planet.g
+            lander.ax = 0
+			lander.i = 0
+
+			uiInput = getInputs()
+            if (uiInput.includes('up') && uiInput.includes('left')) {
+                lander.ay += lander.thrustY
+                lander.ax += 10
+				lander.i = 4
+            } else if (uiInput.includes('up') && uiInput.includes('right')) {
+                lander.ay += lander.thrustY
+                lander.ax -= 10
+				lander.i = 5
+            } else if (uiInput.includes('up')) {
+                lander.ay += lander.thrustY
+				lander.i = 1
+            } else if (uiInput.includes('left')) {
+                lander.ax += 10
+                lander.i = 2
+            } else if (uiInput.includes('right')) {
+                lander.ax -= 10
+                lander.i = 3
+            }
+
+						
+            if (lander.y > planet.ground_levely) {
+			    lander.vy += lander.ay * t * playSpeed
+			    s = s0 + lander.vy * t
+                lander.y = s
+                lander.vx += lander.ax * t       // v = a * t
+                lander.x += lander.vx * t * playSpeed       // s = v * t
+				
+				lander.scaleY = 30 - (30 * lander.y / HMAX)
+				if (lander.scaleY < 5) {
+				    lander.scaleY = 5
+				}
+            } else {
+                game.state = 'vége'
+            }
+			
+			message("h:" + lander.y.toFixed(1) + "m    vy: " + Math.floor(lander.vy) + "m/s")
+        }
+		var valami = false
+		function gameEnd() {
+            message("VÉGE")
+			
+			if (lander.vy > -20) {
+				message("Gratulálok, VÉGE")
+				lander.i = 6
+			} else {
+				message("Jujj! Becsapódtál a felszínbe :-(")
+				lander.i = 7
+			}
+
+			if (valami == false) {
+				if (isWaitUntilNoInput()) {
+					valami = true
+				}
+			} else {
+				if (isAnyPressed()) {
+				    game.state = 'kezd'
+					myrestart()
+					valami = false
+				}
+			}
+		}
+
+		// -----------------------------------------------
+        function gameLoop() {
+            if (game.state == 'kezd') {
+			   gameBegin()
+            } else if (game.state == 'játék') {
+                gamePlay()
+            } else if (game.state == 'vége') {
+                gameEnd()
+            }
+        }
+
+        function myrestart() {
+            game.state = 'kezd'
+            lander.x = 100
+            lander.y = 1000
+            lander.height = 64
+            time.tick = 0
+            time.tickMs = 1000 / time.FPS
+        }
+
+        // ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        // | | | | | | | | | | | | | | | | | | | | | | | |
+        //
+        var time = {
+            tick:    0,            // számláló (idő)
+            tickMs_: 1000 / FPS,   // frissités gyakorisága Milisec-ben 1000/FPS
+            loop_:   0,
+            ms:      0             // store Date().getMilliseconds() 
+        }
+        function mystart_() {
+            lander.sprite.sheet.src = lander.sprite.img_src
+            document.body.addEventListener("keydown", handleKeyDown, false);
+            document.body.addEventListener("keyup", handleKeyUp, false);
+			if ('ontouchstart' in window) {
+				window.addEventListener("touchstart", handleTouch, false)
+				window.addEventListener("touchend", handleTouch, false)
+				window.addEventListener("touchmove", handleTouch, false)
+			}
+
+            document.getElementById("div-canvas").style.backgroundImage = `url('${planet.image}')`
+            let canv = document.getElementById("mycanvas");
+            let w = parseInt(document.getElementById("div-canvas").offsetWidth)
+            canv.height = canv.offsetHeight;
+            canv.width = canv.offsetWidth; //  just because it's needed...
+            myrestart()
+            gameLoop()
+            time.loop = setInterval(gameLoop_, time.tickMs_)
+        }
+
+        function gameLoop_() {
+            time.tick += 1
+            log(`tick:${time.tick} state:${game.state} keys:${keysDown}`,2)
+			
+            time.ms = new Date().getMilliseconds()
+
+			gameLoop()
+
+            ctx.clearRect(0,0,canv.offsetWidth,canv.offsetHeight)
+            logDraw()
+            messageDraw()
+            updateImage(lander, planet)
+        }
+
+        var canv = document.getElementById("mycanvas");
+        var ctx = canv.getContext("2d");
+        function updateImage(l, p) {
+            let ix = (Math.floor(time.tick/6)) % 4
+            let iy = lander.i
+
+            let s2 = canv.offsetHeight * lander.scaleY / 100 // 100 - Math.floor(Math.abs(l.y - p.ground_y) / 10)  + 50
+
+            let H = canv.offsetHeight - s2;
+            let W = canv.offsetWidth - s2;
+            let x2 = l.x / WMAX
+            let y2 = l.y / HMAX
+            log(`x:${l.x.toFixed(2)} y:${l.y.toFixed(0)}m ix:${ix.toFixed(2)} iy:${iy.toFixed(2)} x:${Math.floor(W * x2)} y:${(H - Math.floor(H * y2)).toFixed(2)}, s2:${s2.toFixed(2)}`,1)
+
+            ctx.drawImage(lander.sprite.sheet,ix*lander.sprite.width, iy*lander.sprite.height, lander.sprite.width, lander.sprite.height, Math.floor(W * x2), H - Math.floor(H * y2), s2, s2)
+        }
+
+        //this.text= function(text_, x_=0, y_=0, align_='center', color_='red', font_='5vmin Comic Sans MS') {
+        var mainmessage= { text:'', color:'red', blinkHz:0, blinkMs:0 }
+        function message(text_, color_='red', blinkHz_=0) {
+            mainmessage.text = text_
+            mainmessage.color = color_
+            mainmessage.blinkHz = blinkHz_
+            if (blinkHz_ >= 1) {
+                mainmessage.blinkMs = 1000 / blinkHz_
+            } else {
+                mainmessage.blinkMs = 0
+            }
+        }
+        function messageDraw() {
+            if (mainmessage.blinkHz == 0 || Math.floor(time.ms / mainmessage.bkinkMs) % 2 == 0) {
+                ctx.fillStyle = mainmessage.color
+                ctx.textAlign = 'center'
+                ctx.font = '5vmin Comic Sans MS'
+                p = posToPx(WMAX/2, 2*HMAX/3)
+                ctx.fillText(mainmessage.text, p.x, p.y);
+            }
+        }
+        var keysDown = [];
+        function handleKeyDown(event) {
+            if (keysDown.indexOf(event.keyCode) == -1) {
+                keysDown.push(event.keyCode)
+            }
+        }
+        function handleKeyUp(event) {
+            let i = keysDown.indexOf(event.keyCode)
+            keysDown.splice(i,1)
+			s = JSON.stringify(keysDown)
+        }
+
+        function isAnyKeyPressedOf(keys) {
+            let val = false
+            for (let i=0;!val && i<keys.length;i+=1) {
+                val = (keysDown.indexOf(keys.charAt(i)) != -1)
+            }
+            return val
+        } 
+        function isAnyPressed(keys) {
+		    let ret = false
+			
+			if (keysDown.length > 0) {
+			    ret = true
+			}
+
+			if (mytouch.id != 0) {
+			    ret = true
+			}
+			
+		    return ret
+        } 
+        function isWaitUntilNoInput() {
+                //log(`l4.${JSON.stringify(event.touches[0].target)}`,4)
+		    ret = (keysDown.length == 0) && (mytouch.id == 0)
+			return ret
+		}
+
+
+		function getInputs() {
+			ret = []
+			//log(`zz.${JSON.stringify(uiActions)}`)
+			Object.keys(uiActions).forEach(x => {
+				if (uiActions[x].some(r=> keysDown.includes(r))) {
+					ret.push(x)
+				}
+			})
+
+			return ret
+		}
+
+		var mytouch = { id:0, x0:0, y0:0, dx:0, dy:0, x1:0, y1:0 }
+        function handleTouch(event) {
+			event.preventDefault();
+            log(`t.${JSON.stringify(event.touches)}.${JSON.stringify(event.touches[0])}`,3)
+
+		    if (event.type == 'touchstart' && event.touches.length == 1) {
+				mytouch.id = 1
+				mytouch.x0 = event.touches[0].clientX
+				mytouch.y0 = event.touches[0].clientY - canv.clientTop; // - event.touches[0].target.offsetTop
+			} else if (event.type == 'touchend' && event.touches.length <= 1) {
+				mytouch.id = 0
+				mytouch.dx = 0
+				mytouch.dy = 0
+			} else if (event.type == 'touchmove') {
+				//mytouch.y1 = event.touches[0].clientY
+				// - event.touches[0].target.offsetY
+				mytouch.dx = event.touches[0].clientX - mytouch.x0
+				mytouch.dy = event.touches[0].clientY - mytouch.y0
+			}
+            log(`t.${JSON.stringify(event.touches)}.${JSON.stringify(event.touches[0])}:${mytouch.dx.toFixed(1)}:${mytouch.dy.toFixed(1)}`,3)
+			uimsg = 't.' + event.type + ":" + event.touches.length + ":" + mytouch.dx.toFixed(1) + ":" + mytouch.dy.toFixed(1)
+        }
+
+
+        function posToPx( x_, y_ ) {
+            let sw = canv.clientWidth;
+            let sh = canv.clientHeight;
+            let rw = sw / WMAX             // screenwidth_per_canvaswith
+            let rh = sh / HMAX             // screenheight_per_canvasheight
+            let offset_x = (rh < rw) ? Math.floor((sw - rh*WMAX) / 2) : 0
+            let offset_y = (rh < rw) ? 0 : Math.floor((sh - rw*HMAX) / 2) 
+            let rat = Math.min(rh,rw)
+
+            px = { x: Math.floor(x_*rat + offset_x), 
+                   y: Math.floor(sh - y_*rat - offset_y) }
+            //console.log(`  posToPx(${x_}:${y_}) -> ${px.x}:${px.y}`);
+            //console.log(`    scr:${sw}:${sh} can:${this.width}:${this.height} offset:${offset_x}:${offset_y}, h-y:${y_*rat}, rat:${rat}:${rw}:${rh}`);
+            return px
+        }
+		function line(x1,y1,x2,y2)  {
+			let r = Math.floor(Math.min(canv.offsetWidth, canv.offsetHeight) / 20);
+            log(`ll:${HMAX}:${WMAX}:${Math.min(HMAX, WMAX)}:${r}`,4)
+			ctx.beginPath();
+			ctx.lineWidth = 3;
+			ctx.arc(x1, y1, r, 0, 2 * Math.PI, false);
+			ctx.strokeStyle = "blue";
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.stroke();
+		}
+
+        var lines=[]
+        function log(text,_line=0) {
+            if (_line==0) {
+                lines.push(text)
+            } else {
+                lines[_line-1] = text
+            }
+            console.log(text)
+        }
+        function logDraw() {
+            let logtext = lines.join("<br>")
+            document.getElementById("status").innerHTML = logtext
+            //lines = []
+        }
+        function myrandom( _range=100, _min=0 ) {
+            return _min + Math.floor(Math.random() * _range)
+        }
+
+    </script>
+</body>
+<html>
