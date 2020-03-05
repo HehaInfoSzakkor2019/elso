@@ -135,7 +135,7 @@
 		function gameEnd() {
             message("VÉGE")
 			
-			if (lander.vy > -20) {
+			if (lander.vy > -50) {
 				message("Gratulálok, VÉGE")
 				lander.i = 6
 			} else {
@@ -188,12 +188,13 @@
         }
         function mystart_() {
             lander.sprite.sheet.src = lander.sprite.img_src
+            let canv = document.getElementById("mycanvas");
             document.body.addEventListener("keydown", handleKeyDown, false);
             document.body.addEventListener("keyup", handleKeyUp, false);
 			if ('ontouchstart' in window) {
-				document.addEventListener("touchstart", handleTouch, false)
+				canv.addEventListener("touchstart", handleTouch, false)
 				document.addEventListener("touchend", handleTouch, false)
-				document.addEventListener("touchmove", handleTouch, false)
+				window.addEventListener("touchmove", handleTouch, false)
 			}
 
             document.getElementById("div-canvas").style.backgroundImage = `url('${planet.image}')`
@@ -222,6 +223,7 @@
 
         var canv = document.getElementById("mycanvas");
         var ctx = canv.getContext("2d");
+		var canvrect = canv.getBoundingClientRect();
         function updateImage(l, p) {
             let ix = (Math.floor(time.tick/6)) % 4
             let iy = lander.i
@@ -257,6 +259,11 @@
                 p = posToPx(WMAX/2, 2*HMAX/3)
                 ctx.fillText(mainmessage.text, p.x, p.y);
             }
+			if (mytouch.id != 0) {
+				let oy = Math.floor(canvrect.top);
+				line(mytouch.x0, mytouch.y0 - oy, mytouch.x0 + mytouch.dx, mytouch.y0 + mytouch.dy - oy)
+			}
+
         }
         var keysDown = [];
         function handleKeyDown(event) {
