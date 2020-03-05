@@ -311,6 +311,16 @@
 					ret.push(x)
 				}
 			})
+			if (mytouch.id != 0) {
+				if (mytouch.dy < 10) {
+					ret.push('up')
+				}
+				if (mytouch.xy < -20) {
+					ret.push('left')
+				} else if (mytouch.xy > 20) {
+					ret.push('right')
+				}
+			}
 
 			return ret
 		}
