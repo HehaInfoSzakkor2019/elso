@@ -191,9 +191,9 @@
             document.body.addEventListener("keydown", handleKeyDown, false);
             document.body.addEventListener("keyup", handleKeyUp, false);
 			if ('ontouchstart' in window) {
-				window.addEventListener("touchstart", handleTouch, false)
-				window.addEventListener("touchend", handleTouch, false)
-				window.addEventListener("touchmove", handleTouch, false)
+				document.addEventListener("touchstart", handleTouch, false)
+				document.addEventListener("touchend", handleTouch, false)
+				document.addEventListener("touchmove", handleTouch, false)
 			}
 
             document.getElementById("div-canvas").style.backgroundImage = `url('${planet.image}')`
