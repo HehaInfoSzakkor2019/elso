@@ -211,3 +211,122 @@ function f1() {
        * [w3.css](https://www.w3schools.com/w3css/default.asp)
   * HTML5
     * [HTML5 elemek](https://www.w3schools.com/html/html5_new_elements.asp)
+# 2020. március 9.
+  * telefon érintőkijelző kezelés...
+    * https://hehainfoszakkor2019.github.io/elso/js/landing2.html
+    * styles...
+```
+	    * { margin: 0; padding: 0;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			outline: none;
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+		}
+```
+  * javascript functions
+```
+    function mystart_() {
+      lander.sprite.sheet.src = lander.sprite.img_src
+      let canv = document.getElementById("mycanvas");
+      document.body.addEventListener("keydown", handleKeyDown, false);
+      document.body.addEventListener("keyup", handleKeyUp, false);
+			if ('ontouchstart' in window) {
+			// canv, document
+				window.addEventListener("touchstart", handleTouch, false)
+				window.addEventListener("touchend", handleTouch, false)
+				window.addEventListener("touchmove", handleTouch, false)
+			}
+
+      document.getElementById("div-canvas").style.backgroundImage = `url('${planet.image}')`
+      let w = parseInt(document.getElementById("div-canvas").offsetWidth)
+      canv.height = canv.offsetHeight;
+      canv.width = canv.offsetWidth; //  just because it's needed...
+      myrestart()
+      gameLoop()
+      time.loop = setInterval(gameLoop_, time.tickMs_)
+    }
+
+  	var mytouch = { id:0, x0:0, y0:0, dx:0, dy:0, x1:0, y1:0 }
+    function handleTouch(event) {
+  		event.preventDefault();
+ 	    if (event.type == 'touchstart' && event.touches.length == 1) {
+				mytouch.id = 1
+				mytouch.x0 = event.touches[0].clientX
+				mytouch.y0 = event.touches[0].clientY - canv.clientTop;
+			} else if (event.type == 'touchend' && event.touches.length <= 1) {
+				mytouch.id = 0
+				mytouch.dx = 0
+				mytouch.dy = 0
+			} else if (event.type == 'touchmove') {
+				mytouch.dx = event.touches[0].clientX - mytouch.x0
+				mytouch.dy = event.touches[0].clientY - mytouch.y0
+			}
+    }
+```
+   * 3. lépés
+```
+   function getInputs() {
+			ret = []
+			//log(`zz.${JSON.stringify(uiActions)}`)
+			Object.keys(uiActions).forEach(x => {
+				if (uiActions[x].some(r=> keysDown.includes(r))) {
+					ret.push(x)
+				}
+			})
+			if (mytouch.id != 0) {
+				if (mytouch.dy < 10) {
+					ret.push('up')
+				}
+				if (mytouch.dx < -20) {
+					ret.push('left')
+				} else if (mytouch.dx > 20) {
+					ret.push('right')
+				}
+			}
+
+			return ret
+		}
+
+    function isAnyPressed(keys) {
+	    let ret = false
+			if (keysDown.length > 0) {
+			    ret = true
+			}
+			if (mytouch.id != 0) {
+			    ret = true
+			}
+		  return ret
+    } 
+  
+    function isWaitUntilNoInput() {
+                //log(`l4.${JSON.stringify(event.touches[0].target)}`,4)
+		    ret = (keysDown.length == 0) && (mytouch.id == 0)
+			return ret
+		}
+                                                                      
+   function messageDraw() {
+     ...
+  	  if (mytouch.id != 0) {
+				let oy = Math.floor(canvrect.top);
+				line(mytouch.x0, mytouch.y0 - oy, mytouch.x0 + mytouch.dx, mytouch.y0 + mytouch.dy - oy)
+			}
+    }
+  
+    function line(x1,y1,x2,y2)  {
+			let r = Math.floor(Math.min(canv.offsetWidth, canv.offsetHeight) / 20);
+            log(`ll:${HMAX}:${WMAX}:${Math.min(HMAX, WMAX)}:${r}`,4)
+			ctx.beginPath();
+			ctx.lineWidth = 3;
+			ctx.arc(x1, y1, r, 0, 2 * Math.PI, false);
+			ctx.strokeStyle = "blue";
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.stroke();
+		}
+
+```                                                         
+
+    
