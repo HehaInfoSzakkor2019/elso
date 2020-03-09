@@ -316,9 +316,9 @@
 				if (mytouch.dy < 10) {
 					ret.push('up')
 				}
-				if (mytouch.dy < -20) {
+				if (mytouch.dx < -20) {
 					ret.push('left')
-				} else if (mytouch.xy > 20) {
+				} else if (mytouch.dx > 20) {
 					ret.push('right')
 				}
 			}
