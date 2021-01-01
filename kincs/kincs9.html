@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
 <style>
+.debug { display:none }
 html, body {
   height:100%;
   padding:0;
@@ -19,15 +20,15 @@ h2 { font-size:5vmin }
 p { margin:auto; padding:0;font-size:3vmin; border-radius:25%; }
 body { background-image:url("csempe2.jpg"); }
 table, tr, td { border: none; padding:0; margin:0; text-align: center; }
-img.mozgo { position: absolute;     zleft: 0px;  ztop: 0px; }
+img.mozgo { position: absolute;     left: 0px;  top: 0px; }
 img.top { z-index: 3; }
 img.med { z-index: 2; }
 button { background-color: Transparent; border-radius:25%; }
 .Charlie { color:midnightblue }
 .Alan { color:RebeccaPurple }
-.other1 { color:DarkSlateGray }
-.other2 { color:maroon }
-.other3 { color:brown }
+.npc1 { color:DarkSlateGray; font-family:'Arial' }
+.npc2 { color:maroon; font-family:'Brush Script MT';font-size:large }
+.npc3 { color:brown; font-family:'Courier New' }
 @keyframes magnified{
   0%{ transform: scale(1,1); }
   10%{ transform: scale(1.05,1.05); }
@@ -52,14 +53,14 @@ var gameDesc = { name:"Kincs, ami nincs"
             , start_message:"<span style=\"color:blue;text-decoration:blink;\">"
               +"<br>1. Válassz figurákat, akikkel játszani szeretnél."
               +"<br>2. Kattints a <b>Puffin Lekvár</b> képére hogy lépjél."
-              +"<br>3. Juss el a hidropláning!"
+              +"<br>3. Juss el a kétéltű járgányig!"
               +"<br><hr><br>"
 //              +"<br> Alatta, hogy ki merre jár."
 //              +"<br>&lt;&lt;&lt;- - - - - - - - - - - - - - - - - - - -&gt;&gt;&gt;"
               +"<br>Csak a Puffin ad neked erőt és mindent lebíró akaratot!"
               +"</span>" 
             , restart_message:"<span style=\"color:blue;text-decoration:blink;\">Kattints a Puffinra az újrakezdéshez</span>"
-          , tabla:"kincsaminincs-terkep1000c.jpg", tabla0:"kincsaminincs-terkep800.jpg", tabla_end:"ending.jpg"
+          , tabla:"kincsaminincs-terkep1000d.jpg", tabla0:"kincsaminincs-terkep800.jpg", tabla_end:"ending.jpg"
           , figure_scale : 15 // % of table-height, cc 15vh
           , figures : {
             'player1' : {name:"Charlie", step:0, kincs:false, imgsrc:"fig1b.png", imgsrc2:"fig1c.png"},
@@ -69,69 +70,72 @@ var gameDesc = { name:"Kincs, ami nincs"
           }
           , plane:"plane.png"
 		  , diceroll: { img0: "dice.png", imgroll:"dice-puffin2.gif", pos0: {x:-30, y:65}, pos1:{x:135, y:65}, rot:'1080deg', speedMs:2000 }
-          , steps:[ {x:-20, y:40, id:"kezd", text:"-"}
-			      , {x:5, y:0, id:"Brady háza", text:"<i>- Hello Éhenkórász! Nos mesélj, hova tüntetted el a pénzünket?<br><span class='Alan'>- Hogy mit?</span></i>"}
-            , {x:0, y:20, id:"Brady háza", text:"<i>- Hé, nem vagy te süket, a 15000 dollárt.<br><span class='Alan'>- De hiszen már megmondtam!</span></i>"
-			        , move:-1 }
-            , {x:10, y:30, id:"Brady háza", text:"<i>Hát mit is mondtál már meg nekünk?<br><span class='Alan'>- Befektettem. Méghozzá nektek fektettem be, bomba üzlet!</span></i>"
-      			  , move:-2 }
-			      , {x:0, y:40, id:"Brady háza", text:"<i><span class='Alan'>- Tiétek a bácsikám térképe, a kincsről... csak követni kell az utasításokat.</span><br>- Éppen azért vagyunk itt, hogy eleget tegyünk bizonyos utasításoknak, de azokat Frisco adta.</i>"
-			        , move:-3 }
-			      , {x:7, y:52, id:"Brady háza", text:"Brady: <i><span class='other1'>- Halgass ide kisfiam, jobb lesz ha most eltűnsz innen. Fogd, ez a Tiéd.</span><br><span class='Alan'>- Kösz, de már reggeliztem.</span><br>Neeem, a térkép. Benne van a térkép!</i>"}
-            , {x:0, y:65, id:"Brady háza", text:"<i><span class='alan'>- Hű, rengeteg víz van körülötte. Hajót kell szereznem!</span></i>"
-      			  , move:4 }
-            , {x:7, y:77, id:"Kikötő", text:"<i>- Biztos benne Mr O'Brien, hogy ki fogja állni a próbált?<br><span class='Charlie'>- Csak a puffin ad neked erőt és mindent lebíró akaratot.</span></i>"}
-            , {x:8, y:90, id:"Kikötő", text:"<i>- Talán Pakito is rajong a Puffin lekvárért?<br><span class='other2'>- Én csak a papagáj csajokat szeretem!</span></i>"}
-            , {x:22, y:100, id:"Tenger", text:"<i><span class='Charlie'>Csak a puffin adhat erőt, mi?<br> Dögvész pusztít majd a cápák között.</span></i>"} //10
-/*10*/		  , {x:35, y:100, id:"Tenger", text:"<i>Itt a Parti állomás, Charlie van valami újság?<br><span class='Charlie'>- Semmi különös, csak ... a hegyekben szomjas vagyok a tengeren meg éhes.</span></i>"}
-            , {x:47, y:100, id:"Tenger", text:"<i><span class='Charlie'>- Hová lett? Hová lett a babom??</span><br> Ki tudja? Pakito ártatlan.</i>"}
-            , {x:60, y:100, id:"Tenger", text:"<i><span class='Charlie'>- Igyekezz a hajóra, ha nem akarsz egy cápa legszebb emléke lenni.</span><br><span class='Alan'>- Micsoda szörnyeteg, mint Ön parancsnok.</span></i>"
-              , move:4 }
-            , {x:72, y:100, id:"Tenger", text:"<i><span class='Charlie'>- Kit látnak szememim, a láthatatlan ember.</span><br><span class='Alan'>- Neeem, valójában Alannak hívnak, örvendek a ...</span></i>"
-              , move:-3 }
-            , {x:85, y:100, id:"Tenger", text:"<i><span class='Charlie'>- A rádió nem müködik és itt van egy sziget, aminek nem kellene itt lennie.</span><br><span class='Alan'>- Lehet, hogy nemrég rakták ide.</span></i>"}
-            , {x:97, y:100, id:"Tenger", text:"<i><span class='Charlie'>- Add ide a távcsövet. Na add már.</span><br><span class='Alan'>- Itt van dobom, kapja el. Jelentem a távcső a tengerben.</span></i>"
-              , move:-1 }
-            , {x:100, y:87, id:"Tenger", text:"<i>Pakito ékes! Pakito éhes!</i>"}
-            , {x:87, y:85, id:"Tenger", text:"<i><span class='Charlie'>Vagy az iránytű kergült meg, vagy én hibbantam meg.</span><br><span class='Alan'>- Hát persze, ha takarékperselynek használja.</span></i>"
-              , move:-8 }
-            , {x:75, y:80, id:"Tenger", text:"<i><span class='Charlie'>aa</span><br><span class='Alan'>Ússzunk ki...</span></i>"}
-            , {x:62, y:78, id:"Pongo Pongo", text:"<i><span class='Alan'>- Charlie! Parancsnok! Én egy vallomással tartozom önnek...<br>Ha hiszi, ha nem, ez a sziget teljesen lakatlan és egyetlen térképen sincs jelezve.</span></i>"}
-/*20*/, {x:50, y:78, id:"Pongo Pongo", text:"(<i><span class='Charlie'>Egyelőre nem öllek meg, de én jobbra megyek, te meg balra! Megértetted?</span><br><span class='Alan'>- Meg, Parancsnok!</span></i>"}
-			, {x:40, y:55, id:"Pongo Pongo", text:"<i>Ha egyedül vagyunk, ki akarna golyót röpíteni belém, talán a nénikéd?<br> Nem valószínű. Az én nénikém egy ilyet, mint te, még csak le se lőne.</i>"}
-			, {x:38, y:48, id:"Pongo Pongo", text:"<i><span class='Alan'>Ejha, sok ellenséged lehet ezen a szigeten.</span><br><span class='Charlie'>- Nekem csak egy van, te.</span></i>"}
-			, {x:30, y:40, id:"Pongo Pongo", text:"<i><span class='Alan'>Tudod a térkép szerint a kincs egy katonai erődben van elrejtve.</span><br><span class='Charlie'>- Nem, ez egy raktár, mégpedig az ameriaki hadseregé.</span></i>"}
-			, {x:22, y:33, id:"Pongo Pongo", text:"<i><span class='Alan'>Hé! Ez ehetőnek tűnik. Az van ráírva: csak puffin ad nekem erőt...</span><br><span class='Charlie'>- Dobod el! Látni sem akarom!</span></i>"}
-			, {x:40, y:25, id:"Pongo Pongo", text:"<i>Jobb lesz ha vele megyünk.<br>Jössz Anulu fogoly. Mamanak fogolyot kettő!</i>"}
-			, {x:45, y:38, id:"Pongo Pongo", text:"(Mama) <i>Szívesen látunk titeket, szép fehéreket,<br>én is és a leánykáim.</i>"}
-			, {x:50, y:45, id:"Pongo Pongo", text:"<i><span class='Alan'>Nem hallott egy titkos kincsről, ami ezen a szigeten van?</span><<br>Négy nagy kincsünk van, a napfény a tenger, az öröm és a szerelem.</i>"}
-			, {x:60, y:65, id:"Pongo Pongo", text:"(Mama) <i>Meg kell küzdenetek a törzs vezetőjével.</i><br>(Anulu) <i>Abdaba, harcolni, bululubú, harcolni ambadabá lulubidegy!</i>"}
-			, {x:65, y:55, id:"Pongo Pongo", text:"(Mama) <i>Meg kell küzdenetek a törzs vezetőjével.</i><br>(Anulu) <i>Abdaba!</i>"}
-/*30*/		, {x:75, y:50, id:"Pongo Pongo", text:"<i><span class='Alan'>Az a kövér ember azt mondja, hogy a húgaid nem valami szépek.</span><<br>brr<br>Azt mondja, hogy ketté akar hasíani téged.</i>"}
-			, {x:90, y:40, id:"Pongo Pongo", text:"(Varázsló) <i>Kalózok jönni!</i><br>(Mama) <i>Rossz emberek, ha barátaink akartok lenni, mentsetek meg minket.</i>"}
-			, {x:95, y:30, id:"Pongo Pongo", text:"(Kalóz) <i>A lányok gyönyörűek.<br>- A fiúk kemény kötésűek, de gyávák, mint a nyulak.</i>"}
-			, {x:95, y:15, id:"Pongo Pongo", text:"(Kalóz) <i>Hogy lehet hogy ma egy lelket sem látok itt?<br>- Biztosan elrejtőztek a kunyhóikban</i>"}
-			, {x:85, y:5, id:"Pongo Pongo", text:"(Kalóz) <i>Ezek itt ketten biztosan a komkurencia, de majd elveszem a kedvük.</i>"}
-			, {x:75, y:15, id:"Pongo Pongo", text:"(Anulu) <i>Anulu mondani nektek nem ásni nagyon közel szamuráj.</i><br>(Alan) <i>A bácsikám térképe szerint a kincsnek épp a japám erőd alatt kell lenni.</i>"}
-			, {x:80, y:28, id:"Pongo Pongo", text:"(Mama) <i>Ti megmentettetek minket a kalózoktól, cserébe mi odaadjuk nektek a páncélautót</i><br>(Anulu) <i>Páncélauto nem, páncélautó nem.</i>"
-			  , move:1 }
-			, {x:70, y:35, id:"Pongo Pongo", text:"(Mama) <i>Páncélautó igen.  //nagy pofon//</i><br>(Anulu) <i>Páncélauto igen, páncélautó igen.</i>"}
-			, {x:65, y:25, id:"Páncélautó", text:"<i>Hé, ellopták belőle a kormánykereket!<br>Még annyit sem tudsz, hogy a tankokban botkormány van?</i>"}
-			, {x:58, y:35, id:"Páncélautó", text:"<i><span class='Alan'>Melyik az a kurbli? Parancsnok, ez lesz az?</span><br><span class='Charlie'>- Hát persze hogy ez az, nem látod, hogy kurbli formája van?</span></i>"}
-/*40*/		, {x:50, y:30, id:"Japán erőd", text:"(Kamasuka) <i>Sok évvel ezelőtt, ez az ajtó mindig zárva volt és egy őr állt előtte.<br>De most hogy már nem áll előtte senki, bemegyünk</i>"}
-			, {x:55, y:20, id:"Pongo Pongo", text:"<i><span class='Anulu'>- Repülő jönni, brrr rrr ááá züüü rrr rrr</span></i>"}
-			, {x:55, y:5, id:"Pongo Pongo", text:"(a) <i>aa</i><br>(b) <i>bb</i>"}
-			, {x:45, y:15, id:"Frisco", text:"(Frisco) <i>Frisco: na végre, itt van Pongo Pongo szigete<br> Akkor tehát megérkeztünk</i>"}
-			, {x:35, y:2, id:"Frisco", text:"(verekedés)"}
-			, {x:15, y:20, id:"Szökés", text:"<i><span class='Charlie'>Alua, kerüljük a szóvirágokat, mondd meg mit akarsz?</span><br> Te adni előtte egy csokit.</i>"
-			  , move:-1 }
-			, {x:22, y:47, id:"Szökés", text:"<i>Ulla nagyon szomorú, hogy látni _ elmenni szigetről.<br>Előtte _ adni Ullának egy csókát.</i>"
-			  , move:-2 }
-			, {x:27, y:60, id:"Szökés", text:"<i>Előtte elmenni, Ayola kérni nagy csocsót!<br><span class='Charlie'>Rendben, megcsocsollak.</span></i>"
-			  , move:-3 }
-/*48*/		, {x:21, y:70, id:"Vége", text:"<i><span class='Alan'>Mert aki barátot talál, az kincset talál.</span><br><span class='Charlie'>- Vagy mégsem?</span></i>"}
+        , steps:[ {x:-20, y:40, id:"kezd", text:"-"}
+          , {x:4, y:0, id:"Brady háza", text:"<i>- Hello Éhenkórász! Nos mesélj, hova tüntetted el a pénzünket?<br><span class='Alan'>- Hogy mit?</span></i>"}
+          , {x:0, y:20, id:"Brady háza", text:"<i>- Hé, nem vagy te süket, a 15000 dollárt.<br><span class='Alan'>- De hiszen már megmondtam!</span></i>"
+            , move:-1 }
+          , {x:10, y:30, id:"Brady háza", text:"<i>Hát mit is mondtál már meg nekünk?<br><span class='Alan'>- Befektettem. Méghozzá nektek fektettem be, bomba üzlet!</span></i>"
+            , move:-2 }
+          , {x:0, y:40, id:"Brady háza", text:"<i><span class='Alan'>- Tiétek a bácsikám térképe, a kincsről... csak követni kell az utasításokat.</span><br>- Éppen azért vagyunk itt, hogy eleget tegyünk bizonyos utasításoknak, de azokat Frisco adta.</i>"
+            , move:-3 }
+          , {x:7, y:52, id:"Brady háza", text:"<i><span class='npc1'>/Brady/- Halgass ide kisfiam, jobb lesz ha most eltűnsz innen. Fogd, ez a Tiéd.</span><br><span class='Alan'>- Kösz, de már reggeliztem.</span><br><span class='npc1'>- Ne-eem, a térkép! Benne van a térkép!</span></i>"}
+          , {x:0, y:64, id:"Brady háza", text:"<i><span class='alan'>- Hű, rengeteg víz van körülötte. Hajót kell szereznem!</span></i>"
+            , move:0 }
+          , {x:7, y:75, id:"Kikötő", text:"<i>- Biztos benne Mr O'Brien, hogy ki fogja állni a próbált?<br><span class='Charlie'>- Csak a puffin ad neked erőt és mindent lebíró akaratot.</span></i>"}
+          , {x:1, y:86, id:"Kikötő", text:"<i>- Talán Pakito is rajong a Puffin lekvárért?<br><span class='other2'>- Én csak a papagáj csajokat szeretem!</span></i>"}
+          , {x:22, y:99, id:"Tenger", text:"<i><span class='Charlie'>- Csak a puffin adhat erőt, mi?<br>&nbsp;&nbsp;Dögvész pusztít majd a cápák között.</span></i>", move:-1} //10
+/*10*/    , {x:35, y:98, id:"Tenger", text:"<i>- Itt a Parti állomás, Charlie van valami újság?<br><span class='Charlie'>- Semmi különös, csak ... a hegyekben szomjas vagyok a tengeren meg éhes.</span></i>"}
+          , {x:47, y:100, id:"Tenger", text:"<i><span class='Charlie'>- Hová lett? Hová lett a babom??</span><br>- Ki tudja? Pakito ártatlan.</i>"}
+          , {x:60, y:98, id:"Tenger", text:"<i><span class='Charlie'>- Igyekezz a hajóra, ha nem akarsz egy cápa legszebb emléke lenni.</span><br><span class='Alan'>- Micsoda szörnyeteg, mint Ön parancsnok.</span></i>"
+            , move:4 }
+          , {x:72, y:100, id:"Tenger", text:"<i><span class='Charlie'>- Kit látnak szememim, a láthatatlan ember.</span><br><span class='Alan'>- Neeem, valójában Alannak hívnak, örvendek a ...</span></i>"
+            , move:-3 }
+          , {x:85, y:98, id:"Tenger", text:"<i><span class='Charlie'>- A rádió nem müködik és itt van egy sziget, aminek nem kellene itt lennie.</span><br><span class='Alan'>- Lehet, hogy nemrég rakták ide.</span></i>"}
+          , {x:97, y:100, id:"Tenger", text:"<i><span class='Charlie'>- Add ide a távcsövet. Na add már.</span><br><span class='Alan'>- Itt van dobom, kapja el. Jelentem a távcső a tengerben.</span></i>"
+            , move:-1 }
+          , {x:100, y:86, id:"Tenger", text:"<i>Pakito ékes! Pakito éhes!</i>"}
+          , {x:88, y:81, id:"Tenger", text:"<i><span class='Charlie'>- Vagy az iránytű kergült meg, vagy én hibbantam meg.</span><br><span class='Alan'>- Hát persze, ha takarékperselynek használja.</span></i>"
+            , move:-4 }
+          , {x:75, y:80, id:"Tenger", text:"<i><span class='Alan'>- Gyorsabban! El kell érnünk a hajót, siess már!</span><br><span class='Charlie'>- Ááááá...</span><br><span class='Alan'>- Most már mindegy, kár vesződni.</span></i>"}
+          , {x:62, y:78, id:"Pongo Pongo", text:"<i><span class='Alan'>- Charlie! Parancsnok! Én egy vallomással tartozom önnek...<br>Ha hiszi, ha nem, ez a sziget teljesen lakatlan és egyetlen térképen sincs jelezve.</span></i>"}
+/*20*/    , {x:50, y:78, id:"Pongo Pongo", text:"<i><span class='Charlie'>- Egyelőre nem öllek meg, de én jobbra megyek, te meg balra! Megértetted?</span><br><span class='Alan'>- Meg, Parancsnok!</span></i>"}
+		    	, {x:34, y:83, id:"Pongo Pongo", text:"<i><span class='Charlie'>- Ha egyedül vagyunk, ki akarna golyót röpíteni belém, talán a nénikéd?</span><br><span class='Alan'>- Nem valószínű. Az én nénikém egy ilyet, mint te, még csak le se lőne.</span></i>"}
+	    		, {x:23, y:76, id:"Pongo Pongo", text:"<i><span class='Alan'>- Ejha, sok ellenséged lehet ezen a szigeten.</span><br><span class='Charlie'>- Nekem csak egy van, te.</span></i>"}
+			    , {x:22, y:62, id:"Pongo Pongo", text:"<i><span class='Alan'>- Tudod a térkép szerint a kincs egy katonai erődben van elrejtve.</span><br><span class='Charlie'>- Nem, ez egy raktár, mégpedig az ameriaki hadseregé.</span></i>"}
+			    , {x:33, y:54, id:"Pongo Pongo", text:"<i><span class='Alan'>- Hé! Ez ehetőnek tűnik. Az van ráírva: csak puffin ad nekem erőt...</span><br><span class='Charlie'>- Dobod el! Látni sem akarom!</span></i>"
+            , move:-2 }
+            , {x:22, y:46, id:"Pongo Pongo", text:"<i><span class='npc2'>- Jössz Anulu fogoly! Mamanak fogolyot kettő!</span><br><span class='Alan'>- Jobb lesz ha vele megyünk.</span></i>"}
+            , {x:33, y:38, id:"Pongo Pongo", text:"(Mama) <i>- Szívesen látunk titeket, szép fehéreket,<br>én is és a leánykáim.</i>"}
+            , {x:22, y:32, id:"Pongo Pongo", text:"<i><span class='Alan'>- Nem hallott egy titkos kincsről, ami ezen a szigeten van?</span><br>- Négy nagy kincsünk van, a napfény a tenger, az öröm és a szerelem.</i>"}
+            , {x:25, y:19, id:"Pongo Pongo", text:"(Mama) <i>- Nem örülök neki, de nekem is meg kell hajolnom törzsünk hagyományai előtt. Meg kell küzdenetek a törzs vezetőjével.</i>"}
+            , {x:35, y:12, id:"Pongo Pongo", text:"(Anulu) <i><span class='npc2'>Abdabá, harcolni, bululubú ulágá águ, harcolni ambadabá lulubi gyegyü önö ulala!</i>"}
+/*30*/    , {x:30, y:0,  id:"Pongo Pongo", text:"<i><span class='Alan'>- Az a kövér ember azt mondja, hogy a húgaid nem valami szépek.</span><br>- Brrrr...<br><span class='Alan'>- Azt mondja, hogy ketté akar hasíani téged.</span></i>"}
+          , {x:42, y:0,  id:"Pongo Pongo", text:"(Varázsló) <i>- Kalózok jönni! Kalózók jönni!!</i><br>(Mama) <i><span class='npc1'>- Ezek rossz emberek, ha barátaink akartok lenni, mentsetek meg minket.</span></i>"}
+			    , {x:48, y:12, id:"Pongo Pongo", text:"<i><span class='npc3'>- A lányok gyönyörűek.<br>- A fiúk kemény kötésűek, de gyávák, mint a nyulak.</span></i>"}
+			    , {x:54, y:0, id:"Pongo Pongo", text:"<i><span class='npc3'>- Hogy lehet hogy ma egy lelket sem látok itt?<br>- Biztosan elrejtőztek a kunyhóikban.</span></i>"}
+			    , {x:60, y:12, id:"Pongo Pongo", text:"<i><span class='npc3'>- Ezek itt ketten biztosan a konkurencia, de majd elveszem a kedvük.</span></i>", move:-2}
+			    , {x:66, y:0,  id:"Pongo Pongo", text:"<i><span class='npc2'>- Anulu mondani nektek nem ásni nagyon közel szamuráj.</span><br><span class='Alan'>- A bácsikám térképe szerint a kincsnek épp a japám erőd alatt kell lenni.</span></i>"}
+			    , {x:72, y:12, id:"Pongo Pongo", text:"<i><span class='npc1'>- Ti megmentettetek minket a kalózoktól, cserébe mi odaadjuk nektek a páncélautót<br><span class='npc2'>- Páncélauto nem, páncélautó nem.</span></i>"
+			      , move:-1 }
+			    , {x:80, y:0, id:"Pongo Pongo", text:"<i><span class='npc1'>- Páncélautó igen.<br>.. //nagy pofon// ..<br><span class='Alan'>- Páncélauto igen, páncélautó igen.</span></i>",move:1}
+			    , {x:86, y:12, id:"Páncélautó", text:"<i><span class='Alan'>- Hé, ellopták belőle a kormánykereket!</span><br><span class='Charlie'>- Még annyit sem tudsz, hogy a tankokban botkormány van?</i>"}
+			    , {x:92, y:0, id:"Páncélautó", text:"<i><span class='Alan'>- Melyik az a kurbli? Parancsnok, ez lesz az?</span><br><span class='Charlie'>- Hát persze hogy ez az! Nem látod, hogy kurbli formája van?</span></i>"}
+/*40*/    , {x:99, y:8, id:"Páncélautó", text:"<i><span class='Alan'>- Oké Charlie, te vagy a parancsnok. Várom az utasításokat.</span><br><span class='Charlie'>- Először is, ez itt a löveg.</span><br><span class='Alan'>- Á, igazán? Én zsinórnak néztem.</span></i>"}
+          , {x:99, y:22, id:"Pongo Pongo", text:"/Kamasuka/ <i><span class='npc1'>- Banzáj!</span><br><span class='Alan'>- Banzááj!</span><br><span class='npc1'>- Nem, én mondani először. Banzááj!</span></i>"}
+		      , {x:100, y:37, id:"Japán erőd", text:"/Kamasuka/<br><i><span class='npc1'>- Sok évvel ezelőtt, ez az ajtó mindig zárva volt és egy őr állt előtte.<br>&nbsp;&nbsp;De most hogy már nem áll előtte senki, bemegyünk.</i>"}
+			    , {x:89, y:31, id:"Pongo Pongo", text:"<i><span class='npc2'>- Repülő jönni, brrr rrr ááá züüü rrr rrr...</span></i>"}
+			    , {x:79, y:38, id:"Frisco", text:"(Frisco) <i>- Na végre! Itt van Pongo Pongo szigete<br>- Akkor tehát megérkeztünk.</i>"}
+			    , {x:90, y:45, id:"Frisco", text:"/Kamasuka/<br><i><span class='npc1'>- Ez egy titkos utasítás, amit az Ezeredes hagyott nekem.</span><br><span class='Alan'>- És, mi van benne?</span><br><span class='npc1'>- Az áll benne, hogy az összes bankjegy hamis.</span></i>"}
+			    , {x:100, y:52, id:"Szökés", text:"<i>- Kai lua chi kai mai.<br><span class='Charlie'>- Alua, kerüljük a szóvirágokat, mondd meg mit akarsz?</span><br>- Te adni előtte egy csokit.</i>"
+			      , move:-1 }
+			    , {x:92, y:62, id:"Szökés", text:"<i>- Ulla nagyon szomorú, hogy látni Charlie elmenni szigetről.<br>Előtte Charlie adni Ullának egy csókát.<br><span class='Charlie'>- Nem hiszem, hogy csókát akarsz. Ami te kérsz...</span></i>"
+			      , move:-2 }
+			    , {x:81, y:56, id:"Szökés", text:"<i>- Előtte elmenni, Ayola kérni nagy csocsót!<br><span class='Charlie'>- Rendben, megcsocsollak.</span></i>"
+			      , move:-3 }
+/*48*/		, {x:70, y:63, id:"Vége", text:"<i><span class='Alan'>- Mert aki barátot talál, az kincset talál.</span><br><span class='Charlie'>- Vagy mégsem?</span></i>"}
             ] };
 var gameData = { turn:0, aktiv:0, players:[] };
+var debug = {};
 var players = [ {name:"Charlie", step:0, kincs:false, imgsrc:"fig1b.png"}
               , {name:"Alan", step:0, kincs:false, imgsrc:"fig2b.png" }
               , {name:"Frisco", step: 0, kincs:false, imgsrc:"fig4.png" }
@@ -154,13 +158,44 @@ function start() {
   document.getElementById('mytext').innerHTML=gameDesc.start_message;
   document.getElementById('kocka').onclick = function() { kockadobas(); };
   if (isDebug) { setTimeout(debugStartup, tickMs*2); }
+  const queryString = window.location.search;
+  if (queryString != '') {
+    console.log(queryString);
+    document.styleSheets[0].rules[0].style.display='inline';  // 1st rules shall be '.debug'
+
+    const urlParams = new URLSearchParams(queryString);
+    if (urlParams.has('frameMs')) {
+      frameMs = parseInt(urlParams.get('frameMs'))
+    }
+    if (urlParams.has('dice')) {
+      gameDesc.dice = parseInt(urlParams.get('dice'))
+    }
+    if (urlParams.has('diceMs')) {
+      gameDesc.diceroll.speedMs = parseInt(urlParams.get('diceMs'))
+    }
+    if (urlParams.has('nomove')) {
+      debug.nomove = 1;
+    }
+
+    if (urlParams.has('start')) {
+      do_join(0);
+      players[0].step = parseInt(urlParams.get('start'));
+      movePlayerImg(0, players[0].step)
+    }
+    //debugStartup();
+  }
 }
 function debugStartup() {
   do_join(0);  //do_join(1);
   players[0].step = 47;
   movePlayerImg(0, players[0].step)
-  kerem_a_kovetkezot();
+  //kerem_a_kovetkezot();
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  document.getElementById('mytext').innerHTML=urlParams.get('debug');
+  console.log(urlParams.get('debug'))
 }
+
 function movePlayerImg(player, pos) {
   var elem = document.getElementById('p'+player);
   var tt = document.getElementById('tabla');
@@ -184,6 +219,10 @@ function rollingDice(imgId) {
   var y0 = Math.floor( (tt.offsetHeight - elem.offsetHeight) * gameDesc.diceroll.pos0.y / 100); //parseInt(elem.style.top) - tt.offsetTop;
   var x = Math.floor( (tt.offsetWidth - elem.offsetWidth) * gameDesc.diceroll.pos1.x / 100); 
   var y = Math.floor( (tt.offsetHeight - elem.offsetHeight) * gameDesc.diceroll.pos1.y / 100);
+  var txt = document.getElementById('dobas');
+  x = txt.offsetParent.getBoundingClientRect().left;// - txt.offsetParent.getBoundingClientRect().left;// -tt.offsetLeft;
+  y = txt.getBoundingClientRect().top;
+  console.log(`lovas ${txt.offsetLeft} b:${txt.getBoundingClientRect().left}.${txt.offsetParent.getBoundingClientRect().left}.${document.getElementById('p0_status').getBoundingClientRect().leftx}`)
   var N = 10*tickPerFrame;
   var ms = Math.floor(gameDesc.diceroll.speedMs / N);
   
@@ -205,7 +244,7 @@ function moveAndZoomPlayerImg(player, pos, s0, s1) {
   //var x = Math.floor( (tt.offsetWidth - elem.offsetWidth) * gameDesc.steps[pos].x / 100); 
   //var y = Math.floor( (tt.offsetHeight - elem.offsetHeight) * gameDesc.steps[pos].y / 100);
   var x = Math.floor( (tt.offsetWidth - Math.floor(document.documentElement.clientHeight*s1/100)) * gameDesc.steps[pos].x / 100); 
-  var y = Math.floor( (tt.offsetHeight - Math.floor(document.documentElement.clientHeight*s1/100)) * gameDesc.steps[pos].y / 100);
+  var y = Math.floor( (tt.offsetHeight - Math.floor(document.documentElement.clientHeight*s1/100)) * gameDesc.steps[pos].y / 100 + player*50);
 
   document.getElementById(`p${player}_status`).innerHTML = `${players[player].name}: ${players[player].step}`;
   var N = tickPerFrame;
@@ -225,6 +264,7 @@ function moveImg(elem, x_px, y_px, s_vmin=0) {
     elem.style.width = s_vmin + 'vmin';
   }
 }
+
 function stepPlayer(player,cnt=1) {
   document.getElementById('dice2').style.transition='opacity 1s';
   document.getElementById('dice2').style.opacity=0;
@@ -241,7 +281,7 @@ function stepPlayer(player,cnt=1) {
 	players[player].step += cnt;
     document.getElementById('mytext').innerHTML=gameDesc.steps[players[player].step].text;
 
-	if (gameDesc.steps[players[player].step].move) {
+	if (gameDesc.steps[players[player].step].move && !debug.nomove) {
 	  setTimeout(movePlayerImg, frameMs*(cnt+2), player, players[player].step + gameDesc.steps[players[player].step].move);
 	  players[player].step += gameDesc.steps[players[player].step].move
 	}
@@ -307,7 +347,7 @@ function doHailWinner(player) {
       tid = setInterval(flyAway, 10)
     } else {
       tickCnt+=1
-      moveScaleImg(document.getElementById('p0'),
+      moveImg(document.getElementById('p0'),
       tt.offsetLeft + Math.floor(dh/3) + Math.cos(tickCnt/25)*Math.floor(dh/4),
       Math.floor(dh/3) + Math.sin(tickCnt/25)*Math.floor(dh/4),
       Math.floor(10 + tickCnt*90/tickMax)
@@ -319,7 +359,7 @@ function doHailWinner(player) {
       clearInterval(tid);
       theEnd();
     } else {
-      moveScaleImg( document.getElementById('p0'), Math.floor((tickCnt*dw + (N-tickCnt)*x0)/N), Math.floor(((N-tickCnt)*y0)/N), N-tickCnt);
+      moveImg( document.getElementById('p0'), Math.floor((tickCnt*dw + (N-tickCnt)*x0)/N), Math.floor(((N-tickCnt)*y0)/N), N-tickCnt);
       tickCnt+=1
     }
   }
@@ -405,38 +445,48 @@ function myResize() {
 function setStyle(elem,styleitem,value) {
   document.getElementById(elem).style.setProperty(styleitem,value)
 }
+
+
+function debugPos(dx,dy,player=0) {
+  idx=players[player].step
+  gameDesc.steps[idx].x+=dx;
+  gameDesc.steps[idx].y+=dy;
+  movePlayerImg(player,idx);
+  document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[idx].x}, y:${gameDesc.steps[idx].y}`;
+}
+
 </script>
 </head>
 <body onload="start();" onresize="myResize();">
 <audio id="myaudio" src="audio/movin-cruisin-xylo.mp3" autoplay loop> </audio>
+<img id="dice2" class="mozgo icon top" src="dice.png" style="max-height:35vmin;max-width:90%;opacity:0">
 <table style="width:100%;height:100%;">
   <tr style="height:25%;">
     <td style="width:20%;">
 	  <h2>Kincs ami nincs</h2>
 	  <p><u>Le&iacute;r&aacute;s:</u> Juss el a szigetre, szerezd meg a kincset &eacute;s sz&ouml;kj el a szigetr&#337;l.</p>
 	</td>
-    <td id="td_tabla" rowspan="3" style="width:60%;padding:0;text-align:center;vertical-align:top;">
-     <div id="div_tabla" style="position:relative;xxobject-fit:contain;max-height:80%;max-width:100%;">
+  <td id="td_tabla" rowspan="3" style="width:60%;padding:0;text-align:center;vertical-align:top;">
+    <div id="div_tabla" style="position:relative;xxobject-fit:contain;max-height:80%;max-width:100%;">
       <img id="tabla" src="kincsaminincs-terkep1000b.jpg" style="max-width:60vw;max-height:80vh;" xstyle="object-fit:contain;max-height:100%;max-width:100%;">
       <img id="p0" class="mozgo icon" src="data:," style="display:none;top:0px;left:0px;">
       <img id="p1" class="mozgo icon" src="data:," style="display:none;">
       <img id="p2" class="mozgo icon" src="data:," style="display:none;">
       <img id="p3" class="mozgo icon" src="data:," style="display:none;">
-      <img id="dice2" class="mozgo icon" src="dice.png" style="max-height:35vmin;max-width:90%;">
       <p id="mytext" class="medium" style="text-align:left;font-stretch:semi-condensed;"></p>
-     </div>
-    </td>
-    <td style="width:20%;text-align:center;">
+    </div>
+  </td>
+  <td style="width:20%;text-align:center;">
 	  <p><i>coding: szalabala<br>grafika: imperat<br>music: szalabala<br>thanks: kispalv</i><br><br>Heha Info Szakkor<br>2019</p>
 	</td>
-  </tr>
-  <tr style="height:50%;">
-    <td>
-	  <button id="kocka" onclick="kockadobas();" disabled=true style="max-width:90%;max-height:95%;filter:invert(25%);">
-        <img id="dice" class="rotate" src="dice.png" style="max-height:35vmin;max-width:90%;">
+</tr>
+<tr style="height:50%;">
+  <td>
+    <button id="kocka" onclick="kockadobas();" disabled=true style="max-width:90%;max-height:95%;filter:invert(25%);">
+      <img id="dice" class="rotate" src="dice.png" style="max-height:35vmin;max-width:90%;">
 	  </button>
     </td>
-    <td><p id="cur_player" class="big"></p>
+  <td><p id="cur_player" class="big"></p>
 	  <img id="cp" class="icon" src="data:," style="display:none;">
 	  <p id="dobas" class="xl" style="width:50%;border:3px solid red;border-radius:30%;">0</p>
 	  <br>
@@ -445,11 +495,12 @@ function setStyle(elem,styleitem,value) {
 	  <p id="p2_status" style="width:75%">-</p>
     <p id="p3_status" style="width:75%">-</p>
     <!-- uncomment for development/debug to locate figure positions
-    <button onclick="gameDesc.steps[0].y-=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">fel</button><br>
-    <button onclick="gameDesc.steps[0].x-=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">bal</button>
-    <button onclick="gameDesc.steps[0].x+=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">jobb</button><br>
-    <button onclick="gameDesc.steps[0].y+=5;movePlayerImg(0,0);document.getElementById('mytext').innerHTML=`x:${gameDesc.steps[0].x}, y:${gameDesc.steps[0].y}`;">le</button>
     -->
+    <button class="debug" onclick="debugPos(0,-1);">^</button>   <button class="debug" onclick="debugPos(0,-5);">fel</button><br>
+    <button class="debug" onclick="debugPos(-1,0);">&lt;</button><button class="debug" onclick="debugPos(-5,0);">bal</button>
+    <button class="debug" onclick="debugPos(1,0);">&gt;</button><button class="debug" onclick="debugPos(5,0);">jobb</button><br>
+    <button class="debug" onclick="debugPos(0,1);">v</button>    <button class="debug" onclick="debugPos(0,5);">le</button>
+
     </td>
   </tr>
   <tr style="height:25%;">
