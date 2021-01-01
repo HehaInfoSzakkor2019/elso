@@ -17,7 +17,7 @@ h2 { font-size:5vmin }
 .big { font-size:5vmin }
 .medium { font-size:4vmin }
 .small { font-size:3vmin }
-.icon { height:15;width:15vmin; }
+.icon { height:13vmin;width:13vmin; }
 .rotate { transition: transform 2s linear; }  
 p { margin:auto; padding:0;font-size:3vmin; border-radius:25%; }
 body { background-image:url("csempe2.jpg"); }
@@ -29,7 +29,7 @@ button { background-color: Transparent; border-radius:25%; }
 .Charlie { color:midnightblue }
 .Alan { color:RebeccaPurple }
 .npc1 { color:DarkSlateGray; font-family:'Arial' }
-.npc2 { color:maroon; font-family:'Brush Script MT';font-size:large }
+.npc2 { color:maroon; font-family:'Brush Script MT';font-size:larger }
 .npc3 { color:brown; font-family:'Courier New' }
 .select { animation:magnified 2s infinite }
 @keyframes magnified{
@@ -51,7 +51,7 @@ button { background-color: Transparent; border-radius:25%; }
 // transition: ease, ease-in-out, cubic-bezier(0,1,.98,0)
 var isDebug = false;  // set this for debug/troubleshooting, jump to start debugStartup
 //var x=0;var y=0;
-var _version = '0.1.1';
+var _version = '0.9.2';
 var debugAutoMove = false;//true;
 var tickCnt = 0;
 var tickPerFrame = 15;
@@ -64,9 +64,7 @@ var gameDesc = { name:"Kincs, ami nincs"
               +"<br>2. Kattints a <b>Puffin Lekvár</b> képére hogy lépjél."
               +"<br>3. Juss el a kétéltű járgányig!"
               +"<br><hr><br>"
-//              +"<br> Alatta, hogy ki merre jár."
-//              +"<br>&lt;&lt;&lt;- - - - - - - - - - - - - - - - - - - -&gt;&gt;&gt;"
-              +"<br>Csak a Puffin ad neked erőt és mindent lebíró akaratot!"
+              +"<p style=\"font-size:5vmin;text-align:center;\"><b>Csak a Puffin ad neked erőt és mindent lebíró akaratot!</b></p>"
               +"</span>" 
             , restart_message:"<span style=\"color:blue;text-decoration:blink;\">Kattints a Puffinra az újrakezdéshez</span>"
           , tabla:"kincsaminincs-terkep1000d.jpg", tabla0:"kincsaminincs-terkep800.jpg", tabla_end:"ending.jpg"
@@ -83,10 +81,9 @@ var gameDesc = { name:"Kincs, ami nincs"
           , {x:4, y:0, id:"Brady háza", text:"<i>- Hello Éhenkórász! Nos mesélj, hova tüntetted el a pénzünket?<br><span class='Alan'>- Hogy mit?</span></i>"}
           , {x:0, y:20, id:"Brady háza", text:"<i>- Hé, nem vagy te süket, a 15000 dollárt.<br><span class='Alan'>- De hiszen már megmondtam!</span></i>"
             , move:-1 }
-          , {x:10, y:30, id:"Brady háza", text:"<i>- Hát mit is mondtál már meg nekünk?<br><span class='Alan'>- Befektettem. Méghozzá nektek fektettem be, bomba üzlet!</span></i>"
-            , move:-2 }
+          , {x:10, y:30, id:"Brady háza", text:"<i>- Hát mit is mondtál már meg nekünk?<br><span class='Alan'>- Befektettem. Méghozzá nektek fektettem be, bomba üzlet!</span></i>"}
           , {x:0, y:40, id:"Brady háza", text:"<i><span class='Alan'>- Tiétek a bácsikám térképe, a kincsről... csak követni kell az utasításokat.</span><br>- Éppen azért vagyunk itt, hogy eleget tegyünk bizonyos utasításoknak, de azokat Frisco adta.</i>"
-            , move:-3 }
+            , move:-1 }
           , {x:7, y:52, id:"Brady háza", text:"<i><span class='npc1'>/Brady/- Halgass ide kisfiam, jobb lesz ha most eltűnsz innen. Fogd, ez a Tiéd.</span><br><span class='Alan'>- Kösz, de már reggeliztem.</span><br><span class='npc1'>- Ne-eem, a térkép! Benne van a térkép!</span></i>"}
           , {x:0, y:64, id:"Brady háza", text:"<i><span class='alan'>- Hű, rengeteg víz van körülötte. Hajót kell szereznem!</span></i>"
             , move:0 }
@@ -126,7 +123,7 @@ var gameDesc = { name:"Kincs, ami nincs"
 			    , {x:66, y:0,  id:"Pongo Pongo", text:"<i><span class='npc2'>- Anulu mondani nektek nem ásni nagyon közel szamuráj.</span><br><span class='Alan'>- A bácsikám térképe szerint a kincsnek épp a japám erőd alatt kell lenni.</span></i>"}
 			    , {x:72, y:12, id:"Pongo Pongo", text:"<i><span class='npc1'>- Ti megmentettetek minket a kalózoktól, cserébe mi odaadjuk nektek a páncélautót<br><span class='npc2'>- Páncélauto nem, páncélautó nem.</span></i>"
 			      , move:-1 }
-			    , {x:80, y:0, id:"Pongo Pongo", text:"<i><span class='npc1'>- Páncélautó igen.<br>.. //nagy pofon// ..<br><span class='Alan'>- Páncélauto igen, páncélautó igen.</span></i>",move:1}
+			    , {x:80, y:0, id:"Pongo Pongo", text:"<i><span class='npc1'>- Páncélautó igen.<br>.. //nagy pofon// ..<br><span class='npc2'>- Páncélauto igen, páncélautó igen.</span></i>",move:1}
 			    , {x:86, y:12, id:"Páncélautó", text:"<i><span class='Alan'>- Hé, ellopták belőle a kormánykereket!</span><br><span class='Charlie'>- Még annyit sem tudsz, hogy a tankokban botkormány van?</i>"}
 			    , {x:92, y:0, id:"Páncélautó", text:"<i><span class='Alan'>- Melyik az a kurbli? Parancsnok, ez lesz az?</span><br><span class='Charlie'>- Hát persze hogy ez az! Nem látod, hogy kurbli formája van?</span></i>"}
 /*40*/    , {x:99, y:8, id:"Páncélautó", text:"<i><span class='Alan'>- Oké Charlie, te vagy a parancsnok. Várom az utasításokat.</span><br><span class='Charlie'>- Először is, ez itt a löveg.</span><br><span class='Alan'>- Á, igazán? Én zsinórnak néztem.</span></i>"}
@@ -134,7 +131,7 @@ var gameDesc = { name:"Kincs, ami nincs"
 		      , {x:100, y:37, id:"Japán erőd", text:"/Kamasuka/<br><i><span class='npc1'>- Sok évvel ezelőtt, ez az ajtó mindig zárva volt és egy őr állt előtte.<br>&nbsp;&nbsp;De most hogy már nem áll előtte senki, bemegyünk.</i>"}
 			    , {x:89, y:31, id:"Pongo Pongo", text:"<i><span class='npc2'>- Repülő jönni, brrr rrr ááá züüü rrr rrr...</span></i>"}
 			    , {x:79, y:38, id:"Frisco", text:"(Frisco) <i>- Na végre! Itt van Pongo Pongo szigete<br>- Akkor tehát megérkeztünk.</i>"}
-			    , {x:90, y:45, id:"Frisco", text:"/Kamasuka/<br><i><span class='npc1'>- Ez egy titkos utasítás, amit az Ezeredes hagyott nekem.</span><br><span class='Alan'>- És, mi van benne?</span><br><span class='npc1'>- Az áll benne, hogy az összes bankjegy hamis.</span></i>"}
+			    , {x:90, y:45, id:"Frisco", text:"/Kamasuka/<br><i><span class='npc1'>- Ez egy titkos utasítás, amit az Ezredes hagyott nekem.</span><br><span class='Alan'>- És, mi van benne?</span><br><span class='npc1'>- Az áll benne, hogy az összes bankjegy hamis.</span></i>"}
 			    , {x:100, y:52, id:"Szökés", text:"<i>- Kai lua chi kai mai.<br><span class='Charlie'>- Alua, kerüljük a szóvirágokat, mondd meg mit akarsz?</span><br>- Te adni előtte egy csokit.</i>"
 			      , move:-1 }
 			    , {x:92, y:62, id:"Szökés", text:"<i>- Ulla nagyon szomorú, hogy látni Charlie elmenni szigetről.<br>Előtte Charlie adni Ullának egy csókát.<br><span class='Charlie'>- Nem hiszem, hogy csókát akarsz. Ami te kérsz...</span></i>"
@@ -143,30 +140,16 @@ var gameDesc = { name:"Kincs, ami nincs"
 			      , move:-3 }
 /*48*/		, {x:70, y:63, id:"Vége", text:"<i><span class='Alan'>- Mert aki barátot talál, az kincset talál.</span><br><span class='Charlie'>- Vagy mégsem?</span></i>"}
             ] };
-var gameData = { turn:0, aktiv:0, players:[] };
+var gameData = { turn:0, aktiv:0, players:[], started:false };
 var debug = {};
 var players = [ {name:"Charlie", step:0, kincs:false, imgsrc:"fig1b.png"}
               , {name:"Alan", step:0, kincs:false, imgsrc:"fig2b.png" }
               , {name:"Frisco", step: 0, kincs:false, imgsrc:"fig4.png" }
               , {name:"Kalóz", step: 0, kincs:false, imgsrc:"fig5.png" }
 			  ];
-var gameUI = { mainAreaWidthPercent:60, mainAreaHeightPercent:90,figureSizePercent:10 };
+var gameUI = { mainAreaWidthPercent:60, mainAreaHeightPercent:90, figureSizePercent:10, fullscr:0, muted:false };
+
 function myLoad() {
-  setTimeout(function(){window.scrollTo(0, 0); }, 5);
-  try {
-    if ( document.documentElement.requestFullscreen) {
-      document.documentElement.requestFullscreen();
-    } else if ( document.documentElement.webkitrequestFullscreen) {
-      document.documentElement.webkitrequestFullscreen();
-    } else if ( document.documentElement.mozrequestFullscreen) {
-      document.documentElement.mozrequestFullscreen();
-    } else if ( document.documentElement.msrequestFullscreen) {
-      document.documentElement.msrequestFullscreen();
-    }
-  } catch(err) {}
-  myResize();
-
-
   const queryString = window.location.search;
   if (queryString != '') {
     console.log(queryString);
@@ -193,10 +176,11 @@ function myLoad() {
 
     if (urlParams.has('start')) {
       do_join(0);
+      startGame();
       players[0].step = parseInt(urlParams.get('start'));
       movePlayerImg(0, players[0].step)
+      //kockadobas();
     }
-    //debugStartup();
   }
 
 }
@@ -213,18 +197,42 @@ function start() {
     document.getElementById('b'+i).disabled = false;
     document.getElementById('b'+i).style.filter = 'invert(25%)';
     document.getElementById('b'+i).style.border="none";
+    setTimeout(myBlink, 5 + i*300, "sel"+i);
   }
   document.getElementById('mytext').innerHTML=gameDesc.start_message;
   document.getElementById('kocka').onclick = function() { kockadobas(); };
+  myLoad();
+}
 
-  setTimeout(myBlink,5,"sel0");
-  setTimeout(myBlink,305,"sel1");
-  setTimeout(myBlink,605,"sel2");
-  setTimeout(myBlink,905,"sel3");
+function startGame() {
+  if (gameData.players.length > 0) {
+    document.getElementById('mytext').innerHTML="";
+    document.getElementById('tabla').src = gameDesc.tabla;
+    setStyle('tabla','height','90vh');
+    document.getElementById('b'+gameData.aktiv).style.filter = 'invert(0%)';
+    gameData.aktiv=gameData.players.length-1; //LOVAS
+    kerem_a_kovetkezot();
+    myResize();
+
+    for (var i=0;i < players.length; i++ ) {
+      players[i].step = 1;
+      document.getElementById('p'+i).src=players[i].imgsrc;
+      document.getElementById('p'+i).style.display="none";
+      document.getElementById('b'+i).disabled = true; // false??
+      document.getElementById('b'+i).style.filter = 'invert(25%)';
+      document.getElementById('b'+i).style.border="none";
+      document.getElementById("sel"+i).style.animation="";
+      document.getElementById('sel'+i).style.position="static";
+    }
+    for (var i=0;i < gameData.players.length; i++ ) {
+      var pi = gameData.players[i];
+      document.getElementById('p'+gameData.players[i]).style.display="inline";
+      document.getElementById('b'+gameData.players[i]).style.filter = 'invert(0%)';
+    }
+    gameData.started = true;
+  }
 }
-function myBlink(imgId,isSet=1) {
-  document.getElementById(imgId).style.animation="blink 2s infinite";
-}
+
 
 function movePlayerImg(player, pos) {
   var elem = document.getElementById('p'+player);
@@ -252,10 +260,15 @@ function rollingDice(imgId) {
   var txt = document.getElementById('dobas');
   x = txt.offsetParent.getBoundingClientRect().left;// - txt.offsetParent.getBoundingClientRect().left;// -tt.offsetLeft;
   y = txt.getBoundingClientRect().top;
-  console.log(`lovas ${txt.offsetLeft} b:${txt.getBoundingClientRect().left}.${txt.offsetParent.getBoundingClientRect().left}.${document.getElementById('p0_status').getBoundingClientRect().leftx}`)
+  //console.log(`lovas ${txt.offsetLeft} b:${txt.getBoundingClientRect().left}.${txt.offsetParent.getBoundingClientRect().left}.${document.getElementById('p0_status').getBoundingClientRect().leftx}`)
   var N = 10*tickPerFrame;
   var ms = Math.floor(gameDesc.diceroll.speedMs / N);
   
+  document.getElementById('kocka').disabled=true;
+  document.getElementById('kocka').style.filter = 'invert(25%)';
+  document.getElementById('dice').style.animation="";
+  document.getElementById('mytext').innerHTML="";
+
   moveImg(elem, tt.offsetLeft + x0, tt.offsetTop + y0 );
   elem.style.opacity=1;
   elem.style.transition='transform ' + gameDesc.diceroll.speedMs + 'ms ease-in-out'; // linear ease 
@@ -267,7 +280,7 @@ function rollingDice(imgId) {
 }
 
 function moveAndZoomPlayerImg(player, pos, s0, s1) {
-  var elem = document.getElementById('p'+player);
+  var elem = document.getElementById('p'+gameData.players[player]);
   var tt = document.getElementById('tabla');
   var x0 = parseInt(elem.style.left) - tt.offsetLeft;
   var y0 = parseInt(elem.style.top) - tt.offsetTop;
@@ -276,7 +289,6 @@ function moveAndZoomPlayerImg(player, pos, s0, s1) {
   var x = Math.floor( (tt.offsetWidth - Math.floor(document.documentElement.clientHeight*s1/100)) * gameDesc.steps[pos].x / 100); 
   var y = Math.floor( (tt.offsetHeight - Math.floor(document.documentElement.clientHeight*s1/100)) * getPPosY(player) / 100);
 
-  document.getElementById(`p${player}_status`).innerHTML = `${players[player].name}: ${players[player].step}`;
   var N = tickPerFrame;
   var ms = Math.floor(frameMs / (tickPerFrame+1));
   for (var i=1; i <= N; i++) {
@@ -289,6 +301,12 @@ function moveAndZoomPlayerImg(player, pos, s0, s1) {
 function moveImg(elem, x_px, y_px, s_vmin=0) {
   elem.style.left = x_px + 'px';
   elem.style.top = y_px + 'px';
+  if (s_vmin != 0) {
+    elem.style.height = s_vmin + 'vmin';
+    elem.style.width = s_vmin + 'vmin';
+  }
+}
+function scaleImg(elem, s_vmin=0) {
   if (s_vmin != 0) {
     elem.style.height = s_vmin + 'vmin';
     elem.style.width = s_vmin + 'vmin';
@@ -325,11 +343,16 @@ function stepPlayer(player,cnt=1) {
 function kerem_a_kovetkezot() {
   if (gameData.players.length > 0) {
     document.getElementById('dice').style.animation="magnified 2s infinite";
+    //console.log(`cl:${gameData.aktiv}`)
+    //console.log(`cl:${gameData.players[gameData.aktiv]}`)
 
     document.getElementById(`p${gameData.players[gameData.aktiv]}`).classList.remove("top");
     document.getElementById(`p${gameData.players[gameData.aktiv]}`).classList.add("med");
     document.getElementById(`p${gameData.players[gameData.aktiv]}_status`).style.border="none";
     document.getElementById('b'+gameData.players[gameData.aktiv]).style.border="none";
+    scaleImg(document.getElementById(`p${gameData.players[gameData.aktiv]}`), 10);
+    document.getElementById(`p${gameData.players[gameData.aktiv]}`).style.opacity=0.7;
+
     gameData.aktiv = (gameData.aktiv + 1) % gameData.players.length;    
     var p = players[gameData.players[gameData.aktiv]];
     //document.getElementById('cp').src=p.imgsrc;
@@ -338,6 +361,8 @@ function kerem_a_kovetkezot() {
     document.getElementById(`p${gameData.players[gameData.aktiv]}`).classList.add("top");
     document.getElementById(`p${gameData.players[gameData.aktiv]}_status`).style.border="1px solid red";
     document.getElementById('b'+gameData.players[gameData.aktiv]).style.border="3px solid red";
+    scaleImg(document.getElementById(`p${gameData.players[gameData.aktiv]}`), 11);
+    document.getElementById(`p${gameData.players[gameData.aktiv]}`).style.opacity=1;
     document.getElementById('kocka').disabled=false;
     document.getElementById('kocka').style.filter = 'invert(0)';
     document.getElementById('dice2').style.transition='transform 0s';
@@ -403,44 +428,36 @@ function doHailWinner(player) {
   }
 }
 function kockadobas() {
-  document.getElementById("sel0").style.animation="";
-  document.getElementById("sel1").style.animation="";
-  document.getElementById("sel2").style.animation="";
-  document.getElementById("sel3").style.animation="";
-  document.getElementById('kocka').disabled=true;
-  document.getElementById('kocka').style.filter = 'invert(25%)';
-  document.getElementById('dice').style.animation="";
-  document.getElementById('mytext').innerHTML="";
+  if (gameData.started == false) {
+    startGame();
+    //gameData.aktiv = 0;
+  } else {
+    var dobas = Math.floor(Math.random() * gameDesc.dice) + 1;
+    if (players[gameData.players[gameData.aktiv]].step == 0) {
+      dobas = 1;
+    }
 
-
-  var dobas = Math.floor(Math.random() * gameDesc.dice) + 1;
-  if (players[gameData.players[gameData.aktiv]].step == 0) {
-    dobas = 1;
+    rollingDice("dice2");
+    setTimeout(stepPlayer, gameDesc.diceroll.speedMs, gameData.players[gameData.aktiv], dobas,  );
   }
-  rollingDice("dice2");
-  //gameDesc.dice_speed + 
-  //stepPlayer(gameData.players[gameData.aktiv], dobas);
-  setTimeout(stepPlayer, gameDesc.diceroll.speedMs, gameData.players[gameData.aktiv], dobas,  );
-
 }
 function do_join(player) {
-  myLoad();
+  //myLoad();
   gameData.players.push(player);
   document.getElementById('b'+player).disabled = true;
   document.getElementById('b'+player).style.filter = 'invert(0%)';
-  document.getElementById('p'+player).style.display="inline";
+  //document.getElementById('p'+player).style.display="inline";
   document.getElementById('p'+player).style.left="0px";
   document.getElementById('p'+player).style.top="0px";
-  players[player].step = 0;
-  if (gameData.players.length == 1) {
-    document.getElementById('mytext').innerHTML="";
-    document.getElementById('tabla').src = gameDesc.tabla;
-    setStyle('tabla','height','90vh');
-    document.getElementById('b'+player).style.filter = 'invert(0%)';
-    kerem_a_kovetkezot();
-    myResize();
-  }
-  moveAndZoomPlayerImg(player,0,80,10);
+  document.getElementById('sel'+player).style.animation="";
+  //document.getElementById('sel'+player).style.left="0px";
+  //document.getElementById('sel'+player).style.top="0px";
+  players[player].step = 1;
+  document.getElementById('kocka').disabled = false;
+
+  var playeridx = gameData.players.length - 1;
+  document.getElementById(`p${player}_status`).innerHTML = `${players[player].name}: ${players[player].step}`;
+  moveAndZoomPlayerImg(playeridx,players[player].step,80,12);
 }
 function myResize() {
   var cw = document.documentElement.clientWidth;
@@ -488,6 +505,53 @@ function getPPosY(player=0) {
   return gameDesc.steps[players[gameData.players[player]].step].y + (players[gameData.players[player]].step==0 ? player*15 : 0);
   //gameDesc.steps[players[gameData.players[i]].step].y
 }
+function myBlink(imgId,isSet=1) {
+  document.getElementById(imgId).style.animation="blink 2s infinite";
+}
+
+function toggleFullScr() {
+  console.log(`full ${gameUI.fullscr}`)
+  if (gameUI.fullscr == 0) {
+    if ( document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if ( document.documentElement.webkitrequestFullscreen) {
+      document.documentElement.webkitrequestFullscreen();
+    } else if ( document.documentElement.mozrequestFullscreen) {
+      document.documentElement.mozrequestFullscreen();
+    } else if ( document.documentElement.msrequestFullscreen) {
+      document.documentElement.msrequestFullscreen();
+    }
+    gameUI.fullscr = 1;
+  } else {
+    if ( document.documentElement.exitFullscreen) {
+      document.documentElement.exitFullscreen();
+    } else if ( document.documentElement.cancelFullscreen) {
+      document.documentElement.cancelFullscreen();
+    } else if ( document.documentElement.webkitexitFullscreen) {
+      document.documentElement.webkitexitFullscreen();
+    } else if ( document.documentElement.mozexitFullscreen) {
+      document.documentElement.mozexitFullscreen();
+    } else if ( document.documentElement.msexitFullscreen) {
+      document.documentElement.msexitFullscreen();
+    } else {
+      alert('exit fullscreen, doesnt work');
+    }
+    gameUI.fullscr = 0;    
+  }
+  myResize();
+  setTimeout(function(){window.scrollTo(0, 0); }, 5);
+}
+
+function toggleAudio() {
+  console.log(`mute:${gameUI.muted}`);
+  if (gameUI.muted == false) {
+    gameUI.muted = true;
+    document.getElementById('myaudio').pause();
+  } else {
+    gameUI.muted = false;
+    document.getElementById('myaudio').play();
+  }
+}
 
 
 function debugPos(dx,dy,player=0) {
@@ -503,10 +567,9 @@ function debugPos(dx,dy,player=0) {
 <body onload="start();" onresize="myResize();">
 <audio id="myaudio" src="audio/movin-cruisin-xylo.mp3" autoplay loop> </audio>
 <table style="width:100%;height:100%;">
-  <tr style="height:25%;">
+  <tr style="height:25%;max-height:25vh">
     <td style="width:20%;">
-      <h2>Kincs ami nincs</h2>
-      <p><u>Le&iacute;r&aacute;s:</u> Juss el a szigetre, szerezd meg a kincset &eacute;s sz&ouml;kj el a szigetr&#337;l.</p>
+      <h2>Kincs, ami nincs</h2>
     </td>
     <td id="td_tabla" rowspan="3" style="width:60%;padding:0;text-align:center;vertical-align:top;">
       <div id="div_tabla" style="position:relative;xxobject-fit:contain;max-height:80%;max-width:100%;">
@@ -519,7 +582,9 @@ function debugPos(dx,dy,player=0) {
       </div>
     </td>
     <td style="width:20%;text-align:center;">
-      <p><i>coding: szalabala<br>grafika: imperat<br>xylo: szalabala<br>thanks: kispalv</i><br><br>Heha Info Szakkor<br>2019</p>
+      <p style="text-align:right"><img src="volume.png" style="max-height:4vmin" onclick="toggleAudio()">
+        <img src="fullscr.png" style="max-height:5vmin" onclick="toggleFullScr()"></p><p>
+        <i>coding: szalabala<br>grafika: imperat<br>thanks: kispalv</i><br>Heha Info Szakkör<br>2019</p>
     </td>
   </tr>
   <tr style="height:50%;">
@@ -548,12 +613,12 @@ function debugPos(dx,dy,player=0) {
   </tr>
   <tr style="height:25%;">
     <td>
-	  <button id="b0" onclick="do_join(0);" style="max-height:90%;max-width:45%;"><img id="sel0" class="icon" src="fig1b.png"></button>
-    <button id="b1" onclick="do_join(1);" style="max-height:90%;max-width:45%;"><img id="sel1" class="icon" src="fig2b.png"></button>
+  	  <button id="b0" onclick="do_join(0);" style="max-height:90%;max-width:45%;"><img id="sel0" class="icon mozgo" style="left:10vw; top:-75vh;" src="fig1b.png"></button>
+      <button id="b1" onclick="do_join(1);" style="max-height:90%;max-width:45%;"><img id="sel1" class="icon mozgo" style="left:10vw; top:-50vh;"  src="fig2b.png"></button>
     </td>
     <td>
-      <button id="b2" onclick="do_join(2);" style="max-height:90%;max-width:45%;"><img id="sel2" class="icon" src="fig4.png"></button>
-      <button id="b3" onclick="do_join(3);" style="max-height:90%;max-width:45%;"><img id="sel3" class="icon" src="fig5.png"></button>
+      <button id="b2" onclick="do_join(2);" style="max-height:90%;max-width:45%;"><img id="sel2" class="icon mozgo" style="left:-20vw; top:-75vh;" src="fig4.png"></button>
+      <button id="b3" onclick="do_join(3);" style="max-height:90%;max-width:45%;"><img id="sel3" class="icon mozgo" style="left:-20vw; top:-50vh;" src="fig5.png"></button>
     </td>
   </tr>
 </table>
