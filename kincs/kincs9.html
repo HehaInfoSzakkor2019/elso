@@ -42,7 +42,7 @@ button { background-color: Transparent; border-radius:25%; }
 }
 @keyframes blink{
   0%{ transform: scale(1,1); }
-  10%{ transform: scale(1.05,1.05); }
+  10%{ transform: scale(1.2,1.2); }
   20%{ transform: scale(1,1); }
 }
 
@@ -89,13 +89,13 @@ var gameDesc = { name:"Kincs, ami nincs"
             , move:0 }
           , {x:7, y:75, id:"Kikötő", text:"<i>- Biztos benne Mr O'Brien, hogy ki fogja állni a próbált?<br><span class='Charlie'>- Csak a puffin ad neked erőt és mindent lebíró akaratot.</span></i>"}
           , {x:1, y:86, id:"Kikötő", text:"<i>- Talán Pakito is rajong a Puffin lekvárért?<br><span class='other2'>- Én csak a papagáj csajokat szeretem!</span></i>"}
-          , {x:22, y:99, id:"Tenger", text:"<i><span class='Charlie'>- Csak a puffin adhat erőt, mi?<br>&nbsp;&nbsp;Dögvész pusztít majd a cápák között.</span></i>", move:-1} //10
-/*10*/    , {x:35, y:98, id:"Tenger", text:"<i>- Itt a Parti állomás, Charlie van valami újság?<br><span class='Charlie'>- Semmi különös, csak ... a hegyekben szomjas vagyok a tengeren meg éhes.</span></i>"}
+          , {x:22, y:99, id:"Tenger", text:"<i><span class='Charlie'>- Csak a puffin adhat erőt, mi?<br>&nbsp;&nbsp;Dögvész pusztít majd a cápák között.</span></i>"} //10
+/*10*/    , {x:35, y:98, id:"Tenger", text:"<i>- Itt a Parti állomás, Charlie van valami újság?<br><span class='Charlie'>- Semmi különös, csak ... a hegyekben szomjas vagyok a tengeren meg éhes.</span></i>", move:-2}
           , {x:47, y:100, id:"Tenger", text:"<i><span class='Charlie'>- Hová lett? Hová lett a babom??</span><br>- Ki tudja? Pakito ártatlan.</i>"}
           , {x:60, y:98, id:"Tenger", text:"<i><span class='Charlie'>- Igyekezz a hajóra, ha nem akarsz egy cápa legszebb emléke lenni.</span><br><span class='Alan'>- Micsoda szörnyeteg, mint Ön parancsnok.</span></i>"
             , move:4 }
           , {x:72, y:100, id:"Tenger", text:"<i><span class='Charlie'>- Kit látnak szememim, a láthatatlan ember.</span><br><span class='Alan'>- Neeem, valójában Alannak hívnak, örvendek a ...</span></i>"
-            , move:-3 }
+            , move:-4 }
           , {x:85, y:98, id:"Tenger", text:"<i><span class='Charlie'>- A rádió nem müködik és itt van egy sziget, aminek nem kellene itt lennie.</span><br><span class='Alan'>- Lehet, hogy nemrég rakták ide.</span></i>"}
           , {x:97, y:100, id:"Tenger", text:"<i><span class='Charlie'>- Add ide a távcsövet. Na add már.</span><br><span class='Alan'>- Itt van dobom, kapja el. Jelentem a távcső a tengerben.</span></i>"
             , move:-1 }
@@ -104,14 +104,14 @@ var gameDesc = { name:"Kincs, ami nincs"
             , move:-4 }
           , {x:75, y:80, id:"Tenger", text:"<i><span class='Alan'>- Gyorsabban! El kell érnünk a hajót, siess már!</span><br><span class='Charlie'>- Ááááá...</span><br><span class='Alan'>- Most már mindegy, kár vesződni.</span></i>"}
           , {x:62, y:78, id:"Pongo Pongo", text:"<i><span class='Alan'>- Charlie! Parancsnok! Én egy vallomással tartozom önnek...<br>Ha hiszi, ha nem, ez a sziget teljesen lakatlan és egyetlen térképen sincs jelezve.</span></i>"}
-/*20*/    , {x:50, y:78, id:"Pongo Pongo", text:"<i><span class='Charlie'>- Egyelőre nem öllek meg, de én jobbra megyek, te meg balra! Megértetted?</span><br><span class='Alan'>- Meg, Parancsnok!</span></i>"}
+/*20*/    , {x:50, y:78, id:"Pongo Pongo", text:"<i><span class='Charlie'>- Egyelőre nem öllek meg, de én jobbra megyek, te meg balra! Megértetted?</span><br><span class='Alan'>- Meg, Parancsnok!</span></i>",move:4}
 		    	, {x:34, y:83, id:"Pongo Pongo", text:"<i><span class='Charlie'>- Ha egyedül vagyunk, ki akarna golyót röpíteni belém, talán a nénikéd?</span><br><span class='Alan'>- Nem valószínű. Az én nénikém egy ilyet, mint te, még csak le se lőne.</span></i>"}
 	    		, {x:23, y:76, id:"Pongo Pongo", text:"<i><span class='Alan'>- Ejha, sok ellenséged lehet ezen a szigeten.</span><br><span class='Charlie'>- Nekem csak egy van, te.</span></i>"}
 			    , {x:22, y:62, id:"Pongo Pongo", text:"<i><span class='Alan'>- Tudod a térkép szerint a kincs egy katonai erődben van elrejtve.</span><br><span class='Charlie'>- Nem, ez egy raktár, mégpedig az ameriaki hadseregé.</span></i>"}
 			    , {x:33, y:54, id:"Pongo Pongo", text:"<i><span class='Alan'>- Hé! Ez ehetőnek tűnik. Az van ráírva: csak puffin ad nekem erőt...</span><br><span class='Charlie'>- Dobod el! Látni sem akarom!</span></i>"
             , move:-2 }
-            , {x:22, y:46, id:"Pongo Pongo", text:"<i><span class='npc2'>- Jössz Anulu fogoly! Mamanak fogolyot kettő!</span><br><span class='Alan'>- Jobb lesz ha vele megyünk.</span></i>"}
-            , {x:33, y:38, id:"Pongo Pongo", text:"(Mama) <i>- Szívesen látunk titeket, szép fehéreket,<br>én is és a leánykáim.</i>"}
+            , {x:22, y:46, id:"Pongo Pongo", text:"<i><span class='npc2'>- Jössz Anulu fogoly! Mamanak fogolyot kettő!</span><br><span class='Alan'>- Jobb lesz ha vele megyünk.</span></i>",move:-19}
+            , {x:33, y:38, id:"Pongo Pongo", text:"(Mama) <i>- Szívesen látunk titeket, szép fehéreket,<br>én is és a leánykáim.</i>",move:6}
             , {x:22, y:32, id:"Pongo Pongo", text:"<i><span class='Alan'>- Nem hallott egy titkos kincsről, ami ezen a szigeten van?</span><br>- Négy nagy kincsünk van, a napfény a tenger, az öröm és a szerelem.</i>"}
             , {x:25, y:19, id:"Pongo Pongo", text:"(Mama) <i>- Nem örülök neki, de nekem is meg kell hajolnom törzsünk hagyományai előtt. Meg kell küzdenetek a törzs vezetőjével.</i>"}
             , {x:35, y:12, id:"Pongo Pongo", text:"(Anulu) <i><span class='npc2'>Abdabá, harcolni, bululubú ulágá águ, harcolni ambadabá lulubi gyegyü önö ulala!</i>"}
@@ -129,7 +129,7 @@ var gameDesc = { name:"Kincs, ami nincs"
 /*40*/    , {x:99, y:8, id:"Páncélautó", text:"<i><span class='Alan'>- Oké Charlie, te vagy a parancsnok. Várom az utasításokat.</span><br><span class='Charlie'>- Először is, ez itt a löveg.</span><br><span class='Alan'>- Á, igazán? Én zsinórnak néztem.</span></i>"}
           , {x:99, y:22, id:"Pongo Pongo", text:"/Kamasuka/ <i><span class='npc1'>- Banzáj!</span><br><span class='Alan'>- Banzááj!</span><br><span class='npc1'>- Nem, én mondani először. Banzááj!</span></i>"}
 		      , {x:100, y:37, id:"Japán erőd", text:"/Kamasuka/<br><i><span class='npc1'>- Sok évvel ezelőtt, ez az ajtó mindig zárva volt és egy őr állt előtte.<br>&nbsp;&nbsp;De most hogy már nem áll előtte senki, bemegyünk.</i>"}
-			    , {x:89, y:31, id:"Pongo Pongo", text:"<i><span class='npc2'>- Repülő jönni, brrr rrr ááá züüü rrr rrr...</span></i>"}
+			    , {x:89, y:31, id:"Pongo Pongo", text:"<i><span class='npc2'>- Repülő jönni, brrr rrr ááá züüü rrr rrr...</span></i>",move:-5}
 			    , {x:79, y:38, id:"Frisco", text:"(Frisco) <i>- Na végre! Itt van Pongo Pongo szigete<br>- Akkor tehát megérkeztünk.</i>"}
 			    , {x:90, y:45, id:"Frisco", text:"/Kamasuka/<br><i><span class='npc1'>- Ez egy titkos utasítás, amit az Ezredes hagyott nekem.</span><br><span class='Alan'>- És, mi van benne?</span><br><span class='npc1'>- Az áll benne, hogy az összes bankjegy hamis.</span></i>"}
 			    , {x:100, y:52, id:"Szökés", text:"<i>- Kai lua chi kai mai.<br><span class='Charlie'>- Alua, kerüljük a szóvirágokat, mondd meg mit akarsz?</span><br>- Te adni előtte egy csokit.</i>"
