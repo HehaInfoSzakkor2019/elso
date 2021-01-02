@@ -472,9 +472,9 @@ function myResize() {
 
   var isAndroid = /(android)/i.test(navigator.userAgent);
   if (isAndroid) {
-    document.getElementById('toptable').style.width = iw + 'px';
+    document.getElementById('toptable').style.width = cw + 'px';
   } else {
-    document.getElementById('toptable').style.max-width = cw + 'px';
+    document.getElementById('toptable').style.width = iw + 'px';
   }
 
   //document.getElementById('div_tabla').style.width = tw + 'px';
