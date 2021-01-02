@@ -470,8 +470,12 @@ function myResize() {
   var ch = document.documentElement.clientHeight;
   var iw = window.innerWidth;
 
-  document.getElementById('toptable').style.width = iw + 'px';
-  //document.getElementById('toptable').style.max-width = cw + 'px';
+  var isAndroid = /(android)/i.test(navigator.userAgent);
+  if (isAndroid) {
+    document.getElementById('toptable').style.width = iw + 'px';
+  } else {
+    document.getElementById('toptable').style.max-width = cw + 'px';
+  }
 
   //document.getElementById('div_tabla').style.width = tw + 'px';
   var dh = document.getElementById('div_tabla').offsetHeight;
