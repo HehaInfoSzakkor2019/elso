@@ -11,6 +11,8 @@ html, body {
   height:100%;
   padding:0;
   margin:0;
+  height: -webkit-fill-available;
+  width: -webkit-fill-available;
 }
 h2 { font-size:5vmin } 
 .xl { font-size:10vmin }
@@ -380,6 +382,7 @@ function doHailWinner(player) {
     document.getElementById('p'+i).style.display="none";
     document.getElementById('b'+i).disabled = true;
     document.getElementById('b'+i).style.border="none";
+    document.getElementById(`p${i}_status`).innerHTML = `-`;
   }
   document.getElementById('p0').src = gameDesc.plane;
   document.getElementById('p0').style.display = "inline";
@@ -425,6 +428,8 @@ function doHailWinner(player) {
     document.getElementById('kocka').onclick = function() { start();};
     document.getElementById('kocka').disabled = false;
     document.getElementById('kocka').style.filter = 'invert(0)';
+	gameData.players = [];
+	gameData.started = false;
   }
 }
 function kockadobas() {
@@ -465,7 +470,8 @@ function myResize() {
   var ch = document.documentElement.clientHeight;
   var iw = window.innerWidth;
 
-  document.getElementById('toptable').style.width = iw + 'px';
+  document.getElementById('toptable').style.width = cw + 'px';
+  //document.getElementById('toptable').style.max-width = cw + 'px';
 
   //document.getElementById('div_tabla').style.width = tw + 'px';
   var dh = document.getElementById('div_tabla').offsetHeight;
@@ -474,7 +480,8 @@ function myResize() {
   var tw = Math.floor(cw * gameUI.mainAreaWidthPercent / 100);
   var th = Math.floor(ch * gameUI.mainAreaHeightPercent / 100);
   var th0= Math.floor(tw / r0);
-  //console.log(`tw:${tw} th:${th} dh:${dh} ooh:${th0}`);
+
+  //console.log(`tw:${tw} th:${th} dh:${dh} ooh:${th0} cw:${cw} ch:${ch} iw:${iw}`);
 
   if (ch <= cw) {
     if (gameData.players.length >= 1) {
@@ -603,17 +610,15 @@ function debugPos(dx,dy,player=0) {
 	  <img id="cp" class="icon" src="data:," style="display:none;">
 	  <p id="dobas" class="xl" style="width:50%;border:3px solid red;border-radius:30%;">0</p>
 	  <br>
-	  <p id="p0_status" style="width:75%">Charlie: -</p>
-	  <p id="p1_status" style="width:75%">Alan: -</p>
+	  <p id="p0_status" style="width:75%">-</p>
+	  <p id="p1_status" style="width:75%">-</p>
 	  <p id="p2_status" style="width:75%">-</p>
-    <p id="p3_status" style="width:75%">-</p>
-    <!-- uncomment for development/debug to locate figure positions
-    -->
-    <button class="debug" onclick="debugPos(0,-1);">^</button>   <button class="debug" onclick="debugPos(0,-5);">fel</button><br>
-    <button class="debug" onclick="debugPos(-1,0);">&lt;</button><button class="debug" onclick="debugPos(-5,0);">bal</button>
-    <button class="debug" onclick="debugPos(1,0);">&gt;</button><button class="debug" onclick="debugPos(5,0);">jobb</button><br>
-    <button class="debug" onclick="debugPos(0,1);">v</button>    <button class="debug" onclick="debugPos(0,5);">le</button>
+      <p id="p3_status" style="width:75%">-</p>
 
+      <button class="debug" onclick="debugPos(0,-1);">^</button>   <button class="debug" onclick="debugPos(0,-5);">fel</button><br>
+      <button class="debug" onclick="debugPos(-1,0);">&lt;</button><button class="debug" onclick="debugPos(-5,0);">bal</button>
+      <button class="debug" onclick="debugPos(1,0);">&gt;</button><button class="debug" onclick="debugPos(5,0);">jobb</button><br>
+      <button class="debug" onclick="debugPos(0,1);">v</button>    <button class="debug" onclick="debugPos(0,5);">le</button>
     </td>
   </tr>
   <tr style="height:25%;">
