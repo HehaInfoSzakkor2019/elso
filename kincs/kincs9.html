@@ -9,6 +9,7 @@
 .debug { display:none }
 html, body {
   height:100%;
+  width:100%;
   padding:0;
   margin:0;
   height: -webkit-fill-available;
@@ -471,12 +472,13 @@ function myResize() {
   var iw = window.innerWidth;
 
   var isAndroid = /(android)/i.test(navigator.userAgent);
+/*
   if (isAndroid) {
     document.getElementById('toptable').style.width = cw + 'px';
   } else {
     document.getElementById('toptable').style.width = iw + 'px';
   }
-
+*/
   //document.getElementById('div_tabla').style.width = tw + 'px';
   var dh = document.getElementById('div_tabla').offsetHeight;
   var r0 = document.getElementById('tabla').naturalWidth / document.getElementById('tabla').naturalHeight;
