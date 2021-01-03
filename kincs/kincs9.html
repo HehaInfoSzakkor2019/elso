@@ -485,7 +485,8 @@ function myResize() {
   var th = Math.floor(ch * gameUI.mainAreaHeightPercent / 100);
   var th0= Math.floor(tw / r0);
 
-  //console.log(`tw:${tw} th:${th} dh:${dh} ooh:${th0} cw:${cw} ch:${ch} iw:${iw}`);
+  console.log(`tw:${tw} th:${th} dh:${dh} ooh:${th0} cw:${cw} ch:${ch} iw:${iw} a:${isAndroid}`);
+  document.getElementById('p3_status').innerHTML = `cw:${cw} iw:${iw} a:${isAndroid}`;
 
   if (ch <= cw) {
     if (gameData.players.length >= 1) {
