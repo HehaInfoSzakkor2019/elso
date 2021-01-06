@@ -29,6 +29,7 @@ table, tr, td { border: none; padding:0; margin:0; text-align: center; }
 img.mozgo { position: absolute; left: 0px; top: 0px; }
 img.top { z-index: 3; }
 img.med { z-index: 2; }
+img.back { z-index: 1; }
 button { background-color: Transparent; border-radius:25%; }
 button#kocka { max-width:90%;max-height:95%;filter:invert(25%);outline:none; }
 .Charlie { color:midnightblue }
@@ -610,7 +611,7 @@ function debugPos(dx,dy,player=0) {
     </td>
     <td id="td_tabla" rowspan="3" style="width:60%;padding:0;text-align:center;vertical-align:top;">
       <div id="div_tabla" style="position:relative;xxobject-fit:contain;max-height:80%;max-width:100%;">
-        <img id="tabla" src="image/kincsaminincs-terkep800.jpg" style="max-width:60vw;max-height:80vh;" xstyle="object-fit:contain;max-height:100%;max-width:100%;">
+        <img id="tabla" class="back" src="image/kincsaminincs-terkep800.jpg" style="max-width:60vw;max-height:80vh;" xstyle="object-fit:contain;max-height:100%;max-width:100%;">
         <img id="p0" class="mozgo icon" src="data:," style="display:none;top:0px;left:0px;">
         <img id="p1" class="mozgo icon" src="data:," style="display:none;">
         <img id="p2" class="mozgo icon" src="data:," style="display:none;">
@@ -648,8 +649,8 @@ function debugPos(dx,dy,player=0) {
   </tr>
   <tr style="height:25%;">
     <td>
-  	  <button id="b0" onclick="do_join(0);" style="max-height:90%;max-width:45%;"><img id="sel0" class="icon mozgo" style="left:10vw; top:-75vh;" src="image/fig1d.png"></button>
-      <button id="b1" onclick="do_join(1);" style="max-height:90%;max-width:45%;"><img id="sel1" class="icon mozgo" style="left:10vw; top:-50vh;"  src="image/fig2d.png"></button>
+  	  <button id="b0" onclick="do_join(0);" style="max-height:90%;max-width:45%;border:3px solid red;"><img id="sel0" class="icon mozgo" style="left:10vw; top:-75vh;border:3px solid blue;" src="image/fig1d.png"></button>
+      <button id="b1" onclick="do_join(1);" style="max-height:90%;max-width:45%;"><img id="sel1" class="icon mozgo" style="left:10vw;"  src="image/fig2d.png"></button>
     </td>
     <td>
       <button id="b2" onclick="do_join(2);" style="max-height:90%;max-width:45%;"><img id="sel2" class="icon mozgo" style="left:-20vw; top:-75vh;" src="image/fig4.png"></button>
