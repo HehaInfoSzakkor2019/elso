@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Kincs, ami nincs</title>
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="viewport" content="minimal-ui,width=device-width, initial-scale=1">
@@ -23,12 +24,13 @@ h2 { font-size:5vmin }
 .icon { height:13vmin;width:13vmin; }
 .rotate { transition: transform 2s linear; }  
 p { margin:auto; padding:0;font-size:3vmin; border-radius:25%; }
-body { background-image:url("csempe2.jpg"); }
+body { background-image:url("image/csempe.jpg"); }
 table, tr, td { border: none; padding:0; margin:0; text-align: center; }
-img.mozgo { position: absolute;     left: 0px;  top: 0px; }
+img.mozgo { position: absolute; left: 0px; top: 0px; }
 img.top { z-index: 3; }
 img.med { z-index: 2; }
 button { background-color: Transparent; border-radius:25%; }
+button#kocka { max-width:90%;max-height:95%;filter:invert(25%);outline:none; }
 .Charlie { color:midnightblue }
 .Alan { color:RebeccaPurple }
 .npc1 { color:DarkSlateGray; font-family:'Arial' }
@@ -48,13 +50,9 @@ button { background-color: Transparent; border-radius:25%; }
   10%{ transform: scale(1.2,1.2); }
   20%{ transform: scale(1,1); }
 }
-
 </style>
 <script>
-// transition: ease, ease-in-out, cubic-bezier(0,1,.98,0)
-var isDebug = false;  // set this for debug/troubleshooting, jump to start debugStartup
-//var x=0;var y=0;
-var _version = '0.9.6';
+var _version = '0.9.7';
 var debugAutoMove = false;//true;
 var tickCnt = 0;
 var tickPerFrame = 15;
@@ -110,7 +108,7 @@ var gameDesc = { name:"Kincs, ami nincs"
 /*20*/    , {x:50, y:78, id:"Pongo Pongo", text:"<i><span class='Charlie'>- Egyelőre nem öllek meg, de én jobbra megyek, te meg balra! Megértetted?</span><br><span class='Alan'>- Meg, Parancsnok!</span></i>",move:4}
 		    	, {x:34, y:83, id:"Pongo Pongo", text:"<i><span class='Charlie'>- Ha egyedül vagyunk, ki akarna golyót röpíteni belém, talán a nénikéd?</span><br><span class='Alan'>- Nem valószínű. Az én nénikém egy ilyet, mint te, még csak le se lőne.</span></i>"}
 	    		, {x:23, y:77, id:"Pongo Pongo", text:"<i><span class='Alan'>- Ejha, sok ellenséged lehet ezen a szigeten.</span><br><span class='Charlie'>- Nekem csak egy van, te.</span></i>"}
-			    , {x:22, y:62, id:"Pongo Pongo", text:"<i><span class='Alan'>- Tudod a térkép szerint a kincs egy katonai erődben van elrejtve.</span><br><span class='Charlie'>- Nem, ez egy raktár, mégpedig az ameriaki hadseregé.</span></i>"}
+			    , {x:22, y:62, id:"Pongo Pongo", text:"<i><span class='Alan'>- Tudod a térkép szerint a kincs egy katonai erődben van elrejtve.</span><br><span class='Charlie'>- Nem, ez egy raktár, mégpedig az amerikai hadseregé.</span></i>"}
 			    , {x:33, y:54, id:"Pongo Pongo", text:"<i><span class='Alan'>- Hé! Ez ehetőnek tűnik. Az van ráírva: csak puffin ad nekem erőt...</span><br><span class='Charlie'>- Dobod el! Látni sem akarom!</span></i>"
             , move:-2 }
             , {x:21, y:47, id:"Pongo Pongo", text:"<i><span class='npc2'>- Jössz Anulu fogoly! Mamanak fogolyot kettő!</span><br><span class='Alan'>- Jobb lesz ha vele megyünk.</span></i>",move:-19}
@@ -118,7 +116,7 @@ var gameDesc = { name:"Kincs, ami nincs"
             , {x:22, y:32, id:"Pongo Pongo", text:"<i><span class='Alan'>- Nem hallott egy titkos kincsről, ami ezen a szigeten van?</span><br>- Négy nagy kincsünk van, a napfény a tenger, az öröm és a szerelem.</i>"}
             , {x:25, y:19, id:"Pongo Pongo", text:"<i>- Nem örülök neki, de nekem is meg kell hajolnom törzsünk hagyományai előtt. Meg kell küzdenetek a törzs vezetőjével.</i>"}
             , {x:35, y:12, id:"Pongo Pongo", text:"<i><span class='npc2'>- Abdabá, harcolni, bululubú ulágá águ, harcolni ambadabá lulubi gyegyü önö ulala!</i>"}
-/*30*/    , {x:30, y:0,  id:"Pongo Pongo", text:"<i><span class='Alan'>- Az a kövér ember azt mondja, hogy a húgaid nem valami szépek.</span><br>- Grrrr...<br><span class='Alan'>- Azt mondja, hogy ketté akar hasíani téged.</span></i>"}
+/*30*/    , {x:30, y:0,  id:"Pongo Pongo", text:"<i><span class='Alan'>- Az a kövér ember azt mondja, hogy a húgaid nem valami szépek.</span><br>span class='npc2'>- Grrrr...</span><br><span class='Alan'>- Azt mondja, hogy ketté akar hasíani téged.</span></i>"}
           , {x:42, y:0,  id:"Pongo Pongo", text:"<i>- Kalózok jönni! Kalózók jönni!!</i><br><i><span class='npc1'>- Ezek rossz emberek, ha barátaink akartok lenni, mentsetek meg minket.</span></i>"}
 			    , {x:48, y:12, id:"Pongo Pongo", text:"<i><span class='npc3'>- A lányok gyönyörűek.<br>- A fiúk kemény kötésűek, de gyávák, mint a nyulak.</span></i>"}
 			    , {x:54, y:0, id:"Pongo Pongo", text:"<i><span class='npc3'>- Hogy lehet hogy ma egy lelket sem látok itt?<br>- Biztosan elrejtőztek a kunyhóikban.</span></i>"}
@@ -140,7 +138,7 @@ var gameDesc = { name:"Kincs, ami nincs"
 			      , move:-2 }
 			    , {x:82, y:56, id:"Szökés", text:"<i>- Előtte elmenni, Ayola kérni nagy csocsót!<br><span class='Charlie'>- Rendben, megcsocsollak.</span></i>"
 			      , move:-3 }
-/*49*/		, {x:70, y:63, id:"Vége", text:"<i><span class='Alan'>- Mert aki barátot talál, az kincset talál.</span><br><span class='Charlie'>- Vagy mégsem?</span></i>"}
+/*49*/		, {x:70, y:63, id:"Vége", text:"<span style='align:center'><i><span class='Alan'>- Mert aki barátot talál, az kincset talál.</span><br><span class='Charlie'>- Vagy mégsem?</span></i></span>"}
             ] };
 var gameData = { turn:0, aktiv:0, players:[], started:false };
 var debug = {};
@@ -192,17 +190,17 @@ function myLoad() {
 }
 
 function start() {
-  document.getElementById('tabla').src = gameDesc.tabla0;
+  document.getElementById('tabla').src = "image/" + gameDesc.tabla0;
   setTimeout(myResize,10);
   //this.interval = setInterval(tick, tickMs);
   gameData.players=[];
   for (var i=0;i < players.length; i++ ) {
     players[i].step = 0;
-    document.getElementById('p'+i).src=players[i].imgsrc;
-    document.getElementById('p'+i).style.display="none";
+    document.getElementById('p'+i).src = "image/" + players[i].imgsrc;
+    document.getElementById('p'+i).style.display = "none";
     document.getElementById('b'+i).disabled = false;
     document.getElementById('b'+i).style.filter = 'invert(25%)';
-    document.getElementById('b'+i).style.border="none";
+    document.getElementById('b'+i).style.border = "none";
 	
 	if (!(new URLSearchParams(window.location.search)).has('start')) {
       setTimeout(myBlink, 5 + i*300, "sel"+i);
@@ -216,7 +214,7 @@ function start() {
 function startGame() {
   if (gameData.players.length > 0) {
     document.getElementById('mytext').innerHTML="";
-    document.getElementById('tabla').src = gameDesc.tabla;
+    document.getElementById('tabla').src = "image/" + gameDesc.tabla;
     setStyle('tabla','height','90vh');
     document.getElementById('b'+gameData.aktiv).style.filter = 'invert(0%)';
     gameData.aktiv=gameData.players.length - 1; //LOVAS
@@ -225,18 +223,18 @@ function startGame() {
 
     for (var i=0;i < players.length; i++ ) {
       players[i].step = 1;
-      document.getElementById('p'+i).src=players[i].imgsrc;
-      document.getElementById('p'+i).style.display="none";
+      document.getElementById('p'+i).src = "image/" + players[i].imgsrc;
+      document.getElementById('p'+i).style.display = "none";
       document.getElementById('b'+i).disabled = true; // false??
       document.getElementById('b'+i).style.filter = 'invert(25%)';
-      document.getElementById('b'+i).style.border="none";
-      document.getElementById("sel"+i).style.animation="";
-      document.getElementById('sel'+i).style.position="static";
+      document.getElementById('b'+i).style.border = "none";
+      document.getElementById("sel"+i).style.animation = "";
+      document.getElementById('sel'+i).style.position = "static";
     }
     for (var i=0;i < gameData.players.length; i++ ) {
       var pi = gameData.players[i];
-      document.getElementById('p'+gameData.players[i]).style.display="inline";
-      document.getElementById('b'+gameData.players[i]).style.filter = 'invert(0%)';
+      document.getElementById('p'+gameData.players[i]).style.display = "inline";
+      document.getElementById('b'+gameData.players[i]).style.filter  = 'invert(0%)';
     }
     gameData.started = true;
   }
@@ -262,9 +260,9 @@ function movePlayerImg(playeridx, pos) {
   }
 
   if (pos < gameDesc.figures[player].img2step) {
-    document.getElementById('p'+player).src=gameDesc.figures[player].imgsrc;
+    document.getElementById('p'+player).src = "image/" + gameDesc.figures[player].imgsrc;
   } else {
-    document.getElementById('p'+player).src=gameDesc.figures[player].img2src;
+    document.getElementById('p'+player).src = "image/" + gameDesc.figures[player].img2src;
   }
 }
 function rollingDice(imgId) {
@@ -349,7 +347,7 @@ function stepPlayer(playeridx,cnt=1) {
 	}
     document.getElementById('mytext').innerHTML=gameDesc.steps[players[player].step].text;
 	if (gameDesc.steps[players[player].step].extra_audio) {
-      var audio = new Audio(gameDesc.steps[players[player].step].extra_audio);
+      var audio = new Audio("audio/" + gameDesc.steps[players[player].step].extra_audio);
       audio.play();
     }  
 
@@ -399,14 +397,14 @@ function kerem_a_kovetkezot() {
   }
 }
 function doHailWinner(player) {
-  document.getElementById('tabla').src = gameDesc.tabla0;
+  document.getElementById('tabla').src = "image/" + gameDesc.tabla0;
   for (var i=0;i < players.length; i++ ) {
     document.getElementById('p'+i).style.display="none";
     document.getElementById('b'+i).disabled = true;
     document.getElementById('b'+i).style.border="none";
     document.getElementById(`p${i}_status`).innerHTML = `-`;
   }
-  document.getElementById('p0').src = gameDesc.plane;
+  document.getElementById('p0').src = "image/" + gameDesc.plane;
   document.getElementById('p0').style.display = "inline";
 
   var tt = document.getElementById('tabla');
@@ -446,7 +444,7 @@ function doHailWinner(player) {
   
   function theEnd() { 
     document.getElementById('p0').style.display = "none";
-    document.getElementById('tabla').src = gameDesc.tabla_end;
+    document.getElementById('tabla').src = "image/" + gameDesc.tabla_end;
     document.getElementById('kocka').onclick = function() { start();};
     document.getElementById('kocka').disabled = false;
     document.getElementById('kocka').style.filter = 'invert(0)';
@@ -480,6 +478,7 @@ function do_join(player) {
   //document.getElementById('sel'+player).style.top="0px";
   players[player].step = 1;
   document.getElementById('kocka').disabled = false;
+  document.getElementById('kocka').style.filter = "invert(0%)";
 
   var playeridx = gameData.players.length - 1;
   document.getElementById(`p${playeridx}_status`).innerHTML = `${players[player].name}: ${players[player].step}`;
@@ -606,12 +605,12 @@ function debugPos(dx,dy,player=0) {
 <audio id="myaudio" src="audio/movin-cruisin-xylo.mp3" autoplay loop> </audio>
 <table id="toptable" style="width:100%;height:100%;">
   <tr style="height:25%;max-height:25vh">
-    <td style="width:20%;">
-      <h2>Kincs, ami nincs</h2>
+    <td style="width:20%;align:center;">
+      <h2>Kincs,<br> ami nincs</h2>
     </td>
     <td id="td_tabla" rowspan="3" style="width:60%;padding:0;text-align:center;vertical-align:top;">
       <div id="div_tabla" style="position:relative;xxobject-fit:contain;max-height:80%;max-width:100%;">
-        <img id="tabla" src="kincsaminincs-terkep1000b.jpg" style="max-width:60vw;max-height:80vh;" xstyle="object-fit:contain;max-height:100%;max-width:100%;">
+        <img id="tabla" src="image/kincsaminincs-terkep800.jpg" style="max-width:60vw;max-height:80vh;" xstyle="object-fit:contain;max-height:100%;max-width:100%;">
         <img id="p0" class="mozgo icon" src="data:," style="display:none;top:0px;left:0px;">
         <img id="p1" class="mozgo icon" src="data:," style="display:none;">
         <img id="p2" class="mozgo icon" src="data:," style="display:none;">
@@ -620,17 +619,17 @@ function debugPos(dx,dy,player=0) {
       </div>
     </td>
     <td style="width:20%;text-align:center;vertical-align:top;">
-      <p style="text-align:right"><img src="volume.png" style="max-height:4vmin" onclick="toggleAudio()">
-        <img src="fullscr.png" style="max-height:5vmin" onclick="toggleFullScr()"></p><p>
+      <p style="text-align:right"><img src="image/volume.png" style="max-height:4vmin" onclick="toggleAudio()">
+        <img src="image/fullscr.png" style="max-height:5vmin" onclick="toggleFullScr()"></p><p>
         <i>&copy; Copyright 2021 szalabala<br>grafika: imperat<br>thanks: kispalv</i></p>
     </td>
   </tr>
   <tr style="height:50%;">
     <td>
-      <button id="kocka" onclick="kockadobas();" disabled=true style="max-width:90%;max-height:95%;filter:invert(25%);">
-        <img id="dice" class="rotate" src="dice.png" style="max-height:35vmin;max-width:90%;">
+      <button id="kocka" onclick="kockadobas();" disabled=true>
+        <img id="dice" class="rotate" src="image/dice.png" style="max-height:35vmin;max-width:90%;">
       </button>
-      <img id="dice2" class="mozgo icon top" src="dice.png" style="max-height:35vmin;max-width:90%;opacity:0">
+      <img id="dice2" class="mozgo icon top" src="image/dice.png" style="max-height:35vmin;max-width:90%;opacity:0">
     </td>
   <td><p id="cur_player" class="big"></p>
 	  <img id="cp" class="icon" src="data:," style="display:none;">
@@ -649,12 +648,12 @@ function debugPos(dx,dy,player=0) {
   </tr>
   <tr style="height:25%;">
     <td>
-  	  <button id="b0" onclick="do_join(0);" style="max-height:90%;max-width:45%;"><img id="sel0" class="icon mozgo" style="left:10vw; top:-75vh;" src="fig1d.png"></button>
-      <button id="b1" onclick="do_join(1);" style="max-height:90%;max-width:45%;"><img id="sel1" class="icon mozgo" style="left:10vw; top:-50vh;"  src="fig2d.png"></button>
+  	  <button id="b0" onclick="do_join(0);" style="max-height:90%;max-width:45%;"><img id="sel0" class="icon mozgo" style="left:10vw; top:-75vh;" src="image/fig1d.png"></button>
+      <button id="b1" onclick="do_join(1);" style="max-height:90%;max-width:45%;"><img id="sel1" class="icon mozgo" style="left:10vw; top:-50vh;"  src="image/fig2d.png"></button>
     </td>
     <td>
-      <button id="b2" onclick="do_join(2);" style="max-height:90%;max-width:45%;"><img id="sel2" class="icon mozgo" style="left:-20vw; top:-75vh;" src="fig4.png"></button>
-      <button id="b3" onclick="do_join(3);" style="max-height:90%;max-width:45%;"><img id="sel3" class="icon mozgo" style="left:-20vw; top:-50vh;" src="fig5.png"></button>
+      <button id="b2" onclick="do_join(2);" style="max-height:90%;max-width:45%;"><img id="sel2" class="icon mozgo" style="left:-20vw; top:-75vh;" src="image/fig4.png"></button>
+      <button id="b3" onclick="do_join(3);" style="max-height:90%;max-width:45%;"><img id="sel3" class="icon mozgo" style="left:-20vw; top:-50vh;" src="image/fig5.png"></button>
     </td>
   </tr>
 </table>
