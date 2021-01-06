@@ -26,7 +26,7 @@ h2 { font-size:5vmin }
 p { margin:auto; padding:0;font-size:3vmin; border-radius:25%; }
 body { background-image:url("image/csempe.jpg"); }
 table, tr, td { border: none; padding:0; margin:0; text-align: center; }
-img.mozgo { position: absolute; left: 0px; top: 0px; }
+img.mozgo { position: relative; left: 0px; top: 0px; }
 img.top { z-index: 3; }
 img.med { z-index: 2; }
 img.back { z-index: 1; }
@@ -627,10 +627,10 @@ function debugPos(dx,dy,player=0) {
   </tr>
   <tr style="height:50%;">
     <td>
+      <img id="dice2" class="mozgo icon top" src="image/dice.png" style="top:-10vh;max-height:35vmin;max-width:90%;opacity:0">
       <button id="kocka" onclick="kockadobas();" disabled=true>
         <img id="dice" class="rotate" src="image/dice.png" style="max-height:35vmin;max-width:90%;">
       </button>
-      <img id="dice2" class="mozgo icon top" src="image/dice.png" style="max-height:35vmin;max-width:90%;opacity:0">
     </td>
   <td><p id="cur_player" class="big"></p>
 	  <img id="cp" class="icon" src="data:," style="display:none;">
@@ -649,11 +649,11 @@ function debugPos(dx,dy,player=0) {
   </tr>
   <tr style="height:25%;">
     <td>
-  	  <button id="b0" onclick="do_join(0);" style="max-height:90%;max-width:45%;border:3px solid red;"><img id="sel0" class="icon mozgo" style="left:10vw; top:-75vh;border:3px solid blue;" src="image/fig1d.png"></button>
+  	  <button id="b0" onclick="do_join(0);" style="max-height:90%;max-width:45%;border:3px solid red;"><img id="sel0" class="icon mozgo" style="left:20vw; top:-75vh;border:3px solid blue;" src="image/fig1d.png"></button>
       <button id="b1" onclick="do_join(1);" style="max-height:90%;max-width:45%;"><img id="sel1" class="icon mozgo" style="left:10vw;"  src="image/fig2d.png"></button>
     </td>
     <td>
-      <button id="b2" onclick="do_join(2);" style="max-height:90%;max-width:45%;"><img id="sel2" class="icon mozgo" style="left:-20vw; top:-75vh;" src="image/fig4.png"></button>
+      <button id="b2" onclick="do_join(2);" style="max-height:90%;max-width:45%;"><img id="sel2" class="icon mozgo" style="left:0vw; top:0vh;" src="image/fig4.png"></button>
       <button id="b3" onclick="do_join(3);" style="max-height:90%;max-width:45%;"><img id="sel3" class="icon mozgo" style="left:-20vw; top:-50vh;" src="image/fig5.png"></button>
     </td>
   </tr>
